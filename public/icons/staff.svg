@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 100 100"
+   height="100mm"
+   width="100mm">
+  <defs
+     id="defs2" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-197)"
+     id="layer1">
+    <circle
+       r="49.378044"
+       cy="247.35469"
+       cx="49.912586"
+       id="path819"
+       style="opacity:1;fill:#d40f41;fill-opacity:1;stroke:none;stroke-width:0.26499999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <g
+       transform="translate(-4.2758866,0.03630862)"
+       id="g840">
+      <path
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1.00157475;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 161.63281,166.26758 c -25.39404,14.78559 -42.47656,42.28238 -42.47656,73.78515 0,28.00438 -3.25695,58.654 15.30469,80.78125 32.15135,5.57931 106.86579,5.22148 141.53515,0.20118 15.54716,-16.01641 13.84604,-52.5686 13.84571,-80.98243 0,-31.35009 -16.91501,-58.73573 -42.10547,-73.57226 -11.36207,11.43363 -26.81062,17.87029 -42.92969,17.88672 -16.23452,-0.008 -31.7874,-6.52771 -43.17383,-18.09961 z"
+         transform="matrix(0.26458333,0,0,0.26458333,0,197)"
+         id="path816" />
+      <circle
+         style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26499999;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path818-6"
+         cx="54.188473"
+         cy="227.70726"
+         r="16.036171" />
+    </g>
+  </g>
+</svg>

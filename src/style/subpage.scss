@@ -1,0 +1,126 @@
+.subpage {
+    z-index: 5;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: white;
+    margin: 0 auto;
+    background-image: url('icons/fcc_bg.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position-x: center;
+
+    .page {
+      position: relative;
+      scroll-behavior: smooth;  
+      overflow-x: hidden;
+      overflow-y: scroll;  
+      width: 100%;
+      height: 100vh;
+    }
+  }
+  
+  .page .content {
+    width: 45em;
+    max-width: 90%;
+    margin: 3em auto 8em auto;
+  
+    .links {
+      a + a {
+        margin-left: 1em;
+      }
+    }
+  
+    img {
+      max-width: 100%;
+      max-height: 50vh;
+      display: block;
+      margin: 4em auto;
+  
+      @media #{$notMobile} {
+        margin: 6em auto;
+      }
+  
+      &.sm-bottom-margin {
+        margin-bottom: 1em;
+      }
+    }
+  
+    .attention-box {
+      border-color: $red;
+      border-width: 2px;
+      border-style: solid;
+      margin: 4em auto;
+      padding: 1em;
+  
+      h3 {
+        display: block;
+        text-transform: uppercase;
+        text-align: center;
+        margin: 0;
+        margin-bottom: 1em;
+      }
+  
+      @media #{$notMobile} {
+        max-width: 30em;
+        margin: 6em auto;
+      }
+    }
+  
+    .emphasis {
+      font-style: italic;
+      font-weight: bold;
+      color: gray;
+      font-size: 1.5em;
+      display: block;
+      margin: 0 auto;
+      text-align: center;
+      margin: 4em auto;
+  
+      .bigger {
+        font-size: 1.5em;
+        color: $red;
+      }
+    }
+  
+    .two-content {
+      margin: 4em auto;
+  
+      @media #{$notMobile} {
+        margin: 6em auto;
+      }
+  
+      @media screen and (min-width: 800px) {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+  
+        &.reverse {
+          flex-direction: row-reverse;
+        }
+  
+        h1, h2, h3 {
+          margin-top: 0;
+        }
+    
+        img {
+          margin: 0;
+        }
+  
+        > * {
+          max-width: 48%;
+        }
+      }
+    }
+  }
+  
+  @media #{$notMobile} {
+    .page .content {
+      margin-top: 3em;
+      position: relative;
+      right: 10%;
+    }
+  }

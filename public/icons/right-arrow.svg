@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 19.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   id="Capa_1"
+   x="0px"
+   y="0px"
+   viewBox="0 0 191.45599 405.45599"
+   xml:space="preserve"
+   sodipodi:docname="right-arrow.svg"
+   width="191.45599"
+   height="405.45599"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"><metadata
+   id="metadata41"><rdf:RDF><cc:Work
+       rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+         rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
+   id="defs39"><filter
+     style="color-interpolation-filters:sRGB;"
+     inkscape:label="Drop Shadow"
+     id="filter841"><feFlood
+       flood-opacity="0.498039"
+       flood-color="rgb(0,0,0)"
+       result="flood"
+       id="feFlood831" /><feComposite
+       in="flood"
+       in2="SourceGraphic"
+       operator="in"
+       result="composite1"
+       id="feComposite833" /><feGaussianBlur
+       in="composite1"
+       stdDeviation="1"
+       result="blur"
+       id="feGaussianBlur835" /><feOffset
+       dx="0"
+       dy="1.5"
+       result="offset"
+       id="feOffset837" /><feComposite
+       in="SourceGraphic"
+       in2="offset"
+       operator="over"
+       result="fbSourceGraphic"
+       id="feComposite839" /><feColorMatrix
+       result="fbSourceGraphicAlpha"
+       in="fbSourceGraphic"
+       values="0 0 0 -1 0 0 0 0 -1 0 0 0 0 -1 0 0 0 0 1 0"
+       id="feColorMatrix843" /><feFlood
+       id="feFlood845"
+       flood-opacity="0.498039"
+       flood-color="rgb(0,0,0)"
+       result="flood"
+       in="fbSourceGraphic" /><feComposite
+       in2="fbSourceGraphic"
+       id="feComposite847"
+       in="flood"
+       operator="in"
+       result="composite1" /><feGaussianBlur
+       id="feGaussianBlur849"
+       in="composite1"
+       stdDeviation="11"
+       result="blur" /><feOffset
+       id="feOffset851"
+       dx="0"
+       dy="1.5"
+       result="offset" /><feComposite
+       in2="offset"
+       id="feComposite853"
+       in="fbSourceGraphic"
+       operator="over"
+       result="composite2" /></filter></defs><sodipodi:namedview
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1"
+   objecttolerance="10"
+   gridtolerance="10"
+   guidetolerance="10"
+   inkscape:pageopacity="0"
+   inkscape:pageshadow="2"
+   inkscape:window-width="1920"
+   inkscape:window-height="1001"
+   id="namedview37"
+   showgrid="false"
+   scale-x="0.9"
+   inkscape:zoom="1.6463163"
+   inkscape:cx="70.763712"
+   inkscape:cy="227.34967"
+   inkscape:window-x="-9"
+   inkscape:window-y="-9"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="Capa_1" />
+<g
+   id="g4"
+   transform="matrix(-1,0,0,1,250.38481,-5.3625341)"
+   style="fill:#ff0000">
+	<path
+   style="fill:#ffffff;stroke:#000000;stroke-width:3.64628029;stroke-miterlimit:4;stroke-dasharray:none;filter:url(#filter841)"
+   d="m 246.372,5.697 c 0,0 -118.04773,125.52635 -182.228,197.031 l 182.228,197.031 z"
+   id="path2"
+   inkscape:connector-curvature="0"
+   sodipodi:nodetypes="cccc"
+   transform="matrix(0.80866348,0,0,0.83709462,26.669443,38.628376)" />
+</g>
+<g
+   id="g6">
+</g>
+<g
+   id="g8">
+</g>
+<g
+   id="g10">
+</g>
+<g
+   id="g12">
+</g>
+<g
+   id="g14">
+</g>
+<g
+   id="g16">
+</g>
+<g
+   id="g18">
+</g>
+<g
+   id="g20">
+</g>
+<g
+   id="g22">
+</g>
+<g
+   id="g24">
+</g>
+<g
+   id="g26">
+</g>
+<g
+   id="g28">
+</g>
+<g
+   id="g30">
+</g>
+<g
+   id="g32">
+</g>
+<g
+   id="g34">
+</g>
+</svg>
