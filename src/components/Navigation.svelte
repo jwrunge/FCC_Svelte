@@ -1,27 +1,72 @@
 <script>
+    import {fly} from 'svelte/transition'
+    import {onMount, onDestroy} from 'svelte'
 
     export let mobileOpen
     export let subpageStyle = false
+    export let scrollTop
+    export let subpageOpen
+    export let main
 
+    let forceOpen = false
+
+    function scrollListener() {
+        if(scrollTop > 50) {
+            forceOpen = false
+        }
+    }
+
+    onMount(()=>{
+        if(!subpageStyle)
+            document.getElementsByClassName('main')[0].addEventListener('scroll', scrollListener)
+    })
+
+    onDestroy(()=> {
+        if(!subpageStyle)
+            document.getElementsByClassName('main')[0].removeEventListener('scroll', scrollListener)
+    })
 </script>
 
-<nav class:subpageStyle={subpageStyle}>
+<nav class:subpageStyle={subpageStyle} class:mobileOpen={mobileOpen} class:hidden={scrollTop > 50 && !subpageStyle && !forceOpen}>
     <span class='nav-links' class:shown={mobileOpen}>
-        <a href="#home">Home</a>
-        <a href="#about">About Us</a>
-        <a href="#worship">Worship</a>
-        <a href="#learn">Education</a>
-        <a href="#resources">Resources</a>
+        <a class:inactive={!window.location.hash || window.location.hash == '#home'} href="#home">Home</a>
+        <a class:inactive={window.location.hash == '#about'} href="#about">About Us</a>
+        <a class:inactive={window.location.hash == '#worship'} href="#worship">Worship</a>
+        <a class:inactive={window.location.hash == '#learn'} href="#learn">Education</a>
+        <a class:inactive={window.location.hash == '#resources'} href="#resources">Resources</a>
     </span>
     {#if mobileOpen}
-        <div class='mobile-menu-open' on:click={()=>{mobileOpen = false}}>&#9776;</div>
-    {:else}
         <div class='mobile-menu-close' on:click={()=>{mobileOpen = false}}>&#x2716;</div>
+    {:else}
+        <div class='mobile-menu-open' on:click={()=>{mobileOpen = true}}>&#9776;</div>
     {/if}
 </nav>
 
+{#if scrollTop > 50 && !forceOpen && !subpageOpen}
+    <div class="forceOpen" on:click={()=>{ forceOpen = true }} transition:fly={{y: -50}}>&#9776;</div>
+{/if}
+
 <style lang='scss'>
     @import "../style/variables.scss";
+
+    .forceOpen {
+        display: none;
+
+        @media #{$notMobile} {
+            width: 1.5em; height: 1.5em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            right: 2em; top: .5em;
+            font-size: 1em;
+            z-index: 2;
+            background-color: $accent-color;
+            padding: .25em;
+            box-shadow: $box-shadow;
+            cursor: pointer;
+        }
+    }
 
     .mobile-menu-open, .mobile-menu-close {
         @media screen and (min-width: 501px) {
@@ -53,6 +98,14 @@
         align-content: space-between;
         z-index: 2;
 
+        &.mobileOpen {
+            z-index: 3;
+            
+            @media #{$notMobile} {
+                z-index: 2;
+            }
+        }
+
         a {
             color: black;
             font-weight: bold;
@@ -64,7 +117,7 @@
                 filter: brightness(1.3);
             }
 
-            &.onRoute {
+            &.inactive {
                 cursor: default;
                 opacity: .5;
             }
@@ -77,7 +130,8 @@
         }
 
         @media #{$notMobile} {
-            position: fixed;
+            position: sticky;
+            transition: transform .5s ease-in-out;
             
             align-content: center;
             top: 0; bottom: auto;
@@ -97,6 +151,10 @@
             .nav-links {
                 border: none;
                 display: flex;
+            }
+
+            &.hidden {
+                transform: translateY(-5em);
             }
         }
     }
@@ -124,6 +182,7 @@
             pointer-events: none;
             z-index: 10;
             height: 100vh;
+            transition: opacity .5s ease-in-out;
 
             a {
                 font-size: 1.5em;
@@ -138,13 +197,15 @@
         }
     }
 
-    nav.subpageStyle {
-        background: transparent;
-        z-index: 6;
-        box-shadow: none;
+    @media #{$notMobile} {
+        nav.subpageStyle {
+            background: transparent;
+            z-index: 6;
+            box-shadow: none;
 
-        .nav-links {
-            background-color: white;
+            .nav-links {
+                background-color: white;
+            }
         }
     }
 </style>

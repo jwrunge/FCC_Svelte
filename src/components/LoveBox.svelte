@@ -1,33 +1,61 @@
 <script>
-    import {flyModified} from '../flyModified.js'
-
-    let phrases = [
-        "0 Dolore cillum Lorem eiusmod irure consectetur ad occaecat voluptate irure laboris dolor sunt fugiat consectetur.",
-        "1 Dolore cillum Lorem eiusmod irure consectetur ad occaecat voluptate irure laboris dolor sunt fugiat consectetur.",
-        "2 Dolore cillum Lorem eiusmod irure consectetur ad occaecat voluptate irure laboris dolor sunt fugiat consectetur. 2 Dolore cillum Lorem eiusmod irure consectetur.",
-        "3 Dolore cillum Lorem eiusmod irure consectetur ad occaecat voluptate irure laboris dolor sunt fugiat consectetur.",
-        "4 Dolore cillum Lorem eiusmod irure consectetur ad occaecat voluptate irure laboris dolor sunt fugiat consectetur."
-    ]
+    // import {flyModified} from '../flyModified.js'
+    import {scale} from 'svelte/transition'
+    import { flip } from 'svelte/animate'
+    import {onMount} from 'svelte'
 
     let currentPhrase = 0
+    let showPhrase = true
+    let interval
+    export let loveImage = null
+    export let loveTop
+    export let getPageData
 
-    let innerDiv
-
-    //Interval to change phrases
-    let interval = setInterval(()=>{
+    //Change phrases
+    function nextPhrase(phrases) {
+        showPhrase = true
         if(currentPhrase == phrases.length - 1) currentPhrase = 0
         else currentPhrase += 1
-    }, 4000)
+    }
+
+    function getPhrases(loc) {
+        return new Promise((resolve, reject)=>{
+            getPageData(loc)
+                .then(phrases=> {
+                    currentPhrase = Math.floor(Math.random() * phrases.length)
+                    resolve(phrases)
+                })
+                .catch(err=> reject())
+        })
+    }
+
+    onMount(()=>{
+        //Interval to outro one phrase and prompt phrase change
+        interval = setInterval(()=>{
+            showPhrase = false
+        }, 6000)
+    })
 </script>
 
 <div class="love-box">
-    <div class='inner' bind:this={innerDiv}>
+    <img bind:this={loveImage} class='bg' src="/primary-images/hearts.png" alt="" style={"transform: translateY(-15%) translateY(" + loveTop/5 + "px);"}>
+
+    <div class='inner'>
         <h2>We love our church!</h2>
-        {#each phrases as phrase, index}
-            {#if index == currentPhrase}
-                <p in:flyModified={{x: 100, duration: 300, delay: 500, position: 'absolute'}} out:flyModified={{x: -100, duration: 300}}>{phrase}</p>
-            {/if}
-        {/each}
+        <p>We asked our church family to name a few of the things they love about First Christian Church, and they delivered!</p>
+        <div class="phrases">
+            {#await getPhrases('/data/lovephrases.json')}
+                <div class='loader'>
+                    <img src='/icons/loading.svg' alt='loading content'>
+                </div>
+            {:then phrases}
+                {#if showPhrase}
+                    <p transition:scale on:outroend={()=> {nextPhrase(phrases)}}>"{phrases[currentPhrase]}"</p>
+                {/if}
+            {:catch}
+                <p>Error loading phrases</p>
+            {/await}
+        </div>
     </div>
 </div>
 
@@ -37,24 +65,25 @@
 
 .love-box {
     width: 100%;
-    background-color: $red;
     padding: 5em 0;
     color: white;
-    transform: skewY(1.5deg);
-    background-image: url('/frontpage_images/redbg.jpg');
-    background-size: cover;
-    background-attachment: fixed;
-    box-shadow: $box-shadow;
+    transform: skewY(1deg);
+    background: $red;
+    background: linear-gradient($red, darken($red, 10%));
     position: relative;
     top: -3em;
+    overflow: hidden;
+
+    img.bg {
+        object-position: 50% 100%;
+    }
 
     .inner {
-        width: 45em;
+        width: 50em;
         max-width: 90%;
-        margin: 3em auto;
+        margin: 3em auto 1em auto;
         position: relative;
-        min-height: 12em;
-        transform: skewY(-1.5deg);
+        transform: skewY(-1deg);
     }
 
     h2 {
@@ -62,20 +91,32 @@
         margin: 0;
         margin-bottom: .5em;
         font-size: 3em;
-        position: relative;
 
-        @media #{$notMobile} {
-            left: -1em;
+        @media screen and (max-width: 400px) {
+            font-size: 2em;
         }
     }
 
     p {
-        width: 90%;
-        font-size: 1.8em;
-        margin: 0 1em;
+        font-size: 1.2em;
+        margin: 0;
+    }
 
-        @media #{$notMobile} {
-            width: 110%;
+    .phrases {
+        min-height: 12em;
+        width: 100%;
+        padding-top: 2em;
+        display: flex;
+        align-items: center;
+        text-align: center;
+
+        p {
+            font-family: 'Shadows Into Light', cursive;
+            font-size: 2.5em;
+
+            @media screen and (max-width: 400px) {
+                font-size: 1.8em;
+            }
         }
     }
   }

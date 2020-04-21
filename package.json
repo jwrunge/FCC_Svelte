@@ -8,7 +8,6 @@
     "start": "sirv public"
   },
   "devDependencies": {
-    "sirv-cli": "^0.4.4",
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
     "@rollup/plugin-commonjs": "^11.0.0",
@@ -20,14 +19,16 @@
     "postcss-preset-env": "^6.7.0",
     "rollup": "^1.32.1",
     "rollup-plugin-babel": "^4.4.0",
-    "rollup-plugin-livereload": "^1.0.0",
+    "rollup-plugin-livereload": "^1.2.0",
     "rollup-plugin-postcss": "^2.3.0",
     "rollup-plugin-svelte": "^5.0.3",
     "rollup-plugin-terser": "^5.1.2",
+    "sirv-cli": "^0.4.4",
     "svelte": "^3.19.2",
-    "svelte-preprocess": "^3.4.0"
+    "svelte-preprocess": "^3.4.0",
+    "eases-jsnext": "^1.0.10"
   },
   "dependencies": {
-    "eases-jsnext": "^1.0.10"
+    "calendar-link": "^1.2.5"
   }
 }

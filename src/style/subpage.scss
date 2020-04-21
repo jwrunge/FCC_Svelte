@@ -39,14 +39,20 @@
       max-height: 50vh;
       display: block;
       margin: 4em auto;
-  
-      @media #{$notMobile} {
-        margin: 6em auto;
-      }
-  
+
       &.sm-bottom-margin {
         margin-bottom: 1em;
       }
+
+      &.no-bottom-margin {
+        margin-bottom: 0;
+
+        & + h2 { margin-top: 1em; }
+      }
+    }
+
+    h2 + img {
+      margin-top: 0;
     }
   
     .attention-box {
@@ -66,7 +72,6 @@
   
       @media #{$notMobile} {
         max-width: 30em;
-        margin: 6em auto;
       }
     }
   
@@ -78,7 +83,7 @@
       display: block;
       margin: 0 auto;
       text-align: center;
-      margin: 4em auto;
+      margin: 2em auto;
   
       .bigger {
         font-size: 1.5em;
@@ -88,10 +93,6 @@
   
     .two-content {
       margin: 4em auto;
-  
-      @media #{$notMobile} {
-        margin: 6em auto;
-      }
   
       @media screen and (min-width: 800px) {
         display: flex;

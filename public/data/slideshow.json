@@ -1,0 +1,35 @@
+[
+    {
+        "src": "/primary-images/steve.jpg",
+        "focus": "50% 15%",
+        "heading": "Still here with you!",
+        "caption": "We're still here with opportunities to worship, fellowship, and serve during the COVID-19 pandemic.",
+        "linkto": "#test",
+        "linktext": "Find out more!",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
+    },
+    {
+        "src": "/primary-images/bbox.jpg",
+        "heading": "Blessing our neighborhood",
+        "caption": "Our community Blessing Box fills important needs for our neighbors.",
+        "linkto": "#test",
+        "linktext": "Let's keep it stocked!",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
+    },
+    {
+        "src": "/primary-images/digging.jpg",
+        "heading": "Breaking new ground",
+        "caption": "Our church family has worked hard to bless our neighborhood.",
+        "focus": "25% 0",
+        "linkto": "#test",
+        "linktext": "Want to help out?",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
+    },
+    {
+        "src": "/primary-images/kitchen2.jpg",
+        "heading": "Posin'.",
+        "caption": "Posin'.",
+        "focus": "50% 30%",
+        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
+    }
+]

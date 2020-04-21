@@ -1,15 +1,12 @@
 // Variables
 $desktop-width: 1200px;
 
-$red: rgb(212,15,65);
-$orange: rgb(247, 148, 0);
-$gray: #696969;
-$lightgray: #dbdada;
-$lightred: red;
-$blue: #005EB8;
-$lightblue: rgb(61, 161, 255);
+$red: #d40f41;
+$gray: #424242;
+$lightgray: #f0f0f0;
+$lightblue: #a0d1ff;
 $darkblue: #0053a0;
 $box-shadow: 0 0 4px 0 rgba(0,0,0,.6);
 $accent-color: #e4d7c9;
 
-$notMobile: "screen and (min-width: " + $desktop-width + ") and (min-aspect-ratio: 13/10)";
+$notMobile: "screen and (min-width: " + $desktop-width + ") and (min-aspect-ratio: 13/10) and (max-aspect-ratio: 12/5)";

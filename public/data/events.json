@@ -1,0 +1,35 @@
+[
+        { 
+            "name": "Special Worship Service",
+            "date": "2020-04-20 08:00:00 CST",
+            "description": "A very special worship service!",
+            "duration": 60,
+            "location": "FCC",
+            "img": {
+                "src": "/primary-images/joy.jpg",
+                "alt": "Alternate tag"
+            }
+        },
+        { 
+            "name": "Another Event",
+            "date": "2020-04-20 13:00:00 CST",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu elit vitae elit sagittis suscipit. Nullam vulputate eleifend tristique. Nulla id aliquam elit. Nunc ut massa at sem bibendum hendrerit eu vitae mauris. Cras at egestas purus. Fusce lobortis vehicula neque vel elementum. Nullam in orci sed libero sollicitudin vestibulum ac non magna. Nunc finibus dui dui, sed rutrum metus suscipit eleifend. Integer condimentum dapibus metus et ornare. Nullam non nisi faucibus, semper eros in, gravida orci. Vivamus id mattis felis. Mauris laoreet scelerisque iaculis. Vestibulum eu faucibus metus. Pellentesque ullamcorper nec arcu vel ultrices.",
+            "duration": 60,
+            "location": "FCC",
+            "img": {
+                "src": "/primary-images/joy.jpg",
+                "alt": "Alternate tag"
+            }
+        },
+        { 
+            "name": "And another",
+            "date": "2020-05-20 10:00:00 CST",
+            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed eu elit vitae elit sagittis suscipit. Nullam vulputate eleifend tristique. Nulla id aliquam elit. Nunc ut massa at sem bibendum hendrerit eu vitae mauris. Cras at egestas purus. Fusce lobortis vehicula neque vel elementum. Nullam in orci sed libero sollicitudin vestibulum ac non magna. Nunc finibus dui dui, sed rutrum metus suscipit eleifend. Integer condimentum dapibus metus et ornare. Nullam non nisi faucibus, semper eros in, gravida orci. Vivamus id mattis felis. Mauris laoreet scelerisque iaculis. Vestibulum eu faucibus metus. Pellentesque ullamcorper nec arcu vel ultrices.",
+            "duration": 60,
+            "location": "FCC",
+            "img": {
+                "src": "/primary-images/joy.jpg",
+                "alt": "Alternate tag"
+            }
+        }
+    ]
