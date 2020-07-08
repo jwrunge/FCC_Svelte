@@ -23,9 +23,7 @@
                     <img class='no-bottom-margin' src={slides[articleIndex].src} alt={slides[articleIndex].caption}>
                     <h2>{slides[articleIndex].heading}</h2>
                     {#if slides[articleIndex].text}
-                        {#each slides[articleIndex].text.split('\n') as p}
-                            <p>{p}</p>
-                        {/each}
+                        <div>{@html slides[articleIndex].text}</div>
                     {/if}
                 {:else}
                     <li>Event not found.</li>

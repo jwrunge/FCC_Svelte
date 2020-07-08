@@ -1,4 +1,8 @@
 .subpage {
+    h1:first-of-type {
+      margin-top: 0;
+    }
+
     z-index: 5;
     position: fixed;
     top: 0;
@@ -26,7 +30,7 @@
   .page .content {
     width: 45em;
     max-width: 90%;
-    margin: 3em auto 8em auto;
+    margin: 1em auto 8em auto;
   
     .links {
       a + a {
@@ -59,7 +63,7 @@
       border-color: $red;
       border-width: 2px;
       border-style: solid;
-      margin: 4em auto;
+      margin: 2em auto;
       padding: 1em;
   
       h3 {
@@ -117,11 +121,28 @@
       }
     }
   }
+
+  .back-arrow {
+    position: absolute;
+    top: .5em;
+    right: .5em;
+    cursor: pointer;
+
+    text-decoration: none;
+    z-index: 7;
+
+    img { max-width: 2em; }
+  }
   
   @media #{$notMobile} {
     .page .content {
-      margin-top: 3em;
       position: relative;
       right: 10%;
+    }
+
+    .back-arrow {
+      right: auto;
+      left: .5em;
+      top: .5em;
     }
   }

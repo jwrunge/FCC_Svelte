@@ -41,7 +41,7 @@
                     </div>
                     <div class="detail-box">
                         <h3>Event Description</h3>
-                        <p>{events[eventIndex].description}</p>
+                        <p>{@html events[eventIndex].description}</p>
                         <div class="mt-2 centered">
                             <a href="#events/i" on:click|preventDefault={()=>{ openCalendarModal(events[eventIndex]) }}>Add to calendar</a>
                         </div>

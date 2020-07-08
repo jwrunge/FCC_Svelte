@@ -7,6 +7,7 @@
     export let scrollTop
     export let subpageOpen
     export let main
+    export let curPage
 
     let forceOpen = false
 
@@ -27,13 +28,13 @@
     })
 </script>
 
-<nav class:subpageStyle={subpageStyle} class:mobileOpen={mobileOpen} class:hidden={scrollTop > 50 && !subpageStyle && !forceOpen}>
+<nav class:subpageStyle={subpageStyle} class:mobileOpen={mobileOpen} class:hidden={scrollTop > 50 && !subpageStyle && !forceOpen} class:onTop={scrollTop > 500}>
     <span class='nav-links' class:shown={mobileOpen}>
-        <a class:inactive={!window.location.hash || window.location.hash == '#home'} href="#home">Home</a>
-        <a class:inactive={window.location.hash == '#about'} href="#about">About Us</a>
-        <a class:inactive={window.location.hash == '#worship'} href="#worship">Worship</a>
-        <a class:inactive={window.location.hash == '#learn'} href="#learn">Education</a>
-        <a class:inactive={window.location.hash == '#resources'} href="#resources">Resources</a>
+        <a class:inactive={!curPage || curPage == '#home'} href="#home">Home</a>
+        <a class:inactive={curPage == '#about'} href="#about">About Us</a>
+        <a class:inactive={curPage == '#worship'} href="#worship">Worship</a>
+        <a class:inactive={curPage == '#newsletters'} href="#newsletters">Newsletters</a>
+        <a class:inactive={curPage == '#links'} href="#links">Resources</a>
     </span>
     {#if mobileOpen}
         <div class='mobile-menu-close' on:click={()=>{mobileOpen = false}}>&#x2716;</div>
@@ -43,7 +44,7 @@
 </nav>
 
 {#if scrollTop > 50 && !forceOpen && !subpageOpen}
-    <div class="forceOpen" on:click={()=>{ forceOpen = true }} transition:fly={{y: -50}}>&#9776;</div>
+    <div class="forceOpen" class:onTop={scrollTop > 500} on:click={()=>{ forceOpen = true }} transition:fly={{y: -50}}>&#9776;</div>
 {/if}
 
 <style lang='scss'>
@@ -97,6 +98,7 @@
         align-items: center;
         align-content: space-between;
         z-index: 2;
+        box-sizing: border-box;
 
         &.mobileOpen {
             z-index: 3;
@@ -136,7 +138,6 @@
             align-content: center;
             top: 0; bottom: auto;
             padding: 0 2% 0 0;
-            width: 98%;
             text-align: right;
             justify-content: flex-end;
 
@@ -169,6 +170,7 @@
         border-width: 2px;
         border-style: solid;
         border-color: transparent;
+        box-sizing: border-box;
 
         @media screen and (max-width: 500px) {
             padding: 0;
@@ -206,6 +208,10 @@
             .nav-links {
                 background-color: white;
             }
+        }
+
+        nav.onTop, .forceOpen.onTop {
+            z-index: 3;
         }
     }
 </style>

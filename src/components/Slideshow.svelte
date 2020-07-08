@@ -93,7 +93,7 @@
 
 <svelte:window bind:innerWidth={winWidth} bind:innerHeight={winHeight}/>
 
-<div class="slideshow-wrapper" style={winWidth < 1200 ? "transform: translateY(" + (header.clientHeight - 50) + "px); height: " + (winHeight - header.clientHeight + 50) + "px;" : ""}>
+<div class="slideshow-wrapper" style={winWidth < 1000 ? "transform: translateY(" + (header.clientHeight - 50) + "px); height: " + (winHeight - header.clientHeight + 50) + "px;" : ""}>
     {#await getImages('/data/slideshow.json')}
         <div class='loader'>
             <img src='/icons/loading.svg' alt='loading content'>
@@ -107,10 +107,14 @@
             >
             {#if images[currentImg].caption && showCaptions}
                 <div transition:fade class='caption'>
-                    <h2>{images[currentImg].heading}</h2>
-                    {images[currentImg].caption}
-                    {#if images[currentImg].linkto && images[currentImg].linktext}
-                        <a href="#article/{currentImg}">{images[currentImg].linktext}</a>
+                    {#if window.innerWidth >= 500}
+                        <h2>{images[currentImg].heading}</h2>
+                        {images[currentImg].caption}
+                        {#if images[currentImg].linkto && images[currentImg].linktext}
+                            <a href="#article/{currentImg}">{images[currentImg].linktext}</a>
+                        {/if}
+                    {:else}
+                        <a href="#article/{currentImg}">{images[currentImg].heading}</a>
                     {/if}
                 </div>
             {/if}
@@ -166,7 +170,7 @@
         object-fit: cover;
 
         @media #{$notMobile} {
-            width: 85%;
+            width: 70vw;
             height: 100vh;
             left: auto; right: 0;
         }
@@ -185,6 +189,16 @@
         h2 {
             color: white;
             margin-bottom: .25em;
+        }
+
+        @media screen and (max-width: 500px) {
+            height: 5em;
+
+            a {
+                position: absolute;
+                bottom: 3em;
+                max-width: 50%;
+            }
         }
 
         a {
@@ -210,6 +224,10 @@
 
         @media #{$notMobile} {
             bottom: 0;
+        }
+
+        @media screen and (max-width: 500px) {
+            padding-bottom: 0;
         }
 
         img {

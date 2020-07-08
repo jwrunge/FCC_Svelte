@@ -10,10 +10,8 @@
     import CalendarModal from './components/CalendarModal.svelte'
 
     //Views
-    import Worship from './views/Worship.svelte'
-    import Learn from './views/Learn.svelte'
+    import Worship from './views/Sermons.svelte'
     import About from './views/About.svelte'
-    import Resources from './views/Resources.svelte'
     import Staff from './views/Staff.svelte'
     import Links from './views/Links.svelte'
     import Sermons from './views/Sermons.svelte'
@@ -28,6 +26,8 @@
     let eventsImage
     let loveImage
     let infoboxImage
+    let angle
+    let navheight = 0
 
     //Calendar modal data
     let calendarModalOpen = false
@@ -38,6 +38,7 @@
     let eventsTop = 0
     let loveTop = 0
     let infoTop = 0
+    let angleTop = 0
 
     let months = [
         "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
@@ -51,16 +52,14 @@
         "": false,
         "#home": false,
         '#worship': Worship,
-        "#learn": Learn,
         '#about': About,
-        '#resources': Resources,
         '#staff': Staff,
         "#links": Links,
-        "#sermons": Sermons,
         "#newsletters": Newsletters,
         "#allevents": AllEvents,
         "#singleevent": SingleEvent,
         "#article": Article,
+        "#sermons": Sermons
     }
     let curPage = ""
 
@@ -107,6 +106,8 @@
             loveTop = loveImage.getBoundingClientRect().top
             infoTop = infoboxImage.getBoundingClientRect().top
         })
+
+        navheight = document.querySelector('nav').offsetHeight
     })
 
     $: subpageOpen = curPage && curPage != '#home' ? true : false
@@ -115,12 +116,13 @@
 
 <div class="main" bind:this={main}>
     <!-- Nav (main screen) -->
-    <Navigation bind:mobileOpen {scrollTop} {subpageOpen} {main}/>
+    <Navigation bind:mobileOpen bind:curPage {scrollTop} {subpageOpen} {main}/>
     
     <!-- Decorative angle, logo, and CTAs -->
     <div class="forefront-content">
         <!-- Decorative angle -->
-        <LeftAngle/>
+        <!-- <LeftAngle/> -->
+        <div class="accent-angle"></div>
     
         <!-- Logo, name, and contact links -->
         <div class="header" bind:this={header}>
@@ -130,7 +132,6 @@
                     <img src="/icons/chalice.svg" alt="Disciples of Christ chalice logo" class="primary-img-mobile">
                     <span>
                         <h1>First Christian Church <span class="smaller">Disciples of Christ</span></h1>
-                        <div>Galesburg, IL</div>
                     </span>
                 </div>
         
@@ -166,40 +167,38 @@
         </div>
         <a id='giveonline' target='_blank' style='display: none' href="https://tithe.ly/give?c=1478951">Give online</a>
         <button on:click={()=>{ document.getElementById('giveonline').click() }} class='red'>Give Online</button>
-        <button on:click={()=>{ window.location.hash = "#events" }}>Get Involved</button>
+        <button class='not-mobile' on:click={()=>{ window.location.hash = "#current" }}>Learn More</button>
     </div>
     
     <!-- Frontpage content -->
-    <div class="frontpage-content" style="transform: translateY(100vh)">
-        <div class="content">
-            <h2>What's going on now at FCC Galesburg?</h2>
-            <div class='current-events'>
-                <img alt='Participating in Be The Church Sunday' src='/primary-images/bethechurchpic.jpg'>
-                <h3>Sermon Series: "Love Comes to Town"</h3>
-                <p>When love comes to town, lives are changed!</p>
-                <p>We are called to share the love of Christ with our neighbors and our family and yes, even our enemies! Throughout August and September, we will be going through I Corinthians 13 during our sermon series and discovering more about sharing the love of God.</p>
-                <p>Upcoming sermons include:</p>
-                <ul>
-                    <li>September 1 - Triggered (Dealing with Anger)</li>
-                    <li>September 8 - Like a Good Neighbor (Be the Church Sunday)</li>
-                    <li>September 15 - Love Everlasting (Worship in the Park)</li>
-                </ul>
-            </div>
-
-            {#await getPageData('/data/latestsermon.json')}
-                <div class='loader'>
-                    <img src='/icons/loading.svg' alt='loading content'>
-                </div>
-            {:then embed}
-                {#if new Date(embed.date).getDate() >= new Date().getDate() - 7}
-                    <div class="fp-video-container">
-                        <h2>{embed.title}</h2>
-                        <div class="embed-container">
-                            <iframe title={embed.title} src={embed.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
-                        </div>
+    <div class="frontpage-content" style="transform: translateY(100vh); top: -{navheight}px;">
+        <div class="content" id='current'>
+            <div class="inner">
+                <div class="box">
+                    <h2>What's going on now at FCC Galesburg?</h2>
+                    <div class='current-events'>
+                        <img alt='Shelter theme slide' src='/uploads/events/shelter.jpg'>
+                        <p>Our building of our church is currently closed due to the COVID 19 virus. But the church is alive and connected through our worship virtually. Join us in worship by clicking the accompanying video.</p>
+                        <h3>Sermon Series: <em>Shelter</em></h3>
+                        <p>As we shelter at home, we are claiming that shelter we have in God – our refuge and strength. Our sermon series focuses on the book of Psalms, looking at those seasons of life we go through and how God is our shelter throughout them all.</p>
                     </div>
-                {/if}
-            {/await}
+                </div>
+    
+                {#await getPageData('/data/latestsermon.json')}
+                    <div class='loader'>
+                        <img src='/icons/loading.svg' alt='loading content'>
+                    </div>
+                {:then embed}
+                    {#if new Date(embed.date).getDate() >= new Date().getDate() - 7}
+                        <div class="fp-video-container">
+                            <h2>{embed.title}</h2>
+                            <div class="embed-container">
+                                <iframe title={embed.title} src={embed.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
+                            </div>
+                        </div>
+                    {/if}
+                {/await}
+            </div>
         </div>
     
         <div class='events' id="events">
@@ -212,7 +211,7 @@
                             <img src='/icons/loading.svg' alt='loading content'>
                         </div>
                     {:then events}
-                        {#if events && events.length}
+                        {#if events && events.length > 0}
                             {#each events.slice(0, 5) as event, i}
                                 {#if i == 0 || new Date(event.date).getMonth() != new Date(events[i-1].date).getMonth()}
                                     <h3>{months[new Date(event.date).getMonth()]}</h3>
@@ -222,7 +221,7 @@
                                         <strong>{event.name}</strong> - {new Date(event.date).toLocaleString('en-US', { dateStyle: "short", timeStyle: "short", timeZone: 'America/Chicago' })}
                                     </div>
                                     <div class='overflow-box'>
-                                        {event.description}
+                                        {@html event.description}
                                     </div>
                                     <div class="right-align event-links">
                                         <a href="#singleevent/{i}">View event</a> | 
@@ -257,7 +256,6 @@
     
         <div class='footer'>
             <div class='copy'>&copy; {new Date().getFullYear()} First Christian Church, Disciples of Christ - Galesburg, IL</div>
-            <div>Site design by <a target='_blank' href='http://jacobrunge.com'>Jacob Runge</a></div>
         </div>
     </div> <!-- Frontpage content -->
 </div>
@@ -266,7 +264,8 @@
 {#if subpageOpen}
     <div class='subpage' transition:fade>
         <svelte:component this={page[curPage]} {getPageData}>
-            <Navigation bind:mobileOpen {subpageOpen} subpageStyle={true} {scrollTop} {main}/>
+            <div on:click={()=> window.history.back()} href="#home" class="back-arrow"><img src="/icons/back.svg" alt="Back to main page"></div>
+            <Navigation bind:mobileOpen bind:curPage {subpageOpen} subpageStyle={true} {scrollTop} {main}/>
         </svelte:component>
     </div>
 {/if}
@@ -279,15 +278,45 @@
 <style lang='scss'>
     @import 'style/variables.scss';
 
+    .not-mobile {
+        display: none;
+        @media #{$notMobile} {
+            display: block;
+        }
+    }
+
     //Header and other info over the top of the slideshow
     .forefront-content {
         position: relative;
         z-index: 2;
+
+        .accent-angle { display: none; }
         
         @media #{$notMobile} {
             position: absolute;
             top: 0;
-            width: 30%;
+            height: 100vh;
+            width: 35vw;
+            background-color: white;   
+            border-right: 7px solid $red;
+            transform: skewX(-5deg);
+            left: -13vw;
+            padding-left: 10vw;
+            box-shadow: $box-shadow;
+            overflow: hidden;
+
+            .header { transform: skewX(5deg); }
+
+            .accent-angle {
+                display: block;
+                background-color: lighten($accent-color, 8%);
+                transform: skewY(-10deg);
+                width: 50vw;
+                height: 50vh;
+                position: absolute;
+                bottom: -5vh;
+                left: -5vw;
+            }
         }
 
         .primary-img {
@@ -296,14 +325,23 @@
             @media #{$notMobile} {
                 display: block;
                 height: 25vh;
-                max-height: 15em;
-                margin: 0 1.5em 0 0;
+                max-height: 7em;
+                margin: 0 1em;
+            }
+
+            @media #{$notMobile} and (max-width: 1300px) {
+                max-height: 6em;
             }
         }
 
         .primary-img-mobile {
             height: 4em;
             margin: 0 1em .5em 0;
+
+            @media screen and (max-width: 500px) {
+                max-height: 2.2em;
+                margin-bottom: 0;
+            }
 
             @media #{$notMobile} {
                 display: none;
@@ -318,6 +356,7 @@
         padding: .5em;
         background-color: white;
         box-shadow: $box-shadow;
+        box-sizing: border-box;
 
         display: flex;
         align-items: center;
@@ -335,6 +374,9 @@
 
         .contact-links {
             text-align: center;
+            @media screen and (max-width: 500px) {
+                font-size: .8em;
+            }
         }
 
         h1 {
@@ -343,6 +385,12 @@
             margin: 0;
             padding: 0;
             .smaller { font-size: .7em; display: block; }
+
+            @media screen and (max-width: 500px) {
+               font-size: 1em;
+
+               .smaller { font-size: 1em; }
+            }
         }
 
         .mobile-formatting-div {
@@ -360,26 +408,34 @@
 
         @media #{$notMobile} {
             position: relative;
-            width: auto;
-            margin-left: 1em;
+            width: 90%;
             display: flex;
             text-align: left;
             background-color: transparent;
             box-shadow: none;
-            padding: 0 1em 0 0;
-            position: absolute;
-            top: 5vh;
+            padding: 0;
             height: 30vh;
-            left: 0;
+            margin: 5vh auto;
 
-            h1 { white-space: nowrap; font-size: 1.8em; }
+            h1 { white-space: nowrap; font-size: 1.5em; }
 
             .contact-links {
                 text-align: left;
+                font-size: .9em;
             }
 
             .mobile-formatting-div {
                 display: block;
+                margin-left: .5em;
+            }
+        }
+
+        @media #{$notMobile} and (max-width: 1300px) {
+            h1 { font-size: 1.2em; }
+
+            .contact-links {
+                font-size: .8em;
+                white-space: nowrap;
             }
         }
     }
@@ -392,18 +448,19 @@
             width: 100%;
             position: absolute;
             height: 3em;
-            bottom: -2px;
+            bottom: -4px;
             left: 0;
             overflow: hidden;
             pointer-events: none;
-            z-index: 1;
+            z-index: 2;
 
             .inner {
                 height: 3em;
                 transform: skewY(1.5deg);
                 position: relative;
                 top: 50%;
-                background-color: white;
+                background-color: $lightblue;
+                box-shadow: $box-shadow;
             }
         }
     }
@@ -426,7 +483,7 @@
             100% calc(100% - .6em),
             0 100%
         );
-        font-size: 1.2em;
+        font-size: 1.1em;
 
         hr {
             width: 70%;
@@ -435,7 +492,12 @@
             height: .5px;
         }
 
+        @media #{$notMobile} and (max-width: 1300px) {
+            font-size: 1em;
+        }
+
         @media #{$notMobile} {
+            overflow: visible;
             clip-path: none;
             background: none;
             transform: none;
@@ -443,10 +505,13 @@
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 25%;
             height: 57vh;
             padding: 1em;
             z-index: 2;
+            box-sizing: border-box;
+
+            width: 30vw;
+            margin-bottom: 2em;
 
             img.bg { display: none; }
         }
@@ -466,7 +531,7 @@
 
             @media #{$notMobile} {
                 display: inline-block;
-                width: auto;
+                width: 75%;
                 margin: 0 auto 0 auto;
                 text-shadow: -1px -1px 0 #fff,
                 1px -1px 0 #fff,
@@ -475,9 +540,15 @@
                 
                 h3 {
                     color: $gray;
-                    font-size: 1.5em;
+                    font-size: 1.25em;
                     margin: 0;
+                    margin-bottom: .5em;
                 }
+            }
+
+            @media #{$notMobile} and (max-width: 1300px) {
+                padding: 1em 0;
+                width: 100%;
             }
         }
     }
@@ -485,21 +556,58 @@
     //Front page content
     .frontpage-content {
         position: relative;
-        background-color: white;
+        background: darken($lightblue, 10%);
 
         .content {
+            background-image: url('icons/fcc_bg.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position-x: center;
+            background: linear-gradient($lightblue, darken($lightblue, 10%));
+        }
+
+        .content .inner {
             margin: 0 auto;
-            padding: 5em 1em 3em 1em;
-            max-width: 90%;
+            padding: 3em 1em;
+            max-width: 95%;
             width: 45em;
+            box-sizing: border-box;
+
+            @media screen and (max-width: 500px) {
+                padding: 3em 0;
+            }
+
+            .box {
+                background: rgba(255,255,255,.7);
+                border-radius: .1em;
+                margin: 1em 0;
+                padding: 1em;
+            }
 
             h2 { 
                 margin-top: 0; 
             }
 
             @media #{$notMobile} {
-                margin: 0 20% 0 auto;
-                padding: 2em 0 3em 0;
+                display: grid;
+                grid-gap: 2em;
+                width: auto;
+                grid-template-columns: 3fr 2fr;
+                box-sizing: border-box;
+                align-items: center;
+
+                .fp-video-container {
+                    h2 { color: white; }
+                    color: white;
+                    margin-top: 1em;
+                    margin-bottom: 1em;
+                    background-color: rgba($darkblue, .7);
+                    border-radius: .1em;
+                    padding: 1em;
+                    padding-bottom: 2em;
+                    box-sizing: border-box;
+                }
             }
 
             .current-events {
@@ -563,13 +671,12 @@
 
     //Quick links
     .quicklinks {
-        background: $lightblue;
-        background: linear-gradient($lightblue, darken($lightblue, 10%));
+        background: $accent-color;
+        background: radial-gradient(lighten($accent-color, 15%), $accent-color);//linear-gradient($lightblue, darken($lightblue, 10%));
         transform: skewY(-1.5deg);
         padding: 3em 0 6em 0;
-        border-width: 1px;
-        border-top-style: solid;
-        border-color: darken($lightblue, 10%);
+
+        border-top: 1px solid darken($accent-color, 20%);
     }
 
     .quicklinks > .inner {
@@ -597,12 +704,12 @@
 
         a { 
             position: relative; 
-            color: $darkblue; 
+            color: $red; 
             
             &:hover {
+                filter: brightness(1.2);
 
                 img {
-                    filter: brightness(1.2);
                     transform: scale(1.1);
                 }
             }
@@ -618,8 +725,10 @@
     }
 
     .footer {
-        padding: 3em 0 6em 0;
+        color: white;
+        padding: 6em 0 5em 0;
         text-align: center;
+        background: linear-gradient(darken($lightblue, 10%), darken($lightblue, 20%));
 
         .copy {
             font-size: 1.2em;

@@ -6,11 +6,11 @@
     <slot></slot>
     <div in:flyModified={{y: 300, duration: 300, delay: 500}} out:flyModified={{y: -300, duration: 300}}>
         <div class='content'>
-            <h1>Links</h1>
+            <h1>Resources</h1>
 
             <p>See below for links to affiliated organizations, useful services and resources, and other interesting information.</p>
 
-            <h2>Affilliate Organizations</h2>
+            <h2>Disciples of Christ</h2>
             <ul class='link-page'>
                 <li>
                     <a href='https://disciples.org/' target='_blank'>The Christian Church (Disciples of Christ) in the United States and Canada</a>
@@ -22,7 +22,7 @@
                 </li>
             </ul>
 
-            <h2>Bible Reading and Devotion Resources</h2>
+            <h2>Bible Reading and Devotion</h2>
             <ul class='link-page'>
                 <li>
                     <a href='https://www.biblegateway.com/' target='_blank'>Bible Gateway</a>

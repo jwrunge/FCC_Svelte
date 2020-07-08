@@ -21,7 +21,8 @@
     <div in:flyModified={{y: 300, duration: 300, delay: 500}} out:flyModified={{y: -300, duration: 300}}>
         <div class="content">
             <h1>Church Staff</h1>
-            <p>Click any photo for a brief staff biography.</p>
+            <p><strong>Staff information coming soon!</strong></p>
+            <!-- <p>Click any photo for a brief staff biography.</p>
 
             <div class="photo-grid">
                 {#each staffers as staffer, i}
@@ -32,7 +33,7 @@
                         </div>
                     </div>
                 {/each}
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

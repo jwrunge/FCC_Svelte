@@ -1,35 +1,17 @@
 [
     {
-        "src": "/primary-images/steve.jpg",
-        "focus": "50% 15%",
-        "heading": "Still here with you!",
-        "caption": "We're still here with opportunities to worship, fellowship, and serve during the COVID-19 pandemic.",
-        "linkto": "#test",
-        "linktext": "Find out more!",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
-    },
-    {
         "src": "/primary-images/bbox.jpg",
         "heading": "Blessing our neighborhood",
         "caption": "Our community Blessing Box fills important needs for our neighbors.",
         "linkto": "#test",
-        "linktext": "Let's keep it stocked!",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
-    },
-    {
-        "src": "/primary-images/digging.jpg",
-        "heading": "Breaking new ground",
-        "caption": "Our church family has worked hard to bless our neighborhood.",
-        "focus": "25% 0",
-        "linkto": "#test",
-        "linktext": "Want to help out?",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
+        "linktext": "Learn more",
+        "text": "<p>Reaching out to our neighbors is an especially important part of our mission.  To meet the needs of families in our neighborhood a blessing box was put in place on the south side of the building.  It is labeled: Take What You Need, Leave What You Can, Be Blessed.  Since its beginning in October of 2019, the box is visited daily.  We have discovered that not only is the need great, but the kindness of church and community members helps support this ministry.  Items may be placed directly in the box or in the barrel inside near the pastor’s office. We are glad to divide bulk items into individual packages.</p><p>Items needed:</p><ul><li>Hygiene Items such as deodorant, soap, toothpaste, shampoo, razors</li><li>Personal Items such as toilet paper, pads/tampons, socks, hats, gloves</li><li>Baby items such as diapers and wipes</li><li>Cleaning supplies such as detergent, cleanser, trash bags, dish soap, paper towels</li><li>Non-perishable food items</li></ul>"
     },
     {
         "src": "/primary-images/kitchen2.jpg",
-        "heading": "Posin'.",
-        "caption": "Posin'.",
+        "heading": "Serving our Youth",
+        "caption": "Fixing meals for Wednesday night children's and youth groups.",
         "focus": "50% 30%",
-        "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras eget cursus mi, ac venenatis neque. Maecenas massa arcu, porta quis dictum et, blandit eu eros. Nullam tempus egestas condimentum. Duis eget erat sit amet justo dignissim ultrices. Nam tincidunt neque sem. Donec aliquam mi sodales purus rutrum, ac vulputate ex finibus. Pellentesque tristique faucibus elementum. Aliquam vulputate mauris eu nisi laoreet, et porttitor nibh ornare. Curabitur et sagittis orci. In at tempor risus. Vivamus sed porttitor ante. Vestibulum quis turpis justo. Mauris dignissim, ante nec sodales iaculis, odio leo mattis sapien, ut mollis eros nulla et est.\nQuisque finibus tortor in molestie iaculis. Praesent tristique ex nec elit posuere suscipit. Aenean augue tortor, auctor vitae libero in, elementum rhoncus purus. Sed bibendum scelerisque urna, ac imperdiet velit blandit ut. Curabitur fringilla velit at turpis sagittis, vitae pharetra elit hendrerit. Integer sodales nisi eget viverra volutpat. Morbi eget augue vitae velit suscipit sollicitudin volutpat sed ex.\n"
+        "text": ""
     }
 ]
