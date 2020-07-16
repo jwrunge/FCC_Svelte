@@ -6,10 +6,11 @@ html {
     margin: 0;
     overflow-x: hidden;
     padding: 0;
+    background: gray;
 }
 
 body {
-    margin: 0;
+    margin: 0 auto;
     font-family: 'Avenir', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -18,6 +19,7 @@ body {
     scroll-behavior: smooth;  
     height: 100vh;
     overflow: hidden;
+    // max-width: 180vh;
 
     // Font size changes for various resolutions
     @media screen and (min-width: 2048px) { //2k
@@ -63,8 +65,13 @@ h2 {
     font-size: 2em;
 }
 
-h1, h2 {
+h1, h3 {
     margin-top: 2em;
+}
+
+h2 {
+    margin-top: 1em;
+    margin-bottom: .5em;
 }
 
 .block {
@@ -81,10 +88,14 @@ h1, h2 {
 }
 
 a {
-    color: $red;
+    color: $darkblue;
 
-    &:visited { color: $red; }
-    &:hover { color: lighten($red, 25%); }
+    &:visited { color: $darkblue; }
+    &:hover { color: lighten($darkblue, 25%); }
+}
+
+a.no-underline {
+    text-decoration: none;
 }
 
 button {
@@ -252,5 +263,73 @@ img.bg {
 
     .overflow-box + .overflow-box, .event-links {
         margin-top: .5em;
+    }
+}
+
+.quote {
+    text-align: right;
+}
+
+//Quick links
+.quicklinks {
+    & > .inner {
+        display: inline-grid;
+        grid-gap: .5em;
+        grid-template-columns: 1fr 1fr 1fr;
+        align-items: center;
+        justify-items: center;
+        margin: 0 auto;
+        margin-top: 1.5em;
+        width: 75%;
+    }
+}
+
+.links {
+    & > .inner {
+        a {
+            display: inline-block;
+            text-align: center;
+        }
+
+        img {
+            margin: 0;
+            display: inline;
+        }
+    }
+}
+
+.quicklinks, .links {
+    & > .inner {
+        img {
+            padding: .5rem;
+            max-width: 3em;
+            transition: transform .3s ease-in-out;
+        }
+
+        a { 
+            font-size: .8em;
+            position: relative; 
+            color: $red; 
+            text-decoration: none;
+            
+            &:hover {
+                img {
+                    transform: scale(1.1);
+                }
+
+                &{
+                    transform: brightness(1.2);
+                    text-decoration: underline;
+                }
+            }
+        }
+
+        .linklabel {
+            display: block;
+            margin: 0 auto;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+        }
     }
 }

@@ -7,8 +7,13 @@
     <div in:flyModified={{y: 300, duration: 300, delay: 500}} out:flyModified={{y: -300, duration: 300}}>
         <div class='content'>
             <h1>Resources</h1>
-
-            <p>See below for links to affiliated organizations, useful services and resources, and other interesting information.</p>
+            <div class='links'>
+                <div class="inner">
+                    <a href="#sermons"><img src='/icons/round/sermons.svg' alt='Sermons'><span class='linklabel'><span class='inner'>Sermons</span></span></a>
+                    <a style="color: #1e7953;" href="#newsletters"><img src='/icons/round/newsletters.svg' alt='Newsletters'><span class='linklabel'><span class='inner'>Newsletters</span></span></a>
+                    <a style="color: #1e7953;" target="_blank" href="https://tithe.ly/give?c=1478951"><img src='/icons/round/tithely.svg' alt='Give online'><span class='linklabel'><span class='inner'>Tithe.ly</span></span></a>
+                </div>
+            </div>
 
             <h2>Disciples of Christ</h2>
             <ul class='link-page'>
@@ -27,6 +32,10 @@
                 <li>
                     <a href='https://www.biblegateway.com/' target='_blank'>Bible Gateway</a>
                     <p>Online Bible verse lookup and Bible reading tool that allows you to read verses in multiple versions.</p>
+                </li>
+                <li>
+                    <a href='https://www.youversion.com/' target='_blank'>YouVersion</a>
+                    <p>Bible apps for adults and kids that run on Android, iOS, various smart home speakers, and in the browser.</p>
                 </li>
                 <li>
                     <a href='https://www.backtothebible.org/forward' target='_blank'>Back to the Bible</a>

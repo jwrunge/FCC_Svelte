@@ -11,6 +11,7 @@
 
     //Views
     import Worship from './views/Sermons.svelte'
+    import Ministries from './views/Ministries.svelte'
     import About from './views/About.svelte'
     import Staff from './views/Staff.svelte'
     import Links from './views/Links.svelte'
@@ -28,6 +29,7 @@
     let infoboxImage
     let angle
     let navheight = 0
+    let latestVid
 
     //Calendar modal data
     let calendarModalOpen = false
@@ -37,7 +39,7 @@
     let scrollTop = 0
     let eventsTop = 0
     let loveTop = 0
-    let infoTop = 0
+    // let infoTop = 0
     let angleTop = 0
 
     let months = [
@@ -59,7 +61,8 @@
         "#allevents": AllEvents,
         "#singleevent": SingleEvent,
         "#article": Article,
-        "#sermons": Sermons
+        "#sermons": Sermons,
+        "#ministries": Ministries
     }
     let curPage = ""
 
@@ -104,14 +107,22 @@
             scrollTop = e.target.scrollTop
             eventsTop = eventsImage.getBoundingClientRect().top
             loveTop = loveImage.getBoundingClientRect().top
-            infoTop = infoboxImage.getBoundingClientRect().top
+            // infoTop = infoboxImage.getBoundingClientRect().top
         })
 
         navheight = document.querySelector('nav').offsetHeight
+
+        fetch('data/php/getSermons.php?start=0&end=1&direction=desc')
+        .then(data=> data.json())
+        .then(video=> {
+            latestVid = JSON.parse(video.results[0])
+        })
+        .catch(e=> {
+            console.log(e)
+        })
     })
 
     $: subpageOpen = curPage && curPage != '#home' ? true : false
-
 </script>
 
 <div class="main" bind:this={main}>
@@ -131,7 +142,7 @@
                 <div class="logo">
                     <img src="/icons/chalice.svg" alt="Disciples of Christ chalice logo" class="primary-img-mobile">
                     <span>
-                        <h1>First Christian Church <span class="smaller">Disciples of Christ</span></h1>
+                        <h1>First Christian Church <span class="smaller">(Disciples of Christ)</span></h1>
                     </span>
                 </div>
         
@@ -157,47 +168,56 @@
     
     <!-- Information box -->
     <div class="infobox">
-        <img bind:this={infoboxImage} class='bg' src="/primary-images/worshipservice.jpg" alt="" style={"transform: translateY(-25%) translateY(" + infoTop/5 + "px);"}>
+        <!-- <img bind:this={infoboxImage} class='bg' src="/primary-images/worshipservice.jpg" alt="" style={"transform: translateY(-25%) translateY(" + infoTop/5 + "px);"}> -->
         <div class="worship-times">
             <h3>Sunday Worship</h3>
-            <div>Contemporary: 8:30am</div>
+            <div>Building closed due to COVID-19</div>
+            <hr>
+            <div><a href="#sermons">Join us online!</a></div>
+            <!-- <div>Contemporary: 8:30am</div>
             <div>Traditional: 11am</div>
             <hr>
-            <div class='ss-classes'>All-ages Sunday School Classes: 9:30am</div>
+            <div class='ss-classes'>All-ages Sunday School: 9:30am</div> -->
         </div>
-        <a id='giveonline' target='_blank' style='display: none' href="https://tithe.ly/give?c=1478951">Give online</a>
-        <button on:click={()=>{ document.getElementById('giveonline').click() }} class='red'>Give Online</button>
-        <button class='not-mobile' on:click={()=>{ window.location.hash = "#current" }}>Learn More</button>
+        <!-- <a id='giveonline' target='_blank' style='display: none' href="https://tithe.ly/give?c=1478951">Give online</a>
+            <button class='givebutton' on:click={()=>{ document.getElementById('giveonline').click() }}><img src='icons/tithely.svg' alt='tithely logo'><br>Give Online Securely</button>
+        <a class='no-underline' href="#current"><button class='not-mobile'>Learn More</button></a> -->
+        <div class='quicklinks'>
+            <div class="inner">
+                <a href="#sermons"><img src='/icons/round/sermons.svg' alt='Sermons'><span class='linklabel'><span class='inner'>Sermons</span></span></a>
+                <a style="color: #0053a0;" href="#allevents"><img src='/icons/round/events.svg' alt='Events'><span class='linklabel'><span class='inner'>Events</span></span></a>
+                <a style="color: #1e7953;" href="#newsletters"><img src='/icons/round/newsletters.svg' alt='Newsletters'><span class='linklabel'><span class='inner'>Newsletters</span></span></a>
+                <a style="color: #ad8559;" href="#staff"><img src='/icons/round/staff.svg' alt='Staff'><span class='linklabel'><span class='inner'>Staff</span></span></a>
+                <a style="color: #1e7953;" target="_blank" href="https://tithe.ly/give?c=1478951"><img src='/icons/round/tithely.svg' alt='Give online'><span class='linklabel'><span class='inner'>Tithe.ly</span></span></a>
+                <a style="color: #2D88FF;" target="_blank" href='https://www.facebook.com/First-Christian-Church-Disciples-of-Christ-Galesburg-Illinois-108822552519210/'><img src='/icons/round/facebooklogo.svg' alt='Facebook'><span class='linklabel'><span class='inner'>Facebook</span></span></a>
+            </div>
+        </div>
     </div>
     
     <!-- Frontpage content -->
     <div class="frontpage-content" style="transform: translateY(100vh); top: -{navheight}px;">
         <div class="content" id='current'>
-            <div class="inner">
+            <div class="inner" class:grid={latestVid && new Date(latestVid.date).getDate() >= new Date().getDate() - 14}>
                 <div class="box">
                     <h2>What's going on now at FCC Galesburg?</h2>
                     <div class='current-events'>
                         <img alt='Shelter theme slide' src='/uploads/events/shelter.jpg'>
-                        <p>Our building of our church is currently closed due to the COVID 19 virus. But the church is alive and connected through our worship virtually. Join us in worship by clicking the accompanying video.</p>
+                        <p>The building of our church is currently closed due to the COVID 19 virus. But the church is alive and connected through our worship virtually. Join us in worship by clicking the accompanying video.</p>
                         <h3>Sermon Series: <em>Shelter</em></h3>
                         <p>As we shelter at home, we are claiming that shelter we have in God – our refuge and strength. Our sermon series focuses on the book of Psalms, looking at those seasons of life we go through and how God is our shelter throughout them all.</p>
                     </div>
                 </div>
     
-                {#await getPageData('/data/latestsermon.json')}
-                    <div class='loader'>
-                        <img src='/icons/loading.svg' alt='loading content'>
-                    </div>
-                {:then embed}
-                    {#if new Date(embed.date).getDate() >= new Date().getDate() - 7}
+                {#if latestVid}
+                    {#if new Date(latestVid.date).getDate() >= new Date().getDate() - 14}
                         <div class="fp-video-container">
-                            <h2>{embed.title}</h2>
+                            <h2>{latestVid.title}</h2>
                             <div class="embed-container">
-                                <iframe title={embed.title} src={embed.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
+                                <iframe title={latestVid.title} src={latestVid.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
                             </div>
                         </div>
                     {/if}
-                {/await}
+                {/if}
             </div>
         </div>
     
@@ -212,7 +232,11 @@
                         </div>
                     {:then events}
                         {#if events && events.length > 0}
-                            {#each events.slice(0, 5) as event, i}
+                            {#each events
+                                .sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+                                .filter(event=> (new Date(event.date)).getTime() > Date.now())
+                                .slice(0, 5)
+                            as event, i}
                                 {#if i == 0 || new Date(event.date).getMonth() != new Date(events[i-1].date).getMonth()}
                                     <h3>{months[new Date(event.date).getMonth()]}</h3>
                                 {/if}
@@ -232,7 +256,7 @@
 
                             {#if events.length > 5}
                                 <div class="centered eventBtn">
-                                    <a href="#allevents">Show all {events.length} events</a>
+                                    <a href="#allevents">Show all events</a>
                                 </div>
                             {/if}
                         {:else}
@@ -243,19 +267,19 @@
             </div>
         </div>
     
-        <div class='quicklinks'>
+        <!-- <div class='section quicklinks'>
             <div class="inner">
                 <a href="#staff"><img src='/icons/staff.svg' alt='Staff'><span class='linklabel'><span class='inner'>Staff</span></span></a>
                 <a href="#sermons"><img src='/icons/sermons.svg' alt='Sermons'><span class='linklabel'><span class='inner'>Sermons</span></span></a>
                 <a href="#newsletters"><img src='/icons/newsletters.svg' alt='Newsletters'><span class='linklabel'><span class='inner'>Newsletters</span></span></a>
                 <a href='https://www.facebook.com/First-Christian-Church-Disciples-of-Christ-Galesburg-Illinois-108822552519210/' target="_blank"><img src='/icons/facebooklogo.svg' alt='Facebook'><span class='linklabel'><span class='inner'>Facebook</span></span></a>
             </div>
-        </div>
+        </div> -->
     
         <LoveBox {loveTop} {getPageData} bind:loveImage/>
     
         <div class='footer'>
-            <div class='copy'>&copy; {new Date().getFullYear()} First Christian Church, Disciples of Christ - Galesburg, IL</div>
+            <div class='copy'>&copy; {new Date().getFullYear()} First Christian Church (Disciples of Christ) - Galesburg, IL</div>
         </div>
     </div> <!-- Frontpage content -->
 </div>
@@ -277,6 +301,18 @@
 
 <style lang='scss'>
     @import 'style/variables.scss';
+
+    .givebutton {
+        background-color: rgb(0, 155, 0);
+        img {
+            max-width: 8em;
+            margin-bottom: .5em;
+        }
+    }
+
+    button {
+        min-width: 12em;
+    }
 
     .not-mobile {
         display: none;
@@ -366,6 +402,12 @@
             1px -1px 0 #fff,
             -1px 1px 0 #fff,
             1px 1px 0 #fff;
+
+        a {
+            color: $red;
+            &:visited { color: $red; }
+            &:hover { color: lighten($red, 25%); }
+        }
 
         .logo {
             display: flex;
@@ -474,15 +516,9 @@
         overflow: hidden;
         transform: translateY(98vh);
         background: $lightgray;
-        background: linear-gradient($lightgray, darken($lightgray, 10%));        padding: 3em 0 6em 0;
-        background-color: ligthen($lightblue, 25%);
+        background: radial-gradient(white, $lightgray);
+        padding: 3em 0 6em 0;
         text-align: center;
-        clip-path: polygon(
-            0 0,
-            100% .6em,
-            100% calc(100% - .6em),
-            0 100%
-        );
         font-size: 1.1em;
 
         hr {
@@ -503,7 +539,7 @@
             transform: none;
             display: block;
             position: absolute;
-            bottom: 0;
+            bottom: 5vh;
             left: 0;
             height: 57vh;
             padding: 1em;
@@ -518,6 +554,7 @@
 
         .worship-times {          
             h3 {
+                margin-top: .5em;
                 color: $red;
                 font-size: 2.25em;
                 margin-bottom: .5em;
@@ -527,7 +564,7 @@
                 }
             }
 
-            padding: 1em;
+            padding: 0 0 1em 0;
 
             @media #{$notMobile} {
                 display: inline-block;
@@ -556,46 +593,58 @@
     //Front page content
     .frontpage-content {
         position: relative;
-        background: darken($lightblue, 10%);
+
+        background: $lightblue;
+        @media #{$notMobile} {
+            background: darken($lightblue, 10%);
+        }
 
         .content {
-            background-image: url('icons/fcc_bg.jpg');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
-            background-position-x: center;
-            background: linear-gradient($lightblue, darken($lightblue, 10%));
+            background: $lightblue;
+
+            @media #{$notMobile} {
+                background: linear-gradient($lightblue, darken($lightblue, 10%));
+            }
         }
 
         .content .inner {
             margin: 0 auto;
-            padding: 3em 1em;
-            max-width: 95%;
+            padding: 3em 1em 0 1em;
+            max-width: 100%;
             width: 45em;
             box-sizing: border-box;
 
             @media screen and (max-width: 500px) {
-                padding: 3em 0;
+                padding-left: 0;
+                padding-right: 0;
             }
 
             .box {
-                background: rgba(255,255,255,.7);
-                border-radius: .1em;
-                margin: 1em 0;
+                background: $lightblue;
                 padding: 1em;
-            }
 
+                @media #{$notMobile} {
+                    background: rgba(255,255,255,.7);
+                    border-radius: .1em;
+                    margin: 1em 0;
+                    padding: 1em;
+                }
+            }
+s
             h2 { 
                 margin-top: 0; 
             }
 
             @media #{$notMobile} {
-                display: grid;
-                grid-gap: 2em;
-                width: auto;
-                grid-template-columns: 3fr 2fr;
                 box-sizing: border-box;
-                align-items: center;
+
+                &.grid {
+                    display: grid;
+                    grid-gap: 2em;
+                    width: auto;
+                    grid-template-columns: 3fr 2fr;
+                    align-items: center;
+                }
 
                 .fp-video-container {
                     h2 { color: white; }
@@ -630,8 +679,8 @@
     .events {
         background: $lightgray;
         background: linear-gradient($lightgray, darken($lightgray, 10%));
-        transform: skewY(1.5deg) translateY(3em);
-        padding: 3em 0 6em 0;
+        transform: skewY(-1.5deg) translateY(3em);
+        padding: 0 0 6em 0;
         overflow: hidden;
 
         h2 {
@@ -661,7 +710,7 @@
         max-width: 90%;
         width: 50em;
         margin: 5em auto 5em auto;
-        transform: skewY(-1.5deg);
+        transform: skewY(1.5deg);
     }
 
     .fp-video-container {
@@ -670,65 +719,70 @@
     }
 
     //Quick links
-    .quicklinks {
-        background: $accent-color;
-        background: radial-gradient(lighten($accent-color, 15%), $accent-color);//linear-gradient($lightblue, darken($lightblue, 10%));
-        transform: skewY(-1.5deg);
-        padding: 3em 0 6em 0;
+    // .section.quicklinks {
+    //     background: $accent-color;
+    //     background: radial-gradient(lighten($accent-color, 15%), $accent-color);//linear-gradient($lightblue, darken($lightblue, 10%));
+    //     transform: skewY(-1.5deg);
+    //     padding: 3em 0 6em 0;
 
-        border-top: 1px solid darken($accent-color, 20%);
-    }
+    //     border-top: 1px solid darken($accent-color, 20%);
+    // }
 
-    .quicklinks > .inner {
-        max-width: 45em;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        margin: 5em auto 5em auto;
-        align-items: center;
-        justify-items: center;
-        transform: skewY(1.5deg);
+    // .section.quicklinks > .inner {
+    //     max-width: 45em;
+    //     display: grid;
+    //     grid-template-columns: 1fr 1fr;
+    //     margin: 5em auto 5em auto;
+    //     align-items: center;
+    //     justify-items: center;
+    //     transform: skewY(1.5deg);
 
-        @media screen and (min-width: 700px) {
-            grid-template-columns: 1fr 1fr 1fr 1fr;
-        }
+    //     @media screen and (min-width: 700px) {
+    //         grid-template-columns: 1fr 1fr 1fr 1fr;
+    //     }
 
-        img {
-            max-width: 5em;
-            margin: 1em 1em;
-            transition: transform .3s ease-in-out;
+    //     img {
+    //         max-width: 5em;
+    //         margin: 1em 1em;
+    //         transition: transform .3s ease-in-out;
 
-            @media #{$notMobile} {
-                max-width: 8em;
-            }
-        }
+    //         @media #{$notMobile} {
+    //             max-width: 8em;
+    //         }
+    //     }
 
-        a { 
-            position: relative; 
-            color: $red; 
+    //     a { 
+    //         position: relative; 
+    //         color: $red; 
             
-            &:hover {
-                filter: brightness(1.2);
+    //         &:hover {
+    //             filter: brightness(1.2);
 
-                img {
-                    transform: scale(1.1);
-                }
-            }
-        }
+    //             img {
+    //                 transform: scale(1.1);
+    //             }
+    //         }
+    //     }
 
-        .linklabel {
-            display: block;
-            margin: 0 auto 2em auto;
-            text-align: center;
-            text-decoration: none;
-            font-weight: bold;
-        }
-    }
+    //     .linklabel {
+    //         display: block;
+    //         margin: 0 auto 2em auto;
+    //         text-align: center;
+    //         text-decoration: none;
+    //         font-weight: bold;
+    //     }
+    // }
 
     .footer {
-        color: white;
-        padding: 6em 0 5em 0;
+        color: black;
+        padding: 3em 0 8em 0;
         text-align: center;
-        background: linear-gradient(darken($lightblue, 10%), darken($lightblue, 20%));
+        // background: darken($lightblue, 10%); //linear-gradient(darken($lightblue, 10%), darken($lightblue, 20%));
+
+        @media #{$notMobile} {
+            color: white;
+            padding-bottom: 5em;
+        }
 
         .copy {
             font-size: 1.2em;

@@ -80,7 +80,7 @@
             </a>
             <!-- <a target="_blank" href={outlookCalendarLink}>Outlook Calendar</a> -->
         </div>
-        <p class='small'>Choose <strong>Device Calendar</strong> if you are using a calendar installed on your computer or mobile device&mdash;you will need to open the downloaded calendar file. Choose either <strong>Google</strong> or <strong>Yahoo! Calendar</strong> to add an event to the selected online calendar service.</p>
+        <p class='small'>Choose <strong>Device Calendar</strong> if you are using a calendar installed on your computer or mobile device, such as the Microsoft Outlook desktop application&mdash;you will need to open the downloaded calendar file. Choose either <strong>Google</strong> or <strong>Yahoo! Calendar</strong> to add an event to the selected online calendar service.</p>
     </div>
 </div>
 

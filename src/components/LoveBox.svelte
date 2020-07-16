@@ -38,7 +38,7 @@
 </script>
 
 <div class="love-box">
-    <img bind:this={loveImage} class='bg' src="/primary-images/hearts.png" alt="" style={"transform: translateY(-15%) translateY(" + loveTop/5 + "px);"}>
+    <img bind:this={loveImage} class='bg' src="/primary-images/hearts.svg" alt="" style={"transform: translateY(-15%) translateY(" + loveTop/5 + "px);"}>
 
     <div class='inner'>
         <h2>We love our church!</h2>
@@ -69,13 +69,13 @@
     color: white;
     transform: skewY(1deg);
     background: $red;
-    background: linear-gradient($red, darken($red, 10%));
+    background: radial-gradient(lighten($red, 5%), darken($red, 10%));
     position: relative;
     top: -3em;
     overflow: hidden;
 
     img.bg {
-        object-position: 50% 100%;
+        object-position: 50% 50%;
     }
 
     .inner {

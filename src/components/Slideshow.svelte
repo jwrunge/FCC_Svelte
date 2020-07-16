@@ -51,22 +51,25 @@
 
     //Change images
     function nextImg(images) {
+        console.log('next')
         showImg = true
         timeLeft = slideShowTime
         startTimer()
 
-        if(currentImg == images.length - 1) currentImg = 0
-        else currentImg += 1
+        currentImg += 1
+        if(currentImg > images.length - 1) currentImg = 0
     }
 
     function prevImg(images) {
+        console.log("back")
         showImg = true
         timeLeft = slideShowTime
         startTimer()
 
+        currentImg -= 1
+        if(currentImg < 0) currentImg = images.length - 1
+
         goBack = false
-        if(currentImg == 0) currentImg = images.length - 1
-        else currentImg -= 1
     }
 
     function startTimer() {
@@ -100,11 +103,13 @@
         </div>
     {:then images}
         {#if showImg}
-            <img 
-                transition:fade on:outroend={goBack ? prevImg(images) : nextImg(images)}
-                class='slideshow' src={images[currentImg].src} alt=""
-                style="transform: translateY({scrollTop / 5}px); object-position: {images[currentImg].focus ? images[currentImg].focus : '50% 50%'};"
-            >
+            <picture>
+                <img 
+                    transition:fade on:outroend={goBack ? prevImg(images) : nextImg(images)}
+                    class='slideshow' src={images[currentImg].src} alt=""
+                    style="transform: translateY({scrollTop / 5}px); object-position: {images[currentImg].focus ? images[currentImg].focus : '50% 50%'};"
+                >
+            </picture>
             {#if images[currentImg].caption && showCaptions}
                 <div transition:fade class='caption'>
                     {#if window.innerWidth >= 500}
@@ -121,7 +126,7 @@
         {/if}
         {#if showCaptions}
             <div transition:fade class="controls">
-                <img on:click={()=>{clearTimer(); goBack = true; showImg = false}} src="/icons/prev.svg" alt="Previous slide">
+                <img on:click={()=>{goBack = true; clearTimer(); setTimeout(()=>showImg = false, 200)}} src="/icons/prev.svg" alt="Previous slide">
                 {#if paused}
                     <img on:click={startTimer} src="/icons/play.svg" alt="Play slideshow">
                 {:else}
@@ -135,6 +140,7 @@
         {/if}
     {/await}
 </div>
+<!-- <div class='overlay'>{currentImg}</div> -->
 
 <style lang='scss'>
     @import '../style/variables.scss';
@@ -241,5 +247,13 @@
                 background-color: $red;
             }
         }
+    }
+
+    .overlay {
+        font-size: 20em;
+        color: white;
+        position: fixed;
+        left: 3em; bottom: 0em;
+        z-index: 20;
     }
 </style>

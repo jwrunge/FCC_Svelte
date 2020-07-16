@@ -1,11 +1,33 @@
 <script>
     import {flyModified} from '../flyModified.js'
+    import {onMount} from 'svelte'
+
+    let results = 25
+    let showing = 0
+    let show = 'newsletters'
+    let totalResultsPossible = 0
 
     export let getPageData
+    let newsletters = []
+
+    function getMoreNewsletters() {
+        fetch('data/php/getNewsletters.php?start=' + showing + '&end=' + (showing + results) + '&direction=desc')
+        .then(data=> data.json())
+        .then(ns=> {
+            newsletters = ns.results
+            showing += results
+            totalResultsPossible = newsletters.files
+        })
+    }
+
+    onMount(()=> {
+        getMoreNewsletters()
+    })
+
     let bgImages = [
-        "/primary-images/ns1.jpg",
-        "/primary-images/ns2.jpg",
-        "/primary-images/ns3.jpg"
+        "/primary-images/ns1.JPG",
+        "/primary-images/ns2.JPG",
+        "/primary-images/ns3.JPG"
     ]
 </script>
 
@@ -15,20 +37,28 @@
         <div class='content'>
             <h1>Newsletters</h1>
 
-            {#await getPageData('/data/newsletters.json')}
+            {#if !newsletters.length}
                 <div class='loader'>
                     <img src='/icons/loading.svg' alt='loading content'>
                 </div>
-            {:then newsletters}
+            {:else}
                 <div class="news-grid">
                     {#each newsletters.sort((a,b)=> new Date(b.date).valueOf() - new Date(a.date).valueOf()) as newsletter}
-                        <a target="_blank" href={newsletter.href} class="newsletter">
+                        <a target="_blank" href={newsletter} class="newsletter">
                             <img src={bgImages[Math.floor(Math.random(bgImages.length) * 3)]} alt="">
-                            <span>{newsletter.title}</span>
+                            <span>{(new Date(newsletter.slice(0, -4))).toDateString()}</span>
                         </a>
                     {/each}
                 </div>
-            {/await}
+            {/if}
+
+            <div class="centered mt2">
+                {#if showing <= totalResultsPossible}
+                    <a href="#moreNls" on:click|preventDefault={getMoreNewsletters}>More newsletters</a>
+                {:else}
+                    No more newsletters
+                {/if}
+            </div>
         </div>
     </div>
 </div>

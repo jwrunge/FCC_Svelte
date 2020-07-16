@@ -27,7 +27,10 @@
                     </div>
                 {:then events}
                     {#if events && events.length}
-                        {#each events as event, i}
+                        {#each events
+                            .sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+                            .filter(event=> (new Date(event.date)).getTime() > Date.now())
+                         as event, i}
                             {#if i == 0 || new Date(event.date).getMonth() != new Date(events[i-1].date).getMonth()}
                                 <h3>{months[new Date(event.date).getMonth()]}</h3>
                             {/if}
@@ -36,7 +39,7 @@
                                     <strong>{event.name}</strong> - {new Date(event.date).toLocaleString('en-US', { dateStyle: "short", timeStyle: "short", timeZone: 'America/Chicago' })}
                                 </div>
                                 <div class='overflow-box'>
-                                    {event.description}
+                                    {@html event.description}
                                 </div>
                                 <div class="right-align event-links">
                                     <a href="#singleevent/{i}">View event</a> | 

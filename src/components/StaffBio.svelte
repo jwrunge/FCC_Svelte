@@ -32,9 +32,14 @@
     }
 
     .side-by-side {
-        max-width: 45em;
+        max-width: 60em;
         width: 90%;
         margin: 0 auto;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-sizing: border-box;
+        padding: 0 5em;
+        position: relative;
 
         img {
             width: 45%;

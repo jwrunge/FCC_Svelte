@@ -33,7 +33,7 @@
         <a class:inactive={!curPage || curPage == '#home'} href="#home">Home</a>
         <a class:inactive={curPage == '#about'} href="#about">About Us</a>
         <a class:inactive={curPage == '#worship'} href="#worship">Worship</a>
-        <a class:inactive={curPage == '#newsletters'} href="#newsletters">Newsletters</a>
+        <a class:inactive={curPage == '#ministries'} href="#ministries">Ministries</a>
         <a class:inactive={curPage == '#links'} href="#links">Resources</a>
     </span>
     {#if mobileOpen}
@@ -70,7 +70,7 @@
     }
 
     .mobile-menu-open, .mobile-menu-close {
-        @media screen and (min-width: 501px) {
+        @media screen and (min-width: 631px) {
             display: none;
         }
     }
@@ -126,7 +126,7 @@
         }
 
         a + a {
-            @media screen and (min-width: 501px) {
+            @media screen and (min-width: 631px) {
                 margin-left: 1.25em;
             }
         }
@@ -172,7 +172,7 @@
         border-color: transparent;
         box-sizing: border-box;
 
-        @media screen and (max-width: 500px) {
+        @media screen and (max-width: 630px) {
             padding: 0;
             display: flex;
             flex-direction: column;

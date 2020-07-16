@@ -10,4 +10,4 @@ $darkblue: #0053a0;
 $box-shadow: 0 0 4px 0 rgba(0,0,0,.6);
 $accent-color: #e4d7c9;
 
-$notMobile: "screen and (min-width: " + $desktop-width + ") and (min-height: " + $desktop-height + ") and (min-aspect-ratio: 10/7) and (max-aspect-ratio: 12/5)";
+$notMobile: "screen and (min-width: " + $desktop-width + ") and (min-aspect-ratio: 10/7)";
