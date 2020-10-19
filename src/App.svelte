@@ -173,7 +173,7 @@
             <h3>Sunday Worship</h3>
             <div>Building closed due to COVID-19</div>
             <hr>
-            <div><a href="#sermons">Join us online!</a></div>
+            <div>Worshipping outside Sundays at 9:30am, weather permitting... <a href="#sermons">or join us online!</a></div>
             <!-- <div>Contemporary: 8:30am</div>
             <div>Traditional: 11am</div>
             <hr>
@@ -201,10 +201,10 @@
                 <div class="box">
                     <h2>What's going on now at FCC Galesburg?</h2>
                     <div class='current-events'>
-                        <img alt='Shelter theme slide' src='/uploads/events/shelter.jpg'>
-                        <p>The building of our church is currently closed due to the COVID 19 virus. But the church is alive and connected through our worship virtually. Join us in worship by clicking the accompanying video.</p>
-                        <h3>Sermon Series: <em>Shelter</em></h3>
-                        <p>As we shelter at home, we are claiming that shelter we have in God – our refuge and strength. Our sermon series focuses on the book of Psalms, looking at those seasons of life we go through and how God is our shelter throughout them all.</p>
+                        <img alt='Upside Down theme slide' src='/uploads/events/upsidedown.png'>
+                        <p>The building of our church is currently closed due to the COVID 19 virus. Join us for outdoor worship at the church each Sunday at 9:30am, join us in worship virtually by clicking the accompanying video.</p>
+                        <h3>Sermon Series: <em>Upside Down</em></h3>
+                        <p>We are living in an upside down world that seems uncertain and always changing. Where do we turn for answers and how do we live and even thrive in this new normal? Where do we find hope and assurance? This fall, we will discover how Daniel, from the Old Testament lived when he was forced to live in exile, far away from home. Through his story we will learn how to live faithfully and put our full trust in God, no matter what the circumstances.</p>
                     </div>
                 </div>
     
@@ -231,7 +231,9 @@
                             <img src='/icons/loading.svg' alt='loading content'>
                         </div>
                     {:then events}
-                        {#if events && events.length > 0}
+                        {#if events && (events.sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+                                .filter(event=> (new Date(event.date)).getTime() > Date.now())
+                                .slice(0, 5)).length > 0}
                             {#each events
                                 .sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
                                 .filter(event=> (new Date(event.date)).getTime() > Date.now())

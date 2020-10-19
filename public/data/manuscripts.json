@@ -1,92 +1,116 @@
 [
     {
-        "date": "2019-06-02",
+        "date": "2019-06-02 CDT",
         "title": "The Right Tempo",
         "series": "Busy - Reconnecting to an Unhurried God",
         "file": "sermon8.html"
     },
     {
-        "date": "2019-06-16",
+        "date": "2019-06-16 CDT",
         "title": "Tuning In",
         "series": "Busy - Reconnecting to an Unhurried God",
         "file": "sermon9.html"
     },
     {
-        "date": "2020-01-05",
+        "date": "2020-01-05 CDT",
         "title": "Led By A Star",
         "series": "Who Are You?",
         "file": "sermon18.html"
     },
     {
-        "date": "2020-02-02",
+        "date": "2020-02-02 CDT",
         "title": "Remember Your Name",
         "series": "Who Are You?",
         "file": "sermon19.html"
     },
     {
-        "date": "2020-02-16",
+        "date": "2020-02-16 CDT",
         "title": "Second Mile Christians",
         "series": "Who Are You?",
         "file": "sermon20.html"
     },
     {
-        "date": "2020-03-01",
+        "date": "2020-03-01 CDT",
         "title": "Betrayal",
         "series": "At the Crossroads",
         "file": "sermon21.html"
     },
     {
-        "date": "2020-03-16",
+        "date": "2020-03-16 CDT",
         "title": "Compassion",
         "series": "At the Crossroads",
         "file": "sermon22.html"
     },
     {
-        "date": "2020-03-23",
+        "date": "2020-03-23 CDT",
         "title": "Obedience",
         "series": "At the Crossroads",
         "file": "sermon23.html"
     },
     {
-        "date": "2020-03-30",
+        "date": "2020-03-30 CDT",
         "title": "Easter Sunday - Life",
         "series": "At the Crossroads",
         "file": "sermon24.html"
     },
     {
-        "date": "2020-04-26",
+        "date": "2020-04-26 CDT",
         "title": "Healer of Broken Hearts",
         "series": "Heart of the Matter",
         "file": "sermon25.html"
     },
     {
-        "date": "2020-05-10",
+        "date": "2020-05-10 CDT",
         "title": "No Trouble in my Heart",
         "series": "Heart of the Matter",
         "file": "sermon26.html"
     },
     {
-        "date": "2020-05-24",
+        "date": "2020-05-24 CDT",
         "title": "Open the Eyes of my Heart",
         "series": "Heart of the Matter",
         "file": "sermon27.html"
     },
     {
-        "date": "2020-06-07",
+        "date": "2020-06-07 CDT",
         "title": "My Rock and Fortress",
         "series": "Shelter",
         "file": "sermon28.html"
     },
     {
-        "date": "2020-06-28",
+        "date": "2020-06-28 CDT",
         "title": "Hanging on in Times of Trouble",
         "series": "Shelter",
         "file": "sermon29.html"
     },
     {
-        "date": "2020-07-12",
+        "date": "2020-07-12 CDT",
         "title": "Thirsting for God",
         "series": "Shelter",
         "file": "sermon30.html"
+    },
+    {
+        "date": "2020-08-09 CDT",
+        "title": "The Joy of Sins Forgiven",
+        "series": "Shelter",
+        "file": "8.9.20.pdf"
+    },
+    {
+        "date": "2020-08-23 CDT",
+        "title": "Our Refuge and Strength",
+        "series": "Shelter",
+        "file": "8.23.20.pdf"
+    },
+    {
+        "date": "2020-09-13 CDT",
+        "title": "Focus",
+        "series": "Upside Down",
+        "file": "9.13.20.pdf"
+    },
+    {
+        "date": "2020-09-20 CDT",
+        "title": "Refusing to Bow",
+        "series": "Upside Down",
+        "file": "9.20.20.pdf"
     }
 ]

@@ -38,7 +38,7 @@
                 <h3>Join Us for Worship!</h3>
                 <div>Building closed due to COVID-19</div>
                 <hr>
-                <div>Join us online &mdash; worship videos are below!</div>
+                <div>Worshipping outside Sundays at 9:30am, weather permitting... or join us online &mdash; worship videos are below!</div>
                 <!-- <p class='centered'>
                     <span class="underline">Sunday Mornings</span><br>
                     <strong>Contemporary Service</strong> - 8:30 AM<br>
@@ -84,7 +84,7 @@
                         <ul>
                             {#each mans.sort((a,b)=> new Date(b.date).valueOf() - new Date(a.date).valueOf()) as man}
                                 <li>
-                                    <a target='_blank' href="data/manuscripts/{man.file}"><strong>{man.title}</strong> - {man.series} - {(new Date(man.date).toDateString())}</a>
+                                    <a target='_blank' href="data/manuscripts/{man.file}"><strong>{man.title}</strong> - {man.series} - {(new Date(man.date).toLocaleDateString({timezone: "CDT"}))}</a>
                                 </li>
                             {/each}
                         </ul>

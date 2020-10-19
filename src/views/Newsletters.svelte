@@ -16,7 +16,7 @@
         .then(ns=> {
             newsletters = ns.results
             showing += results
-            totalResultsPossible = newsletters.files
+            totalResultsPossible = ns.files
         })
     }
 
@@ -43,7 +43,7 @@
                 </div>
             {:else}
                 <div class="news-grid">
-                    {#each newsletters.sort((a,b)=> new Date(b.date).valueOf() - new Date(a.date).valueOf()) as newsletter}
+                    {#each newsletters.sort((a,b)=> new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).valueOf() - new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).valueOf()) as newsletter}
                         <a target="_blank" href={newsletter} class="newsletter">
                             <img src={bgImages[Math.floor(Math.random(bgImages.length) * 3)]} alt="">
                             <span>{(new Date(newsletter.slice(0, -4))).toDateString()}</span>

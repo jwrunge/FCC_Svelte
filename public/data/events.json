@@ -1,79 +1,24 @@
 [
-        { 
-            "name": "Church Council",
-            "date": "2020-07-09 18:30:00 CDT",
-            "description": "Council meeting",
-            "duration": 60,
-            "location": "FCC",
-            "img": {
-                "src": "",
-                "alt": ""
-            }
-        },
-        { 
-            "name": "Trustees Meeting",
-            "date": "2020-07-15 19:00:00 CDT",
-            "description": "Trustees meeting",
-            "duration": 60,
-            "location": "FCC",
-            "img": {
-                "src": "",
-                "alt": ""
-            }
-        },
-        { 
-            "name": "Zoom Bible Study",
-            "date": "2020-07-08 17:30:00 CDT",
-            "description": "We continue our weekly Adult Bible Study online through Zoom. Contact Pastor MJ Fitch at <a href='mailto:pastormj02@gmail.com'>pastormj02@gmail.com</a> for information on how to join the Zoom meeting. Currently we are studying Max Lucado’s book, \"Facing Your Giant\" about the life of David.",
-            "duration": 60,
-            "location": "Zoom meeting",
-            "img": {
-                "src": "/uploads/events/lucado.jpg",
-                "alt": "Cover for Max Lucado - Facing Your Giants"
-            }
-        },
-        { 
-            "name": "Zoom Bible Study",
-            "date": "2020-07-15 17:30:00 CDT",
-            "description": "We continue our weekly Adult Bible Study online through Zoom. Contact Pastor MJ Fitch at <a href='mailto:pastormj02@gmail.com'>pastormj02@gmail.com</a> for information on how to join the Zoom meeting. Currently we are studying Max Lucado’s book, \"Facing Your Giant\" about the life of David.",
-            "duration": 60,
-            "location": "Zoom meeting",
-            "img": {
-                "src": "/uploads/events/lucado.jpg",
-                "alt": "Cover for Max Lucado - Facing Your Giants"
-            }
-        },
-        { 
-            "name": "Zoom Bible Study",
-            "date": "2020-07-22 17:30:00 CDT",
-            "description": "We continue our weekly Adult Bible Study online through Zoom. Contact Pastor MJ Fitch at <a href='mailto:pastormj02@gmail.com'>pastormj02@gmail.com</a> for information on how to join the Zoom meeting. Currently we are studying Max Lucado’s book, \"Facing Your Giant\" about the life of David.",
-            "duration": 60,
-            "location": "Zoom meeting",
-            "img": {
-                "src": "/uploads/events/lucado.jpg",
-                "alt": "Cover for Max Lucado - Facing Your Giants"
-            }
-        },
-        { 
-            "name": "Zoom Bible Study",
-            "date": "2020-07-29 17:30:00 CDT",
-            "description": "We continue our weekly Adult Bible Study online through Zoom. Contact Pastor MJ Fitch at <a href='mailto:pastormj02@gmail.com'>pastormj02@gmail.com</a> for information on how to join the Zoom meeting. Currently we are studying Max Lucado’s book, \"Facing Your Giant\" about the life of David.",
-            "duration": 60,
-            "location": "Zoom meeting",
-            "img": {
-                "src": "/uploads/events/lucado.jpg",
-                "alt": "Cover for Max Lucado - Facing Your Giants"
-            }
-        },
-        { 
-            "name": "Zoom Bible Study",
-            "date": "2020-08-05 17:30:00 CDT",
-            "description": "We continue our weekly Adult Bible Study online through Zoom. Contact Pastor MJ Fitch at <a href='mailto:pastormj02@gmail.com'>pastormj02@gmail.com</a> for information on how to join the Zoom meeting. Currently we are studying Max Lucado’s book, \"Facing Your Giant\" about the life of David.",
-            "duration": 60,
-            "location": "Zoom meeting",
-            "img": {
-                "src": "/uploads/events/lucado.jpg",
-                "alt": "Cover for Max Lucado - Facing Your Giants"
-            }
+    { 
+        "name": "Bible Study via Zoom",
+        "date": "2020-10-21 22:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
         }
-    ]
+    },
+    { 
+        "name": "Bible Study via Zoom",
+        "date": "2020-10-28 22:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    }
+]
