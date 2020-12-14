@@ -78,6 +78,20 @@
         })
     }
 
+    let previousMonth
+    function changeEventMonth(event, skipSet = false) {
+        let newMonth = new Date(event.date).getMonth()
+        newMonth = months[newMonth]
+
+        if(previousMonth && newMonth === previousMonth) return false
+        
+        if(skipSet) return true
+        else {
+            previousMonth = newMonth
+            return newMonth
+        }
+    }
+
     function showAllEvents(events) {
         allEvents = events
         allEventsModalOpen = true
@@ -171,9 +185,9 @@
         <!-- <img bind:this={infoboxImage} class='bg' src="/primary-images/worshipservice.jpg" alt="" style={"transform: translateY(-25%) translateY(" + infoTop/5 + "px);"}> -->
         <div class="worship-times">
             <h3>Sunday Worship</h3>
-            <div>Building closed due to COVID-19</div>
-            <hr>
-            <div>Worshipping outside Sundays at 9:30am, weather permitting... <a href="#sermons">or join us online!</a></div>
+            <div>Building closed due to COVID-19. <a href="#worship">Join us for worship online!</a></div>
+            <!-- <hr>
+            <div>Worshipping outside Sundays at 9:30am, weather permitting... <a href="#sermons">or join us online!</a></div> -->
             <!-- <div>Contemporary: 8:30am</div>
             <div>Traditional: 11am</div>
             <hr>
@@ -201,10 +215,13 @@
                 <div class="box">
                     <h2>What's going on now at FCC Galesburg?</h2>
                     <div class='current-events'>
-                        <img alt='Upside Down theme slide' src='/uploads/events/upsidedown.png'>
-                        <p>The building of our church is currently closed due to the COVID 19 virus. Join us for outdoor worship at the church each Sunday at 9:30am, join us in worship virtually by clicking the accompanying video.</p>
-                        <h3>Sermon Series: <em>Upside Down</em></h3>
-                        <p>We are living in an upside down world that seems uncertain and always changing. Where do we turn for answers and how do we live and even thrive in this new normal? Where do we find hope and assurance? This fall, we will discover how Daniel, from the Old Testament lived when he was forced to live in exile, far away from home. Through his story we will learn how to live faithfully and put our full trust in God, no matter what the circumstances.</p>
+                        <img class="float" alt='Advent series image' src='/uploads/events/advent2020.jpg'>
+                        <h3>Advent 2020</h3>
+                        <p>This Advent. we will hear words of comfort, of challenge and of the good news of hope, peace, joy and love. The good news of the birth of Jesus, who came to a world, broken with sin and dark with pain and fear and brought life and hope, will be proclaimed! We assert that we still believe!  We believe - even when our world is shaking and uncertain and in the darkness. We we still believe - even now!!Just as a Jewish poet during the holocaust, once said:</p>
+                        <p>I believe in the sun even when it's not shining<br/>
+                        I believe in love even when I don't feel it.<br/>
+                        I believe in God even when He is silent.</p>
+                        <!-- <img class='small' alt='God Sightings magnifying glass' src='/uploads/events/gratitude.jpg'> -->
                     </div>
                 </div>
     
@@ -213,7 +230,13 @@
                         <div class="fp-video-container">
                             <h2>{latestVid.title}</h2>
                             <div class="embed-container">
-                                <iframe title={latestVid.title} src={latestVid.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
+                                {#if latestVid.type && latestVid.type == "onsite"}
+                                    <video controls poster={latestVid.poster}>
+                                        <source src={latestVid.src} type="video/mp4">
+                                    </video>
+                                {:else}
+                                    <iframe title={latestVid.title} src={latestVid.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
+                                {/if}
                             </div>
                         </div>
                     {/if}
@@ -239,8 +262,8 @@
                                 .filter(event=> (new Date(event.date)).getTime() > Date.now())
                                 .slice(0, 5)
                             as event, i}
-                                {#if i == 0 || new Date(event.date).getMonth() != new Date(events[i-1].date).getMonth()}
-                                    <h3>{months[new Date(event.date).getMonth()]}</h3>
+                                {#if changeEventMonth(event, true)}
+                                    <h3>{changeEventMonth(event, false)}</h3>
                                 {/if}
                                 <li>
                                     <div class="overflow-box">
@@ -251,7 +274,7 @@
                                     </div>
                                     <div class="right-align event-links">
                                         <a href="#singleevent/{i}">View event</a> | 
-                                        <a href="#events/i" on:click|preventDefault={()=>{ openCalendarModal(event) }}>Add to calendar</a>
+                                        <a href="#events/{i}" on:click|preventDefault={()=>{ openCalendarModal(event) }}>Add to calendar</a>
                                     </div>
                                 </li>
                             {/each}
@@ -632,7 +655,7 @@
                     padding: 1em;
                 }
             }
-s
+
             h2 { 
                 margin-top: 0; 
             }
@@ -649,7 +672,14 @@ s
                 }
 
                 .fp-video-container {
-                    h2 { color: white; }
+                    h2 { 
+                        color: white; 
+                        margin-left: 1em;
+
+                        @media #{$notMobile} {
+                            margin-left: 0;
+                        }
+                    }
                     color: white;
                     margin-top: 1em;
                     margin-bottom: 1em;
@@ -664,8 +694,13 @@ s
             .current-events {
                 img {
                     display: block;
-                    max-width: 100%;
+                    max-width: 90%;
                     max-height: 50vh;
+                    margin: 1em auto;
+                }
+
+                img.float {
+                    max-width: 100%;
                     margin: 0 auto 2em auto;
 
                     @media #{$notMobile} {
@@ -673,6 +708,10 @@ s
                         float: right;
                         margin: 0 1em 1em 1em;
                     }
+                }
+
+                img.small {
+                    max-width: 60%;
                 }
             }
         }

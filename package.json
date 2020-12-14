@@ -26,7 +26,8 @@
     "sirv-cli": "^0.4.4",
     "svelte": "^3.19.2",
     "svelte-preprocess": "^3.4.0",
-    "eases-jsnext": "^1.0.10"
+    "eases-jsnext": "^1.0.10",
+    "@babel/compat-data": "^7.9.0"
   },
   "dependencies": {
     "calendar-link": "^1.2.5"

@@ -37,8 +37,8 @@
             <div class='attention-box centered'>
                 <h3>Join Us for Worship!</h3>
                 <div>Building closed due to COVID-19</div>
-                <hr>
-                <div>Worshipping outside Sundays at 9:30am, weather permitting... or join us online &mdash; worship videos are below!</div>
+                <!-- <hr>
+                <div>Worshipping outside Sundays at 9:30am, weather permitting... or join us online &mdash; worship videos are below!</div> -->
                 <!-- <p class='centered'>
                     <span class="underline">Sunday Mornings</span><br>
                     <strong>Contemporary Service</strong> - 8:30 AM<br>
@@ -61,7 +61,13 @@
                             <div class="video-container">
                                 <h3>{embed.title}</h3>
                                 <div class="embed-container">
-                                    <iframe title={embed.title} src={embed.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
+                                    {#if embed.type && embed.type == "onsite"}
+                                        <video controls poster={embed.poster}>
+                                            <source src={embed.src} type="video/mp4">
+                                        </video>
+                                    {:else}
+                                        <iframe title={embed.title} src={embed.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
+                                    {/if}
                                 </div>
                             </div>
                         {/each}

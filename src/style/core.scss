@@ -190,7 +190,7 @@ img.bg {
     max-width: 100%; 
     background-color: black;
 } 
-.embed-container iframe, .embed-container object, .embed-container embed { 
+.embed-container iframe, .embed-container video, .embed-container object, .embed-container embed { 
     position: absolute; 
     top: 0; left: 0; 
     width: 100%; height: 100%; 

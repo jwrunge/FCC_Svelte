@@ -13,6 +13,20 @@
         curEvent = event
         calendarModalOpen = true
     }
+
+    let previousMonth
+    function changeEventMonth(event, skipSet = false) {
+        let newMonth = new Date(event.date).getMonth()
+        newMonth = months[newMonth]
+
+        if(previousMonth && newMonth === previousMonth) return false
+        
+        if(skipSet) return true
+        else {
+            previousMonth = newMonth
+            return newMonth
+        }
+    }
 </script>
 
 <div class="page">
@@ -31,8 +45,8 @@
                             .sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
                             .filter(event=> (new Date(event.date)).getTime() > Date.now())
                          as event, i}
-                            {#if i == 0 || new Date(event.date).getMonth() != new Date(events[i-1].date).getMonth()}
-                                <h3>{months[new Date(event.date).getMonth()]}</h3>
+                            {#if changeEventMonth(event, true)}
+                                <h3>{changeEventMonth(event, false)}</h3>
                             {/if}
                             <li>
                                 <div class="overflow-box">
@@ -43,7 +57,7 @@
                                 </div>
                                 <div class="right-align event-links">
                                     <a href="#singleevent/{i}">View event</a> | 
-                                    <a href="#events/i" on:click|preventDefault={()=>{ openCalendarModal(event) }}>Add to calendar</a>
+                                    <a href="#events/{i}" on:click|preventDefault={()=>{ openCalendarModal(event) }}>Add to calendar</a>
                                 </div>
                             </li>
                         {/each}

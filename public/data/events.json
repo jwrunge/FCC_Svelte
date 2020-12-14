@@ -1,7 +1,7 @@
 [
     { 
-        "name": "Bible Study via Zoom",
-        "date": "2020-10-21 22:30:00 UTC",
+        "name": "Worship Online",
+        "date": "2020-12-06 14:30:00 UTC",
         "description": "",
         "duration": 60,
         "location": "Online",
@@ -11,11 +11,198 @@
         }
     },
     { 
-        "name": "Bible Study via Zoom",
-        "date": "2020-10-28 22:30:00 UTC",
+        "name": "Worship Online",
+        "date": "2020-12-13 14:30:00 UTC",
         "description": "",
         "duration": 60,
         "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Worship Online",
+        "date": "2020-12-20 14:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Worship Online",
+        "date": "2020-12-27 14:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Adult Sunday School",
+        "date": "2020-12-06 16:00:00 UTC",
+        "description": "Join Zoom Meeting: <a href=\"https://us02web.zoom.us/j/3610895950\" target=\"_blank\">https://us02web.zoom.us/j/3610895950</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Adult Sunday School",
+        "date": "2020-12-13 16:00:00 UTC",
+        "description": "Join Zoom Meeting: <a href=\"https://us02web.zoom.us/j/3610895950\" target=\"_blank\">https://us02web.zoom.us/j/3610895950</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Adult Sunday School",
+        "date": "2020-12-20 16:00:00 UTC",
+        "description": "Join Zoom Meeting: <a href=\"https://us02web.zoom.us/j/3610895950\" target=\"_blank\">https://us02web.zoom.us/j/3610895950</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Adult Sunday School",
+        "date": "2020-12-27 16:00:00 UTC",
+        "description": "Join Zoom Meeting: <a href=\"https://us02web.zoom.us/j/3610895950\" target=\"_blank\">https://us02web.zoom.us/j/3610895950</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Advent Movie: Hope - A Charlie Brown Christmas",
+        "date": "2020-11-29 00:00:00 UTC",
+        "description": "Click the zoom link below to join in: <a href=\"https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09\" target=\"_blank\">https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Advent Movie: Love - How the Grinch Stole Christmas",
+        "date": "2020-12-07 00:00:00 UTC",
+        "description": "Click the zoom link below to join in: <a href=\"https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09\" target=\"_blank\">https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Advent Movie: Joy - Frosty the Snowman",
+        "date": "2020-12-13 00:00:00 UTC",
+        "description": "Click the zoom link below to join in: <a href=\"https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09\" target=\"_blank\">https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Advent Movie: Peace - The Muppet Christmas Carol",
+        "date": "2020-12-20 00:00:00 UTC",
+        "description": "Click the zoom link below to join in: <a href=\"https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09\" target=\"_blank\">https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Advent Movie: Believe - The Polar Express",
+        "date": "2020-12-27 00:00:00 UTC",
+        "description": "Click the zoom link below to join in: <a href=\"https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09\" target=\"_blank\">https://us04web.zoom.us/j/79000274281?pwd=akxZdUpnT1FFNTFlbXRyanFJOW9Mdz09</a>",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Caring Ministries (Zoom)",
+        "date": "2020-12-01 19:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Elders Meeting (Zoom)",
+        "date": "2020-12-02 00:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Nominating Committee",
+        "date": "2020-12-03 00:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Council of Ministries (Zoom)",
+        "date": "2020-12-09 00:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "Online",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Trustees Meeting (in-person)",
+        "date": "2020-12-22 01:00:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "FCC",
+        "img": {
+            "src": "",
+            "alt": ""
+        }
+    },
+    { 
+        "name": "Bible Study (Zoom)",
+        "date": "2020-12-30 15:30:00 UTC",
+        "description": "",
+        "duration": 60,
+        "location": "FCC",
         "img": {
             "src": "",
             "alt": ""

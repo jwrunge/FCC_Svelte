@@ -4,9 +4,7 @@
     import CalendarModal from '../components/CalendarModal.svelte'
 
     export let getPageData
-    let months = [
-        "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"
-    ]
+
     let curEvent
     let eventIndex
     let calendarModalOpen = false
@@ -14,6 +12,15 @@
     function openCalendarModal(event) {
         curEvent = event
         calendarModalOpen = true
+    }
+
+    function sortEvents(events) {
+        return new Promise((resolve, reject)=> {
+            if(!events || !events.length) reject()
+            let sortedEvents = events.sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+                .filter(event=> (new Date(event.date)).getTime() > Date.now())
+            resolve(sortedEvents)
+        })
     }
 
     onMount(()=>{
@@ -30,25 +37,31 @@
                     <img src='/icons/loading.svg' alt='loading content'>
                 </div>
             {:then events}
-                {#if events && events.length}
-                    <h2>{events[eventIndex].name}</h2>
-                    {#if events[eventIndex].img}
-                        <img class='sm-bottom-margin' src={events[eventIndex].img.src} alt={events[eventIndex].img.alt}>
+                {#await sortEvents(events)}
+                    <div class='loader'>
+                        <img src='/icons/loading.svg' alt='loading content'>
+                    </div>
+                {:then sortedEvents}
+                    <h2>{sortedEvents[eventIndex].name}</h2>
+                    {#if sortedEvents[eventIndex].img}
+                        <img class='sm-bottom-margin' src={sortedEvents[eventIndex].img.src} alt={sortedEvents[eventIndex].img.alt}>
                     {/if}
                     <div class="event-details">
-                        <span><strong>When:</strong> {new Date(events[eventIndex].date).toLocaleString('en-US', { dateStyle: "short", timeStyle: "short", timeZone: 'America/Chicago' })}</span>
-                        <span><strong>Where:</strong> {events[eventIndex].location}</span>
+                        <span><strong>When:</strong> {new Date(sortedEvents[eventIndex].date).toLocaleString('en-US', { dateStyle: "short", timeStyle: "short", timeZone: 'America/Chicago' })}</span>
+                        <span><strong>Where:</strong> {sortedEvents[eventIndex].location}</span>
                     </div>
                     <div class="detail-box">
                         <h3>Event Description</h3>
-                        <p>{@html events[eventIndex].description}</p>
+                        {#if sortedEvents[eventIndex].description}
+                            <p>{@html sortedEvents[eventIndex].description}</p>
+                        {:else}
+                            <p>No description for this event!</p>
+                        {/if}
                         <div class="mt-2 centered">
-                            <a href="#events/i" on:click|preventDefault={()=>{ openCalendarModal(events[eventIndex]) }}>Add to calendar</a>
+                            <a href="#events/i" on:click|preventDefault={()=>{ openCalendarModal(sortedEvents[eventIndex]) }}>Add to calendar</a>
                         </div>
                     </div>
-                {:else}
-                    <li>Event not found.</li>
-                {/if}
+                {/await}
             {/await}
         </div>
     </div>
