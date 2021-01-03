@@ -21,6 +21,9 @@
     import SingleEvent from './views/SingleEvent.svelte'
     import Article from './views/Article.svelte'
 
+    //Specials
+    import Starwords from './specials/Starwords.svelte'
+
     //Variables
     let main
     let header
@@ -215,13 +218,13 @@
                 <div class="box">
                     <h2>What's going on now at FCC Galesburg?</h2>
                     <div class='current-events'>
-                        <img class="float" alt='Advent series image' src='/uploads/events/advent2020.jpg'>
-                        <h3>Advent 2020</h3>
-                        <p>This Advent. we will hear words of comfort, of challenge and of the good news of hope, peace, joy and love. The good news of the birth of Jesus, who came to a world, broken with sin and dark with pain and fear and brought life and hope, will be proclaimed! We assert that we still believe!  We believe - even when our world is shaking and uncertain and in the darkness. We we still believe - even now!!Just as a Jewish poet during the holocaust, once said:</p>
-                        <p>I believe in the sun even when it's not shining<br/>
-                        I believe in love even when I don't feel it.<br/>
-                        I believe in God even when He is silent.</p>
-                        <!-- <img class='small' alt='God Sightings magnifying glass' src='/uploads/events/gratitude.jpg'> -->
+                        <img class="float" alt='Epiphany stars' src='/uploads/events/epiphany.png'>
+                        <h3>Epiphany Star Words</h3>
+                        <p>Epiphany begins on January 6. This is the day we celebrate the wise men from the East following a star to see the baby Jesus in Bethlehem. Each year we ourselves randomly select a star with a word on it and use that word as a source of prayer and meditation for the year ahead. Just like the wise men, we are invited to follow our individual star and open our hearts and minds to see where it takes us in 2021. May God inspire and bless us as we journey with Him, following the star!</p>
+                        <div class="side-by-side">
+                            <Starwords/>
+                            <p>Click on the star to have a word generated for you. You may also go to <a target="_blank" href="http://dayspring.com/yourwordquiz#/home">Dayspring</a> and answer 7 questions to find your 2021 word for the year.</p>
+                        </div>
                     </div>
                 </div>
     
@@ -326,6 +329,14 @@
 
 <style lang='scss'>
     @import 'style/variables.scss';
+
+    .side-by-side {
+        @media #{$notMobile} {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: center;
+        }
+    }
 
     .givebutton {
         background-color: rgb(0, 155, 0);
