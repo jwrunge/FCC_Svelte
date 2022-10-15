@@ -16,7 +16,7 @@
                 <strong>Contemporary Service</strong> - 8:30 AM<br>
                 <strong>Traditional Service</strong> - 11 AM
                 </p>
-                <p class='centered'>Sunday school is available for all ages between services - <a href='#learn'>learn more!</a></p>
+                <!-- <p class='centered'>Sunday school is available for all ages between services - <a href='#learn'>learn more!</a></p> -->
             </div>
 
             <div class='two-content'>

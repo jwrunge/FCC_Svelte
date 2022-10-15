@@ -3,23 +3,23 @@
 function getNewsletters($startIndex, $endIndex, $dir = 'desc') {
     $files = scandir(dirname(__FILE__) . "/../newsletters");
 
-    if($dir == 'asc') {sort($files);}
-    else {rsort($files);}
+    // if($dir == 'asc') {sort($files);}
+    // else {rsort($files);}
 
-    $limit = [];
-    for($i=$startIndex; $i<$endIndex; $i++) {
-        if(isset($files[$i])) {
-            if($files[$i] != '.' && $files[$i] != '..') {
-                array_push($limit, $files[$i]);
-            }
-            else {
-                $endIndex += 1;
-            }
-        }
-    }
+    // $limit = [];
+    // for($i=$startIndex; $i<$endIndex; $i++) {
+    //     if(isset($files[$i])) {
+    //         if($files[$i] != '.' && $files[$i] != '..') {
+    //             array_push($limit, $files[$i]);
+    //         }
+    //         else {
+    //             $endIndex += 1;
+    //         }
+    //     }
+    // }
 
     $newsletters = [];
-    foreach($limit as $nl) {
+    foreach($files as $nl) {
         $filename = dirname(__FILE__) . "/../newsletters/" . $nl;
 
         if(file_exists($filename)) {

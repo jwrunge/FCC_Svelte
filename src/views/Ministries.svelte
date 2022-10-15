@@ -18,7 +18,7 @@
             <p><strong>This section is under construction!</strong></p>
             <p>More information coming very soon. Thanks for your patience!</p>
 
-            <div class='attention-box'>
+            <!-- <div class='attention-box'>
                 <h3 id='classes'>Sunday School Classes</h3>
                 <ul>
                 <li><strong>Elementary</strong> - K-5th grade; 2nd Floor Education Building</li>
@@ -29,7 +29,7 @@
                 <li><strong>Travelers</strong> - South Side of Large Hall</li>
                 <li><strong>Northern Lights</strong> - Room #17 in Education Building</li>
                 </ul>
-            </div>
+            </div> -->
 
             <h2>The Blessing Box</h2>
             <div>

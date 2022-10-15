@@ -43,7 +43,12 @@
                 </div>
             {:else}
                 <div class="news-grid">
-                    {#each newsletters.sort((a,b)=> new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getTime() - new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getTime()) as newsletter}
+                    {#each newsletters.sort((a,b)=> {
+                        let adate = new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i))
+                        let bdate = new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i))
+                        console.log(adate, bdate)
+                        return bdate - adate
+                     }).reverse() as newsletter}
                         <a target="_blank" href={newsletter} class="newsletter">
                             <img src={bgImages[Math.floor(Math.random(bgImages.length) * 3)]} alt="">
                             <span>{(new Date(newsletter.slice(0, -4))).toLocaleDateString()}</span>
@@ -52,13 +57,13 @@
                 </div>
             {/if}
 
-            <div class="centered mt2">
+            <!-- <div class="centered mt2">
                 {#if showing <= totalResultsPossible}
                     <a href="#moreNls" on:click|preventDefault={getMoreNewsletters}>More newsletters</a>
                 {:else}
                     No more newsletters
                 {/if}
-            </div>
+            </div> -->
         </div>
     </div>
 </div>
