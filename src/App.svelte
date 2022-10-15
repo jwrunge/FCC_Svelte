@@ -115,6 +115,17 @@
         }
     }
 
+    let frontpage = null
+    function get_frontpage() {
+        fetch("data/frontpage.json")
+        .then(res=> res.json())
+        .then(data=> frontpage = data)
+        .catch(e=> {
+            console.error(e)
+            frontpage = null
+        })
+    }
+
     onMount(()=> {
         if(Object.keys(page).includes(window.location.hash.split('/')[0]))
             curPage = window.location.hash.split('/')[0]
@@ -133,10 +144,13 @@
         .then(data=> data.json())
         .then(video=> {
             latestVid = JSON.parse(video.results[0])
+            console.log(latestVid)
         })
         .catch(e=> {
             console.log(e)
         })
+
+        get_frontpage()
     })
 
     $: subpageOpen = curPage && curPage != '#home' ? true : false
@@ -188,7 +202,7 @@
         <!-- <img bind:this={infoboxImage} class='bg' src="/primary-images/worshipservice.jpg" alt="" style={"transform: translateY(-25%) translateY(" + infoTop/5 + "px);"}> -->
         <div class="worship-times">
             <h3>Sunday Worship</h3>
-            <div>Building closed due to COVID-19. <a href="#worship">Join us for worship online!</a></div>
+            <div>Gathering Sundays at 9:30am<br/>or <a href="#worship">worship with us online!</a></div>
             <!-- <hr>
             <div>Worshipping outside Sundays at 9:30am, weather permitting... <a href="#sermons">or join us online!</a></div> -->
             <!-- <div>Contemporary: 8:30am</div>
@@ -218,14 +232,24 @@
                 <div class="box">
                     <h2>What's going on now at FCC Galesburg?</h2>
                     <div class='current-events'>
-                        <img class="float" alt='Epiphany stars' src='/uploads/events/epiphany.png'>
-                        <h3>Epiphany Star Words</h3>
-                        <p>Epiphany begins on January 6. This is the day we celebrate the wise men from the East following a star to see the baby Jesus in Bethlehem. Each year we ourselves randomly select a star with a word on it and use that word as a source of prayer and meditation for the year ahead. Just like the wise men, we are invited to follow our individual star and open our hearts and minds to see where it takes us in 2021. May God inspire and bless us as we journey with Him, following the star!</p>
-                        <div class="side-by-side">
-                            <Starwords/>
-                            <p>Click on the star to have a word generated for you. You may also go to <a target="_blank" href="http://dayspring.com/yourwordquiz#/home">Dayspring</a> and answer 7 questions to find your 2021 word for the year.</p>
-                        </div>
+                        {#if frontpage && frontpage.file}
+                            <img class="float" alt='' src='{frontpage.file}'>
+                        {/if}
+                        <h3>{frontpage ? frontpage.header : "Spreading the Love of God"}</h3>
+                        {#if frontpage && frontpage.content}
+                            {frontpage.content}
+                        {:else}
+                            <p><strong>Our Identity</strong> We are Disciples of Christ, a movement for wholeness in a fragmented world. As part of the one body of Christ, we welcome all to the Lord’s Table as God has welcomed us.</p>
+                            <p><strong>Our Vision</strong> To be a faithful, growing church, that demonstrates true community, deep Christian spirituality and a passion for justice. <em>- Micah 6:8</em></p>
+                            <p><strong>Our Mission</strong> To be and to share the Good News of Jesus Christ, witnessing, loving and serving from our doorsteps "to the ends of the earth." <em>- Acts 1:8</em> And as First Christian in Galesburg, our mission is Growing Spirit-filled, committed disciples of Christ.</p>
+                        {/if}
                     </div>
+                    <!-- <div class='current-events'>
+                        <img class="float" alt='"Transformed" sermon series' src='/uploads/events/transformed.jpg'>
+                        <h3>Transformed</h3>
+                        <p>Based on Romans 12:2, this series will look at the health of our body, mind, and spirit – and the transforming power of Jesus Christ. It is said that 40% of US Adults have reported dissatisfaction with their mental & emotional well-being due to the pandemic. People are hurting for many reasons... and it is so important for us all to know that God has a plan to transform us in every area of our lives, for His glory.</p>
+                        <p>Be sure to contact <a href="#staff">Pastor MJ</a> if you are interested in materials for the accompanying study for families and small groups!</p>
+                    </div> -->
                 </div>
     
                 {#if latestVid}
@@ -245,6 +269,20 @@
                     {/if}
                 {/if}
             </div>
+            <!-- <div class="inner wider mt">
+                <div class="box">
+                    <div class="current-events">
+                        <div>
+                            <h3>Epiphany Star Words</h3>
+                            <p>Epiphany begins on January 6. This is the day we celebrate the wise men from the East following a star to see the baby Jesus in Bethlehem. Each year we ourselves randomly select a star with a word on it and use that word as a source of prayer and meditation for the year ahead. Just like the wise men, we are invited to follow our individual star and open our hearts and minds to see where it takes us in 2021. May God inspire and bless us as we journey with Him, following the star!</p>
+                            <p>Click on the star to have a word generated for you. You may also go to <a target="_blank" href="http://dayspring.com/yourwordquiz#/home">Dayspring</a> and answer 7 questions to find your 2021 word for the year.</p>
+                        </div>
+                        <div>
+                            <Starwords/>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
         </div>
     
         <div class='events' id="events">
@@ -650,6 +688,10 @@
             width: 45em;
             box-sizing: border-box;
 
+            &.wider {
+                width: 60em;
+            }
+
             @media screen and (max-width: 500px) {
                 padding-left: 0;
                 padding-right: 0;
@@ -712,12 +754,17 @@
 
                 img.float {
                     max-width: 100%;
+                    max-height: 15em;
                     margin: 0 auto 2em auto;
 
                     @media #{$notMobile} {
                         max-width: 50%;
                         float: right;
                         margin: 0 1em 1em 1em;
+
+                        &.left {
+                            float: left;
+                        }
                     }
                 }
 
@@ -725,6 +772,10 @@
                     max-width: 60%;
                 }
             }
+        }
+
+        .inner + .inner {
+            padding-top: 1em;
         }
     }
 
@@ -766,7 +817,13 @@
     }
 
     .fp-video-container {
-        margin-top: 4em;
+        margin-left: 1em;
+        margin-right: 1em;
+
+        @media #{$notMobile} {
+            margin-top: 4em;
+        }
+
         h2 { margin-bottom: .5em; }
     }
 

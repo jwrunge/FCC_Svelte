@@ -43,10 +43,10 @@
                 </div>
             {:else}
                 <div class="news-grid">
-                    {#each newsletters.sort((a,b)=> new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).valueOf() - new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).valueOf()) as newsletter}
+                    {#each newsletters.sort((a,b)=> new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getTime() - new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getTime()) as newsletter}
                         <a target="_blank" href={newsletter} class="newsletter">
                             <img src={bgImages[Math.floor(Math.random(bgImages.length) * 3)]} alt="">
-                            <span>{(new Date(newsletter.slice(0, -4))).toDateString()}</span>
+                            <span>{(new Date(newsletter.slice(0, -4))).toLocaleDateString()}</span>
                         </a>
                     {/each}
                 </div>

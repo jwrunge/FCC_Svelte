@@ -36,7 +36,8 @@
             <h1>Worship Services</h1>
             <div class='attention-box centered'>
                 <h3>Join Us for Worship!</h3>
-                <div>Building closed due to COVID-19</div>
+                <div>Worshipping in-person Sundays at 9:30am</div>
+                <div>Live worship streamed on <a href="https://www.facebook.com/First-Christian-Church-Disciples-of-Christ-Galesburg-Illinois-108822552519210/">Facebook</a></div>
                 <!-- <hr>
                 <div>Worshipping outside Sundays at 9:30am, weather permitting... or join us online &mdash; worship videos are below!</div> -->
                 <!-- <p class='centered'>
@@ -88,9 +89,13 @@
                 {:then mans}
                     <div class="manuscript-list" in:fade={{delay: 500}} out:fade>
                         <ul>
-                            {#each mans.sort((a,b)=> new Date(b.date).valueOf() - new Date(a.date).valueOf()) as man}
+                            {#each mans.sort((a,b)=> new Date(b.date).getTime() - new Date(a.date).getTime()) as man}
                                 <li>
-                                    <a target='_blank' href="data/manuscripts/{man.file}"><strong>{man.title}</strong> - {man.series} - {(new Date(man.date).toLocaleDateString({timezone: "CDT"}))}</a>
+                                    <a target='_blank' href="data/manuscripts/{man.file}"><strong>{man.title}</strong> - {man.series} - {(()=> { 
+                                        let parts = man.date.split("-")
+                                        parts[2] = parts[2].replace(/ .*?$/,"") //Remove timezone
+                                        return `${parts[1]}/${parts[2]}/${parts[0]}`
+                                    })()}</a>
                                 </li>
                             {/each}
                         </ul>
