@@ -202,7 +202,7 @@
         <!-- <img bind:this={infoboxImage} class='bg' src="/primary-images/worshipservice.jpg" alt="" style={"transform: translateY(-25%) translateY(" + infoTop/5 + "px);"}> -->
         <div class="worship-times">
             <h3>Sunday Worship</h3>
-            <div>Gathering Sundays at 9:30am<br/>or <a href="#worship">worship with us online!</a></div>
+            <div>Gathering Sundays at 10am<br/>or <a href="#worship">worship with us online!</a></div>
             <!-- <hr>
             <div>Worshipping outside Sundays at 9:30am, weather permitting... <a href="#sermons">or join us online!</a></div> -->
             <!-- <div>Contemporary: 8:30am</div>

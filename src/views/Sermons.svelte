@@ -36,7 +36,7 @@
             <h1>Worship Services</h1>
             <div class='attention-box centered'>
                 <h3>Join Us for Worship!</h3>
-                <div>Worshipping in-person Sundays at 9:30am</div>
+                <div>Worshipping in-person Sundays at 10am</div>
                 <div>Live worship streamed on <a href="https://www.facebook.com/First-Christian-Church-Disciples-of-Christ-Galesburg-Illinois-108822552519210/">Facebook</a></div>
                 <!-- <hr>
                 <div>Worshipping outside Sundays at 9:30am, weather permitting... or join us online &mdash; worship videos are below!</div> -->
