@@ -2,8 +2,8 @@ import svelte from 'rollup-plugin-svelte';
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
-import babel from 'rollup-plugin-babel'
+import terser from '@rollup/plugin-terser';
+import babel from '@rollup/plugin-babel'
 import postcssPresetEnv from 'postcss-preset-env'
 import postcss from 'rollup-plugin-postcss'
 import sveltePreprocess from 'svelte-preprocess'
