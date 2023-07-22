@@ -13,10 +13,10 @@
                 <a target='_blank' href='https://www.google.com/maps/place/First+Christian+Church/@40.9512658,-90.3730744,17z/data=!3m1!4b1!4m5!3m4!1s0x87e1be068de92a53:0x80655c07ce1123a!8m2!3d40.9512658!4d-90.3708857'>Directions</a>
                 <a target='_blank' href='https://www.facebook.com/First-Christian-Church-Disciples-of-Christ-Galesburg-Illinois-108822552519210/'>Facebook</a>
             </div> -->
-    
+<!--     
             <h2>Education</h2>
             <p><strong>This section is under construction!</strong></p>
-            <p>More information coming very soon. Thanks for your patience!</p>
+            <p>More information coming very soon. Thanks for your patience!</p> -->
 
             <!-- <div class='attention-box'>
                 <h3 id='classes'>Sunday School Classes</h3>
@@ -50,7 +50,8 @@
 
             <h2>New City Church</h2>
             <div>
-                <img style='float: left; margin: 0; margin-right: 1em; margin-bottom: 1em;' src="uploads/events/together.jpg" alt="">
+                <!-- <img style='float: left; margin: 0; margin-right: 1em; margin-bottom: 1em;' src="uploads/events/together.jpg" alt=""> -->
+                <img style='float: left; margin: 0; margin-right: 1em; margin-bottom: 1em;' src="uploads/newImages/Oscar Pekombe and us.jpg" alt="">
                 <div>
                     <p>FCC has had a connection with the Democratic Republic of Congo for decades. The relationship began when Dr. Gene and Sue Johnson joined our congregation after serving as missionaries in the African nation.  Dr. Johnson spent two terms, 1957-1964 and 1967-1971, in Monieka where he oversaw the medical work and also taught in the school for children of missionaries.  His wife, Sue, supervised back country schools and station finances as well as taught her children in primary grades.</p>
                     <p>The Johnson’s shared their love and concern with our congregation and over fifteen years ago a partnership or jumelage began with New City Church (Nouvelle Cite’ Parish) in Mbandaka, DRC.  Each congregation supports the other through prayer and communicating aspects of church life and family and community needs.  Funds are sent to our sister church annually to support a project that improves quality of life for our brothers and sisters in Mbandaka.  We proudly supported microcredit courses that teach women to sew and provide for their families, school supply kiosks at the church which provide affordable supplies and school uniforms, funds to build a new parsonage, wells for potable water and financial support for a much needed new church building.</p>
