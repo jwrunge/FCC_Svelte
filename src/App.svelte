@@ -95,10 +95,10 @@
         }
     }
 
-    function showAllEvents(events) {
-        allEvents = events
-        allEventsModalOpen = true
-    }
+    // function showAllEvents(events) {
+    //     allEvents = events
+    //     allEventsModalOpen = true
+    // }
 
     function openCalendarModal(event) {
         curEvent = event
@@ -285,53 +285,61 @@
             </div> -->
         </div>
     
-        <div class='events' id="events">
-            <img bind:this={eventsImage} class='bg' src="/primary-images/church.jpg" alt="" style={"transform: translateY(-25%) translateY(" + eventsTop/5 + "px);"}>
-            <div class="inner">
-                <h2>Upcoming Events at FCC</h2>
-                <ul>
-                    {#await getPageData('/data/events.json')}
+        {#await getPageData('/data/events.json')}
+            <div class='events' id="events">
+                <img bind:this={eventsImage} class='bg' src="/primary-images/church.jpg" alt="" style={"transform: translateY(-25%) translateY(" + eventsTop/5 + "px);"}>
+                <div class="inner">
+                    <h2>Upcoming Events at FCC</h2>
+                    <ul>
                         <div class='loader'>
                             <img src='/icons/loading.svg' alt='loading content'>
                         </div>
-                    {:then events}
-                        {#if events && (events.sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
-                                .filter(event=> (new Date(event.date)).getTime() > Date.now())
-                                .slice(0, 5)).length > 0}
-                            {#each events
-                                .sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
-                                .filter(event=> (new Date(event.date)).getTime() > Date.now())
-                                .slice(0, 5)
-                            as event, i}
-                                {#if changeEventMonth(event, true)}
-                                    <h3>{changeEventMonth(event, false)}</h3>
-                                {/if}
-                                <li>
-                                    <div class="overflow-box">
-                                        <strong>{event.name}</strong> - {new Date(event.date).toLocaleString('en-US', { dateStyle: "short", timeStyle: "short", timeZone: 'America/Chicago' })}
-                                    </div>
-                                    <div class='overflow-box'>
-                                        {@html event.description}
-                                    </div>
-                                    <div class="right-align event-links">
-                                        <a href="#singleevent/{i}">View event</a> | 
-                                        <a href="#events/{i}" on:click|preventDefault={()=>{ openCalendarModal(event) }}>Add to calendar</a>
-                                    </div>
-                                </li>
-                            {/each}
-
-                            {#if events.length > 5}
-                                <div class="centered eventBtn">
-                                    <a href="#allevents">Show all events</a>
-                                </div>
-                            {/if}
-                        {:else}
-                            <li>No events found.</li>
-                        {/if}
-                    {/await}
-                </ul>
+                    </ul>
+                </div>
             </div>
-        </div>
+        {:then events}
+            {#if events && (events.sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+                    .filter(event=> (new Date(event.date)).getTime() > Date.now())
+                    .slice(0, 5)).length > 0}
+                    <div class='events' id="events">
+                        <img bind:this={eventsImage} class='bg' src="/primary-images/church.jpg" alt="" style={"transform: translateY(-25%) translateY(" + eventsTop/5 + "px);"}>
+                        <div class="inner">
+                            <h2>Upcoming Events at FCC</h2>
+                            <ul>
+                                {#each events
+                                    .sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+                                    .filter(event=> (new Date(event.date)).getTime() > Date.now())
+                                    .slice(0, 5)
+                                as event, i}
+                                    {#if changeEventMonth(event, true)}
+                                        <h3>{changeEventMonth(event, false)}</h3>
+                                    {/if}
+                                    <li>
+                                        <div class="overflow-box">
+                                            <strong>{event.name}</strong> - {new Date(event.date).toLocaleString('en-US', { dateStyle: "short", timeStyle: "short", timeZone: 'America/Chicago' })}
+                                        </div>
+                                        <div class='overflow-box'>
+                                            {@html event.description}
+                                        </div>
+                                        <div class="right-align event-links">
+                                            <a href="#singleevent/{i}">View event</a> | 
+                                            <a href="#events/{i}" on:click|preventDefault={()=>{ openCalendarModal(event) }}>Add to calendar</a>
+                                        </div>
+                                    </li>
+                                {/each}
+
+                                {#if events.length > 5}
+                                    <div class="centered eventBtn">
+                                        <a href="#allevents">Show all events</a>
+                                    </div>
+                                {/if}
+                            </ul>
+                        </div>
+                    </div>
+            {:else}
+                <li>No events found.</li>
+            {/if}
+        {/await}
     
         <!-- <div class='section quicklinks'>
             <div class="inner">
