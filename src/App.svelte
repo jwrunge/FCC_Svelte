@@ -196,6 +196,12 @@
     
     <!-- Background slideshow -->
     <Slideshow scrollTop={scrollTop} {subpageOpen} {header} {getPageData}/>
+
+    <!-- Closed message -->
+    <div class="closed-message">
+        <h3>Church building closed for Sunday worship, 1/14/24</h3>
+        <p>Due to inclement weather, the church will be closed for Sunday morning worship on 1/14/24. Please join us on Facebook for online worship.</p>
+    </div>
     
     <!-- Information box -->
     <div class="infobox">
