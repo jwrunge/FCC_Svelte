@@ -203,16 +203,7 @@
         <div class="worship-times">
             <h3>Sunday Worship</h3>
             <div>Gathering Sundays at 10am<br/>or <a href="#worship">worship with us online!</a></div>
-            <!-- <hr>
-            <div>Worshipping outside Sundays at 9:30am, weather permitting... <a href="#sermons">or join us online!</a></div> -->
-            <!-- <div>Contemporary: 8:30am</div>
-            <div>Traditional: 11am</div>
-            <hr>
-            <div class='ss-classes'>All-ages Sunday School: 9:30am</div> -->
         </div>
-        <!-- <a id='giveonline' target='_blank' style='display: none' href="https://tithe.ly/give?c=1478951">Give online</a>
-            <button class='givebutton' on:click={()=>{ document.getElementById('giveonline').click() }}><img src='icons/tithely.svg' alt='tithely logo'><br>Give Online Securely</button>
-        <a class='no-underline' href="#current"><button class='not-mobile'>Learn More</button></a> -->
         <div class='quicklinks'>
             <div class="inner">
                 <a href="#sermons"><img src='/icons/round/sermons.svg' alt='Sermons'><span class='linklabel'><span class='inner'>Sermons</span></span></a>
@@ -244,12 +235,6 @@
                             <p><strong>Our Mission</strong> To be and to share the Good News of Jesus Christ, witnessing, loving and serving from our doorsteps "to the ends of the earth." <em>- Acts 1:8</em> And as First Christian in Galesburg, our mission is Growing Spirit-filled, committed disciples of Christ.</p>
                         {/if}
                     </div>
-                    <!-- <div class='current-events'>
-                        <img class="float" alt='"Transformed" sermon series' src='/uploads/events/transformed.jpg'>
-                        <h3>Transformed</h3>
-                        <p>Based on Romans 12:2, this series will look at the health of our body, mind, and spirit – and the transforming power of Jesus Christ. It is said that 40% of US Adults have reported dissatisfaction with their mental & emotional well-being due to the pandemic. People are hurting for many reasons... and it is so important for us all to know that God has a plan to transform us in every area of our lives, for His glory.</p>
-                        <p>Be sure to contact <a href="#staff">Pastor MJ</a> if you are interested in materials for the accompanying study for families and small groups!</p>
-                    </div> -->
                 </div>
     
                 {#if latestVid}
@@ -270,20 +255,6 @@
                     {/if}
                 {/if}
             </div>
-            <!-- <div class="inner wider mt">
-                <div class="box">
-                    <div class="current-events">
-                        <div>
-                            <h3>Epiphany Star Words</h3>
-                            <p>Epiphany begins on January 6. This is the day we celebrate the wise men from the East following a star to see the baby Jesus in Bethlehem. Each year we ourselves randomly select a star with a word on it and use that word as a source of prayer and meditation for the year ahead. Just like the wise men, we are invited to follow our individual star and open our hearts and minds to see where it takes us in 2021. May God inspire and bless us as we journey with Him, following the star!</p>
-                            <p>Click on the star to have a word generated for you. You may also go to <a target="_blank" href="http://dayspring.com/yourwordquiz#/home">Dayspring</a> and answer 7 questions to find your 2021 word for the year.</p>
-                        </div>
-                        <div>
-                            <Starwords/>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
         </div>
     
         {#await getPageData('/data/events.json')}
@@ -341,15 +312,6 @@
                 <li>No events found.</li>
             {/if}
         {/await}
-    
-        <!-- <div class='section quicklinks'>
-            <div class="inner">
-                <a href="#staff"><img src='/icons/staff.svg' alt='Staff'><span class='linklabel'><span class='inner'>Staff</span></span></a>
-                <a href="#sermons"><img src='/icons/sermons.svg' alt='Sermons'><span class='linklabel'><span class='inner'>Sermons</span></span></a>
-                <a href="#newsletters"><img src='/icons/newsletters.svg' alt='Newsletters'><span class='linklabel'><span class='inner'>Newsletters</span></span></a>
-                <a href='https://www.facebook.com/First-Christian-Church-Disciples-of-Christ-Galesburg-Illinois-108822552519210/' target="_blank"><img src='/icons/facebooklogo.svg' alt='Facebook'><span class='linklabel'><span class='inner'>Facebook</span></span></a>
-            </div>
-        </div> -->
     
         <LoveBox {loveTop} {getPageData} bind:loveImage/>
     
