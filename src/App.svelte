@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import {fly, fade, scale} from 'svelte/transition'
     import {onMount} from 'svelte'
 
@@ -69,7 +69,7 @@
     }
     let curPage = ""
 
-    function getPageData(loc) {
+    function getPageData(loc): Promise<any[] | undefined> {
         return new Promise((resolve, reject)=> {
             fetch(loc)
                 .then(res=> res.json())
@@ -83,8 +83,8 @@
 
     let previousMonth
     function changeEventMonth(event, skipSet = false) {
-        let newMonth = new Date(event.date).getMonth()
-        newMonth = months[newMonth]
+        let monthnum = new Date(event.date).getMonth()
+        let newMonth = months[monthnum]
 
         if(previousMonth && newMonth === previousMonth) return false
         
@@ -196,12 +196,6 @@
     
     <!-- Background slideshow -->
     <Slideshow scrollTop={scrollTop} {subpageOpen} {header} {getPageData}/>
-
-    <!-- Closed message -->
-    <div class="closed-message">
-        <h3>Church building closed for Sunday worship, 1/14/24</h3>
-        <p>Due to inclement weather, the church will be closed for Sunday morning worship on 1/14/24. Please join us on Facebook for online worship.</p>
-    </div>
     
     <!-- Information box -->
     <div class="infobox">
@@ -266,9 +260,10 @@
                                 {#if latestVid.type && latestVid.type == "onsite"}
                                     <video controls poster={latestVid.poster}>
                                         <source src={latestVid.src} type="video/mp4">
+                                        <track kind="captions">
                                     </video>
                                 {:else}
-                                    <iframe title={latestVid.title} src={latestVid.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media" allowFullScreen="true"></iframe>
+                                    <iframe title={latestVid.title} src={latestVid.src} width="560" height="487" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency={true} allow="encrypted-media" allowFullScreen={true}></iframe>
                                 {/if}
                             </div>
                         </div>
@@ -304,7 +299,7 @@
                 </div>
             </div>
         {:then events}
-            {#if events && (events.sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+            {#if events && ((events).sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
                     .filter(event=> (new Date(event.date)).getTime() > Date.now())
                     .slice(0, 5)).length > 0}
                     <div class='events' id="events">
@@ -368,7 +363,9 @@
 {#if subpageOpen}
     <div class='subpage' transition:fade>
         <svelte:component this={page[curPage]} {getPageData}>
-            <div on:click={()=> window.history.back()} href="#home" class="back-arrow"><img src="/icons/back.svg" alt="Back to main page"></div>
+            <div role="button" tabindex=0 on:click={()=> window.history.back()} on:keydown={(event) => {if (event.key === 'Enter') window.history.back()}} class="back-arrow">
+                <img src="/icons/back.svg" alt="Back to main page">
+            </div>
             <Navigation bind:mobileOpen bind:curPage {subpageOpen} subpageStyle={true} {scrollTop} {main}/>
         </svelte:component>
     </div>
@@ -381,34 +378,6 @@
 
 <style lang='scss'>
     @import 'style/variables.scss';
-
-    .side-by-side {
-        @media #{$notMobile} {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-        }
-    }
-
-    .givebutton {
-        background-color: rgb(0, 155, 0);
-        img {
-            max-width: 8em;
-            margin-bottom: .5em;
-        }
-    }
-
-    button {
-        min-width: 12em;
-    }
-
-    .not-mobile {
-        display: none;
-        @media #{$notMobile} {
-            display: block;
-        }
-    }
-
     //Header and other info over the top of the slideshow
     .forefront-content {
         position: relative;
@@ -597,10 +566,6 @@
 
     // Information box
     .infobox {
-        img.bg {
-            object-position: 100% 50%;
-        }
-
         overflow: hidden;
         transform: translateY(98vh);
         background: $lightgray;
@@ -608,13 +573,6 @@
         padding: 3em 0 6em 0;
         text-align: center;
         font-size: 1.1em;
-
-        hr {
-            width: 70%;
-            border: none;
-            background-color: black;
-            height: .5px;
-        }
 
         @media #{$notMobile} and (max-width: 1300px) {
             font-size: 1em;
@@ -636,8 +594,6 @@
 
             width: 30vw;
             margin-bottom: 2em;
-
-            img.bg { display: none; }
         }
 
         .worship-times {          
@@ -701,10 +657,6 @@
             max-width: 100%;
             width: 45em;
             box-sizing: border-box;
-
-            &.wider {
-                width: 60em;
-            }
 
             @media screen and (max-width: 500px) {
                 padding-left: 0;
@@ -775,21 +727,9 @@
                         max-width: 50%;
                         float: right;
                         margin: 0 1em 1em 1em;
-
-                        &.left {
-                            float: left;
-                        }
                     }
                 }
-
-                img.small {
-                    max-width: 60%;
-                }
             }
-        }
-
-        .inner + .inner {
-            padding-top: 1em;
         }
     }
 
@@ -841,61 +781,6 @@
         h2 { margin-bottom: .5em; }
     }
 
-    //Quick links
-    // .section.quicklinks {
-    //     background: $accent-color;
-    //     background: radial-gradient(lighten($accent-color, 15%), $accent-color);//linear-gradient($lightblue, darken($lightblue, 10%));
-    //     transform: skewY(-1.5deg);
-    //     padding: 3em 0 6em 0;
-
-    //     border-top: 1px solid darken($accent-color, 20%);
-    // }
-
-    // .section.quicklinks > .inner {
-    //     max-width: 45em;
-    //     display: grid;
-    //     grid-template-columns: 1fr 1fr;
-    //     margin: 5em auto 5em auto;
-    //     align-items: center;
-    //     justify-items: center;
-    //     transform: skewY(1.5deg);
-
-    //     @media screen and (min-width: 700px) {
-    //         grid-template-columns: 1fr 1fr 1fr 1fr;
-    //     }
-
-    //     img {
-    //         max-width: 5em;
-    //         margin: 1em 1em;
-    //         transition: transform .3s ease-in-out;
-
-    //         @media #{$notMobile} {
-    //             max-width: 8em;
-    //         }
-    //     }
-
-    //     a { 
-    //         position: relative; 
-    //         color: $red; 
-            
-    //         &:hover {
-    //             filter: brightness(1.2);
-
-    //             img {
-    //                 transform: scale(1.1);
-    //             }
-    //         }
-    //     }
-
-    //     .linklabel {
-    //         display: block;
-    //         margin: 0 auto 2em auto;
-    //         text-align: center;
-    //         text-decoration: none;
-    //         font-weight: bold;
-    //     }
-    // }
-
     .footer {
         color: black;
         padding: 3em 0 8em 0;
@@ -911,10 +796,5 @@
             font-size: 1.2em;
             margin-bottom: .4em;
         }
-    }
-
-    .modal .inner.wider {
-        max-width: 90%;
-        width: 60em;
     }
 </style>
