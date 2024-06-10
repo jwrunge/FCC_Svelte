@@ -159,6 +159,11 @@
 <div class="main" bind:this={main}>
     <!-- Nav (main screen) -->
     <Navigation bind:mobileOpen bind:curPage {scrollTop} {subpageOpen} {main}/>
+
+    <div class="closed-message">
+        <h3>Church building closed for Sunday worship, 1/14/24</h3>
+        <p>Due to inclement weather, the church will be closed for Sunday morning worship on 1/14/24. Please join us on Facebook for online worship.</p>
+    </div>
     
     <!-- Decorative angle, logo, and CTAs -->
     <div class="forefront-content">
@@ -207,8 +212,7 @@
     <div class="infobox">
         <!-- <img bind:this={infoboxImage} class='bg' src="/primary-images/worshipservice.jpg" alt="" style={"transform: translateY(-25%) translateY(" + infoTop/5 + "px);"}> -->
         <div class="worship-times">
-            <h3>Sunday Worship</h3>
-            <div>Gathering Sundays at 10am<br/>or <a href="#worship">worship with us online!</a></div>
+            <h3>Sunday Worship</h3> r <a href="#worship">worship with us online!</a></div>
             <!-- <hr>
             <div>Worshipping outside Sundays at 9:30am, weather permitting... <a href="#sermons">or join us online!</a></div> -->
             <!-- <div>Contemporary: 8:30am</div>
@@ -916,5 +920,22 @@
     .modal .inner.wider {
         max-width: 90%;
         width: 60em;
+    }
+
+    .closed-message {
+        background-color: $red;
+        color: white;
+        padding: 1em;
+        text-align: center;
+        margin-bottom: 1em;
+        position: fixed;
+        bottom: 5rem;
+        right: 0;
+        z-index: 100;
+
+        h3 {
+            margin: 0;
+            margin-bottom: .5em;
+        }
     }
 </style>

@@ -16,8 +16,8 @@
 
     let previousMonth
     function changeEventMonth(event, skipSet = false) {
-        let newMonth = new Date(event.date).getMonth()
-        newMonth = months[newMonth]
+        let monthNum = new Date(event.date).getMonth()
+        let newMonth = months[monthNum]
 
         if(previousMonth && newMonth === previousMonth) return false
         
