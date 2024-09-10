@@ -1,4 +1,4 @@
-import { cubicOut } from "eases-jsnext"
+import { cubicOut } from "svelte/easing";
 
 //This takes element position into account, unlike native fly
 export function flyModified(

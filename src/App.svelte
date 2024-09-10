@@ -133,7 +133,7 @@
 
         main.addEventListener('scroll', (e)=>{
             scrollTop = e.target.scrollTop
-            eventsTop = eventsImage.getBoundingClientRect().top
+            eventsTop = eventsImage?.getBoundingClientRect()?.top || 0
             loveTop = loveImage.getBoundingClientRect().top
             // infoTop = infoboxImage.getBoundingClientRect().top
         })
@@ -160,10 +160,10 @@
     <!-- Nav (main screen) -->
     <Navigation bind:mobileOpen bind:curPage {scrollTop} {subpageOpen} {main}/>
 
-    <div class="closed-message">
+    <!-- <div class="closed-message">
         <h3>Church building closed for Sunday worship, 1/14/24</h3>
         <p>Due to inclement weather, the church will be closed for Sunday morning worship on 1/14/24. Please join us on Facebook for online worship.</p>
-    </div>
+    </div> -->
     
     <!-- Decorative angle, logo, and CTAs -->
     <div class="forefront-content">
@@ -275,7 +275,7 @@
                 </div>
             </div>
         {:then events}
-            {#if events && ((events).sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
+            {#if events?.length && ((events).sort((a, b)=> (new Date(a.date)).getTime() - (new Date(b.date)).getTime())
                     .filter(event=> (new Date(event.date)).getTime() > Date.now())
                     .slice(0, 5)).length > 0}
                     <div class='events' id="events">
@@ -314,7 +314,9 @@
                         </div>
                     </div>
             {:else}
-                <li>No events found.</li>
+                <div class='events' id="events">
+                    <div class="inner"></div>
+                </div>
             {/if}
         {/await}
     
