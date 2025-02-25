@@ -383,6 +383,23 @@
 					{/if}
 				{/if}
 			</div>
+
+			<div class="womens inner">
+				<div class="box">
+					<h2>Women's Lenten Series 2025</h2>
+					<div class="current-events">
+						<img class="float" alt="" src={"/uploads/womens.png"} />
+						<h3>2025 Women's Lenten Series</h3>
+						<p>
+							Join us Wednesday mornings at 9:30am, March 5 to
+							April 9, 2025, for our 2025 Women's Lenten series. <a
+								href="/uploads/2025LentenFlyer.pdf"
+								>Click here for a schedules of talks.</a
+							>
+						</p>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		{#await getPageData("/data/events.json")}
