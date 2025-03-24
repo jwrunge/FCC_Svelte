@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 
 function get_video_code($embed_code) {
     $rx = "/(?<=src=[\"|\']).*?(?=[\"|\'])/";
@@ -159,9 +161,12 @@ if(isset($_POST['submit'])) {
         $jsonfile = fopen("data/frontpage.json", "w");
         $imgFilename = null;
 
-        if (!file_exists($_FILES['frontpageImage']['tmp_name'])) {
+        if (file_exists($_FILES['frontpageImage']['tmp_name'])) {
+            echo "GOT IMAGE FILE" . $_FILES['frontpageImage']['tmp_name'];
             $imgFilename = "uploads" . "/" . time() . "." . pathinfo($_FILES["frontpageImage"]["name"])["extension"];
         }
+
+        echo "IMG FILE NAME:" . $imgFilename;
 
         $fp_json = [
             "header"=> $_POST["frontpageName"],
@@ -173,7 +178,7 @@ if(isset($_POST['submit'])) {
         fwrite($jsonfile, json_encode($fp_json));
 
         //Place image file
-        if(!file_exists($_FILES['frontpageImage']['tmp_name'])) {
+        if($imgFilename && file_exists($_FILES['frontpageImage']['tmp_name'])) {
             $imgfile = fopen($imgFilename, "w");
             if(move_uploaded_file($_FILES["frontpageImage"]["tmp_name"], $imgFilename)) {
                 echo "<div class='msg'>The file ". basename( $_FILES["frontpageImage"]["name"]). " has been uploaded and frontpage data was set.</div>";
