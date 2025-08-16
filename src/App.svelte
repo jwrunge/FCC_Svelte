@@ -22,7 +22,7 @@
 	import Article from "./views/Article.svelte";
 
 	//Specials
-	import Starwords from "./specials/Starwords.svelte";
+	// import Starwords from "./specials/Starwords.svelte";
 
 	//Variables
 	let main;
@@ -383,23 +383,6 @@
 					{/if}
 				{/if}
 			</div>
-
-			<div class="womens inner">
-				<div class="box">
-					<h2>Women's Lenten Series 2025</h2>
-					<div class="current-events">
-						<img class="float" alt="" src={"/uploads/womens.png"} />
-						<h3>2025 Women's Lenten Series</h3>
-						<p>
-							Join us Wednesday mornings at 9:30am, March 5 to
-							April 9, 2025, for our 2025 Women's Lenten series. <a
-								href="/uploads/2025LentenFlyer.pdf"
-								>Click here for a schedules of talks.</a
-							>
-						</p>
-					</div>
-				</div>
-			</div>
 		</div>
 
 		{#await getPageData("/data/events.json")}
@@ -491,10 +474,10 @@
 				</div>
 			{/if}
 		{/await}
-
+		<!-- 
 		<Starwords />
 
-		<LoveBox {loveTop} {getPageData} bind:loveImage />
+		<LoveBox {loveTop} {getPageData} bind:loveImage /> -->
 
 		<div class="footer">
 			<div class="copy">
@@ -972,7 +955,7 @@
 
 	.footer {
 		color: black;
-		padding: 3em 0 8em 0;
+		padding: 8em 0 8em 0;
 		text-align: center;
 		// background: darken($lightblue, 10%); //linear-gradient(darken($lightblue, 10%), darken($lightblue, 20%));
 
