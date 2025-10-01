@@ -83,3 +83,35 @@ function json_error(string $message, int $status = 500): void {
     echo json_encode(['ok' => false, 'error' => $message]);
     exit;
 }
+
+function is_cli(): bool {
+    return php_sapi_name() === 'cli';
+}
+
+function enforce_login_guard(): void {
+    if (is_cli()) return; // don't guard CLI scripts
+    start_session_once();
+    $script = basename($_SERVER['SCRIPT_NAME'] ?? '');
+    // Allowlist: routes that must be reachable without login
+    $allow = [
+        'auth_login.php',
+        'auth_reset.php',
+        // Public data APIs used by the site without auth; remove if you want to fully lock down
+        'getSermons.php',
+        'getNewsletters.php',
+    ];
+    if (in_array($script, $allow, true)) return;
+    if (!current_user_id()) {
+        // If expecting JSON, return 401; otherwise redirect to login
+        $accept = $_SERVER['HTTP_ACCEPT'] ?? '';
+        if (stripos($accept, 'application/json') !== false) {
+            json_error('Unauthorized', 401);
+        }
+        header('Location: /data/php/auth_login.php');
+        http_response_code(302);
+        exit;
+    }
+}
+
+// Auto-enforce for any route that includes common.php (non-CLI)
+enforce_login_guard();
