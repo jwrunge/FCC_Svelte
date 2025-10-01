@@ -139,8 +139,9 @@
 							{#each mans.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()) as man}
 								<li>
 									<a
-										target="_blank"
-										href="data/manuscripts/{man.file}"
+										href={"/data/php/downloadManuscript.php?date=" +
+											encodeURIComponent(man.date)}
+										download
 										><strong>{man.title}</strong> - {man.series}
 										- {(() => {
 											let parts = man.date.split("-");
