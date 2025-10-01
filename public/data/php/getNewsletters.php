@@ -1,19 +1,10 @@
 <?php
 
 header('Content-Type: application/json');
-
-function get_pdo(): PDO {
-    $dbPath = __DIR__ . DIRECTORY_SEPARATOR . 'site.db';
-    $pdo = new PDO('sqlite:' . $dbPath);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $pdo;
-}
+require_once __DIR__ . '/common.php';
 
 function getNewsletters($startIndex, $endIndex, $dir = 'desc') {
-    $start = max(0, intval($startIndex));
-    $end = max(0, intval($endIndex));
-    $limit = max(0, $end - $start);
-    $direction = strtolower($dir) === 'asc' ? 'ASC' : 'DESC';
+    [$start, $limit, $direction] = get_pagination_from_get();
 
     try {
         $pdo = get_pdo();

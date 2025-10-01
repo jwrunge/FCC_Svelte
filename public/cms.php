@@ -2,6 +2,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 'On');
 
+require_once __DIR__ . '/data/php/common.php';
+
 function get_video_code($embed_code) {
     $rx = "/(?<=src=[\"|\']).*?(?=[\"|\'])/";
     $matches = array();
@@ -18,147 +20,137 @@ if(isset($_POST['submit'])) {
         $formattedDate = date('m.d.y', strToTime($_POST['date']));
     }
 
-    // Handle sermon vid embed
+    // Handle sermon vid embed -> upsert into DB sermons table
     if($_POST["changed"] == "sermon_video") {
         $url = get_video_code($_POST["embed_code"]);
         if(!$url) echo "<div class='msg err'>There was an error with your embed code. Please double-check it.</div>";
         else {
             $formatted_date = date("Y-m-d", strToTime($_POST["date"]));
-
-            //Assemble JSON
-            $json_arr = [
-                "title"=> $_POST["title"],
-                "date"=> $formatted_date,
-                "src"=> $url
-            ];
-
-            $res = json_encode($json_arr);
-            
-            //Put file
-            $file = fopen("data/sermons/" . $formatted_date . ".json", "w");
-            fwrite($file, $res);
-            fclose($file);
-
-            echo "<div class='msg'>Added new sermon video.</div>";
+            try {
+                $pdo = get_pdo();
+                $sql = 'INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, :asset)
+                        ON CONFLICT(date) DO UPDATE SET
+                            title=COALESCE(excluded.title, sermons.title),
+                            src=COALESCE(excluded.src, sermons.src),
+                            asset=COALESCE(excluded.asset, sermons.asset)';
+                $stmt = $pdo->prepare($sql);
+                $stmt->execute([
+                    ':date' => $formatted_date,
+                    ':title' => $_POST['title'] ?? null,
+                    ':src' => $url,
+                    ':asset' => null,
+                ]);
+                echo "<div class='msg'>Added new sermon video.</div>";
+            } catch (Throwable $e) {
+                echo "<div class='msg err'>DB error adding sermon: " . htmlspecialchars($e->getMessage()) . "</div>";
+            }
         }
     }
 
-    // Handle manuscript upload
+    // Handle manuscript upload -> save file and upsert into DB manuscripts table
     if($_POST["changed"] == "manuscript") {
         $filename = date("m.d.y", strToTime($_POST["date"])) . ".pdf";
+        $series = $_POST["series"] ?? "";
 
-        //Open manuscripts json file and update
-        $series = $_POST["series"];
-        if(!$series) $series = "";
+        // Ensure directory exists
+        $dir = rtrim($_SERVER["DOCUMENT_ROOT"], '/') . "/data/manuscripts";
+        if (!is_dir($dir)) { @mkdir($dir, 0775, true); }
 
-        try {
-            if(file_exists("data/manuscripts.json")) {
-                $man_json = json_decode(file_get_contents("data/manuscripts.json"));
-            }
-            else {
-                fopen("data/manuscripts.json", "w");
-                $man_json = array();
-            }
-        }
-        catch(Exception $e) {
-            $man_json = array();
-        }
-
-        $added = [
-            "date"=> gmdate("Y-m-d", strToTime($_POST["date"])),
-            "title"=> $_POST["title"],
-            "series"=> $_POST["series"],
-            "file"=> $filename
-        ];
-
-        //Make sure we overwrite, not add
-        for($i=0; $i<count($man_json); $i++) {
-            if($man_json[$i]->date == gmdate("Y-m-d", strToTime($_POST["date"]))) unset($man_json[$i]);
-        }
-        $man_json = array_values($man_json);
-
-        //Push new
-        array_push($man_json, $added);
-
-        //Place manuscript file
-        $man_file = $_SERVER["DOCUMENT_ROOT"] . "/data/manuscripts/" . date("m.d.y", strToTime($_POST["date"])) . ".pdf";
-        
+        // Place manuscript file on disk
+        $man_file = $dir . "/" . $filename;
         if(move_uploaded_file($_FILES["manuscript"]["tmp_name"], $man_file)) {
             echo "<div class='msg'>The file ". basename( $_FILES["manuscript"]["name"]). " has been uploaded.</div>";
+            // Upsert into DB
+            try {
+                $pdo = get_pdo();
+                $sql = 'INSERT INTO manuscripts (date, title, series, file_name, mime_type, content)
+                        VALUES (:date, :title, :series, :file_name, :mime_type, :content)
+                        ON CONFLICT(date) DO UPDATE SET
+                            title=COALESCE(excluded.title, manuscripts.title),
+                            series=COALESCE(excluded.series, manuscripts.series),
+                            file_name=COALESCE(excluded.file_name, manuscripts.file_name),
+                            mime_type=COALESCE(excluded.mime_type, manuscripts.mime_type),
+                            content=COALESCE(excluded.content, manuscripts.content)';
+                $stmt = $pdo->prepare($sql);
+                $blob = file_get_contents($man_file);
+                $stmt->bindValue(':date', gmdate('Y-m-d', strToTime($_POST['date'])));
+                $stmt->bindValue(':title', $_POST['title'] ?? null);
+                $stmt->bindValue(':series', $series);
+                $stmt->bindValue(':file_name', $filename);
+                $stmt->bindValue(':mime_type', 'application/pdf');
+                $stmt->bindValue(':content', $blob, PDO::PARAM_LOB);
+                $stmt->execute();
+                echo "<div class='msg'>Added manuscript for " . htmlspecialchars($_POST['title']) . "</div>";
+            } catch (Throwable $e) {
+                echo "<div class='msg err'>DB error saving manuscript: " . htmlspecialchars($e->getMessage()) . "</div>";
+            }
         }
         else {
             echo "<div class='msg err'>Sorry, there was an error uploading your file.</div>";
         }
-
-        echo "<div class='msg'>Added manuscript for " . $_POST["title"] . "</div>";
-
-        //Replace manuscript json file
-        file_put_contents("data/manuscripts.json", json_encode($man_json));
     }
 
-    // Handle newsletter
+    // Handle newsletter -> save file and upsert into DB newsletters table
     if($_POST["changed"] == "newsletter") {
-        $file = $_SERVER["DOCUMENT_ROOT"] . "/data/newsletters/" . $formattedDate . ".pdf";
-        
-        if (move_uploaded_file($_FILES["newsletter"]["tmp_name"], $file)) {
+        $dir = rtrim($_SERVER["DOCUMENT_ROOT"], '/') . "/data/newsletters";
+        if (!is_dir($dir)) { @mkdir($dir, 0775, true); }
+        $filePath = $dir . "/" . $formattedDate . ".pdf";
+        if (move_uploaded_file($_FILES["newsletter"]["tmp_name"], $filePath)) {
             echo "<div class='msg'>The file ". basename( $_FILES["newsletter"]["name"]). " has been uploaded.</div>";
-        }
-        else {
+            try {
+                $pdo = get_pdo();
+                $sql = 'INSERT INTO newsletters (date, file_name, content)
+                        VALUES (:date, :file_name, :content)
+                        ON CONFLICT(file_name) DO UPDATE SET date=excluded.date';
+                $stmt = $pdo->prepare($sql);
+                $blob = file_get_contents($filePath);
+                $stmt->bindValue(':date', date('Y-m-d', strtotime($_POST['date'])));
+                $stmt->bindValue(':file_name', $formattedDate . '.pdf');
+                $stmt->bindValue(':content', $blob, PDO::PARAM_LOB);
+                $stmt->execute();
+            } catch (Throwable $e) {
+                echo "<div class='msg err'>DB error saving newsletter: " . htmlspecialchars($e->getMessage()) . "</div>";
+            }
+        } else {
             echo "<div class='msg err'>Sorry, there was an error uploading your file.</div>";
         }
     }
 
-    //Handle event addition
+    //Handle event addition -> upsert into DB events table
     if($_POST["changed"] == "calendar") {
         date_default_timezone_set('UTC');
-
-        //Open manuscripts json file and update
-        try {
-            if(file_exists("data/events.json")) {
-                $ev_json = json_decode(file_get_contents("data/events.json"));
-            }
-            else {
-                fopen("data/events.json", "w");
-                $ev_json = array();
-            }
-        }
-        catch(Exception $e) {
-            $ev_json = array();
-        }
 
         //Convert input date to UTC
         $dateTime = date($_POST["date"]);
         $newDateTime = new DateTime($dateTime);
         $newDateTime->setTimezone(new DateTimeZone("UTC"));
         $dateTimeUTC = $newDateTime->format("Y-m-d H:i:s");
-
-        $added = [
-            "date"=> $dateTimeUTC,
-            "name"=> $_POST["eventName"],
-            "description"=> $_POST["eventDescription"],
-            "duration"=> $_POST["eventDuration"],
-            "location"=> $_POST["eventLocation"]
-        ];
-
-        //Make sure we overwrite, not add
-        for($i=0; $i<count($ev_json); $i++) {
-            if(strtotime($ev_json[$i]->date) < strtotime("now")) unset($ev_json[$i]);
+        try {
+            $pdo = get_pdo();
+            $sql = 'INSERT INTO events (date, name, description, duration, location, reveal_date, soft_deleted)
+                    VALUES (:date, :name, :description, :duration, :location, :reveal_date, :soft_deleted)
+                    ON CONFLICT(date, name) DO UPDATE SET
+                        description=excluded.description,
+                        duration=excluded.duration,
+                        location=excluded.location';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':date' => $dateTimeUTC,
+                ':name' => $_POST['eventName'],
+                ':description' => $_POST['eventDescription'],
+                ':duration' => intval($_POST['eventDuration']),
+                ':location' => $_POST['eventLocation'],
+                ':reveal_date' => null,
+                ':soft_deleted' => 0,
+            ]);
+            echo "<div class='msg'>Added/updated event \"" . htmlspecialchars($_POST['eventName']) . "\".</div>";
+        } catch (Throwable $e) {
+            echo "<div class='msg err'>DB error saving event: " . htmlspecialchars($e->getMessage()) . "</div>";
         }
-        $ev_json = array_values($ev_json);
-
-        //Push new
-        array_push($ev_json, $added);
-
-        //Replace events json file
-        file_put_contents("data/events.json", json_encode($ev_json));
-
-        echo "<div class='msg'>Added new event \"" . $_POST["eventName"] . ".\"</div>";
     }
 
-    // Handle front page edit
+    // Handle front page edit -> insert row into DB frontpage table and move optional image
     if($_POST["changed"] == "frontpage") {
-        //Open frontpage json file and update
-        $jsonfile = fopen("data/frontpage.json", "w");
         $imgFilename = null;
 
         if (file_exists($_FILES['frontpageImage']['tmp_name'])) {
@@ -168,27 +160,30 @@ if(isset($_POST['submit'])) {
 
         echo "IMG FILE NAME:" . $imgFilename;
 
-        $fp_json = [
-            "header"=> $_POST["frontpageName"],
-            "content"=> $_POST["frontpageContent"],
-            "file"=> $imgFilename
-        ];
-
-        //Place frontpage file
-        fwrite($jsonfile, json_encode($fp_json));
-
         //Place image file
         if($imgFilename && file_exists($_FILES['frontpageImage']['tmp_name'])) {
-            $imgfile = fopen($imgFilename, "w");
             if(move_uploaded_file($_FILES["frontpageImage"]["tmp_name"], $imgFilename)) {
-                echo "<div class='msg'>The file ". basename( $_FILES["frontpageImage"]["name"]). " has been uploaded and frontpage data was set.</div>";
+                echo "<div class='msg'>The file ". basename( $_FILES["frontpageImage"]["name"]). " has been uploaded.</div>";
             }
             else {
                 echo "<div class='msg err'>Sorry, there was an error uploading your file.</div>";
             }
         }
-        else {
+
+        // Insert frontpage row
+        try {
+            $pdo = get_pdo();
+            $sql = 'INSERT INTO frontpage (header, content, file) VALUES (:header, :content, :file)
+                    ON CONFLICT(header, content, file) DO NOTHING';
+            $stmt = $pdo->prepare($sql);
+            $stmt->execute([
+                ':header' => $_POST['frontpageName'],
+                ':content' => $_POST['frontpageContent'],
+                ':file' => $imgFilename,
+            ]);
             echo "<div class='msg'>The frontpage data was set.</div>";
+        } catch (Throwable $e) {
+            echo "<div class='msg err'>DB error saving frontpage: " . htmlspecialchars($e->getMessage()) . "</div>";
         }
     }
 }
@@ -296,7 +291,7 @@ else {
                 min-width: 10em;
             }
 
-            input[not:[type=hidden]] + input, input[not:[type=hidden]] + label {
+            input:not([type=hidden]) + input, input:not([type=hidden]) + label {
                 margin-left: 2em;
             }
 

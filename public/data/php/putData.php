@@ -1,13 +1,7 @@
 <?php
 
 header('Content-Type: application/json');
-
-function get_pdo(): PDO {
-    $dbPath = __DIR__ . DIRECTORY_SEPARATOR . 'site.db';
-    $pdo = new PDO('sqlite:' . $dbPath);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    return $pdo;
-}
+require_once __DIR__ . '/common.php';
 
 function get_video_src($embed_code) {
     $rx = "/(?<=src=[\"|\']).*?(?=[\"|\'])/";
@@ -19,9 +13,7 @@ function get_video_src($embed_code) {
 
 // Simple auth (reuse existing pword)
 if (!isset($_POST['pword']) || $_POST['pword'] !== 'i<3FccGalesburg!') {
-    http_response_code(403);
-    echo json_encode(['ok' => false, 'error' => 'Forbidden']);
-    exit;
+    json_error('Forbidden', 403);
 }
 
 $date = $_POST['date'] ?? null; // Expected format YYYY-MM-DD
@@ -31,9 +23,7 @@ $src = $_POST['src'] ?? null;     // Optional direct src override
 $asset = $_POST['asset'] ?? null; // Optional local asset url
 
 if (!$date) {
-    http_response_code(400);
-    echo json_encode(['ok' => false, 'error' => 'Missing date']);
-    exit;
+    json_error('Missing date', 400);
 }
 
 if (!$src && $embed) {
