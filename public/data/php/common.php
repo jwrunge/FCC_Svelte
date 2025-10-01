@@ -99,6 +99,11 @@ function enforce_login_guard(): void {
         // Public data APIs used by the site without auth; remove if you want to fully lock down
         'getSermons.php',
         'getNewsletters.php',
+        'getFrontpage.php',
+        'getEvents.php',
+        'getSlideshow.php',
+        'getManuscripts.php',
+        'getLovePhrases.php',
     ];
     if (in_array($script, $allow, true)) return;
     if (!current_user_id()) {
