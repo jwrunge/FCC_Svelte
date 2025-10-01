@@ -8,16 +8,16 @@ function getNewsletters($startIndex, $endIndex, $dir = 'desc') {
 
     try {
         $pdo = get_pdo();
-        $total = (int)$pdo->query('SELECT COUNT(*) FROM newsletters')->fetchColumn();
-        $stmt = $pdo->prepare("SELECT file_name, date FROM newsletters ORDER BY date $direction, file_name $direction LIMIT :limit OFFSET :offset");
+    $total = (int)$pdo->query('SELECT COUNT(*) FROM newsletters')->fetchColumn();
+    $stmt = $pdo->prepare("SELECT file_name, date, (content IS NOT NULL) AS has_blob FROM newsletters ORDER BY date $direction, file_name $direction LIMIT :limit OFFSET :offset");
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $start, PDO::PARAM_INT);
         $stmt->execute();
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Preserve original API: array of URLs like data/newsletters/<file>
+        // Preserve shape: array of URLs; map to download endpoint including the filename so existing regex continues to work
         $results = array_map(function($r) {
-            return 'data/newsletters/' . $r['file_name'];
+            return '/data/php/downloadNewsletter.php?file=' . rawurlencode($r['file_name']);
         }, $rows);
 
         return [

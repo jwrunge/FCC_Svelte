@@ -105,6 +105,7 @@ function enforce_login_guard(): void {
         'getManuscripts.php',
         'getLovePhrases.php',
         'downloadManuscript.php',
+        'downloadNewsletter.php',
     ];
     if (in_array($script, $allow, true)) return;
     if (!current_user_id()) {
