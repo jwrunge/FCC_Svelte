@@ -129,7 +129,7 @@
 
 	let frontpage = null;
 	function get_frontpage() {
-		fetch("data/frontpage.json")
+		fetch("data/php/getFrontpage.php")
 			.then((res) => res.json())
 			.then((data) => (frontpage = data))
 			.catch((e) => {
@@ -385,7 +385,7 @@
 			</div>
 		</div>
 
-		{#await getPageData("/data/events.json")}
+		{#await getPageData("data/php/getEvents.php")}
 			<div class="events" id="events">
 				<img
 					bind:this={eventsImage}
