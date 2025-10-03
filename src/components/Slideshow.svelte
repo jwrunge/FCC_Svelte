@@ -114,7 +114,8 @@
 			<picture>
 				<img
 					transition:fade
-					on:outroend={goBack ? prevImg(images) : nextImg(images)}
+					on:outroend={() =>
+						goBack ? prevImg(images) : nextImg(images)}
 					class="slideshow"
 					src={images[currentImg].src}
 					alt=""
@@ -144,6 +145,8 @@
 		{/if}
 		{#if showCaptions}
 			<div transition:fade class="controls">
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<img
 					on:click={() => {
 						goBack = true;
@@ -154,12 +157,16 @@
 					alt="Previous slide"
 				/>
 				{#if paused}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 					<img
 						on:click={startTimer}
 						src="/icons/play.svg"
 						alt="Play slideshow"
 					/>
 				{:else}
+					<!-- svelte-ignore a11y-click-events-have-key-events -->
+					<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 					<img
 						on:click={() => {
 							paused = true;
@@ -169,6 +176,8 @@
 						alt="Pause slideshow"
 					/>
 				{/if}
+				<!-- svelte-ignore a11y-click-events-have-key-events -->
+				<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 				<img
 					on:click={() => {
 						clearTimer();
@@ -187,8 +196,6 @@
 		{/if}
 	{/await}
 </div>
-
-<!-- <div class='overlay'>{currentImg}</div> -->
 
 <style lang="scss">
 	@import "../style/variables.scss";
@@ -306,14 +313,5 @@
 				background-color: $red;
 			}
 		}
-	}
-
-	.overlay {
-		font-size: 20em;
-		color: white;
-		position: fixed;
-		left: 3em;
-		bottom: 0em;
-		z-index: 20;
 	}
 </style>
