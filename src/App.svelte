@@ -6,7 +6,6 @@
 	import Navigation from "./components/Navigation.svelte";
 	import Slideshow from "./components/Slideshow.svelte";
 	import LeftAngle from "./components/LeftAngle.svelte";
-	import LoveBox from "./components/LoveBox.svelte";
 	import CalendarModal from "./components/CalendarModal.svelte";
 
 	//Views
@@ -220,6 +219,7 @@
 						alt="Disciples of Christ chalice logo"
 						class="primary-img-mobile"
 					/>
+
 					<span>
 						<h1>
 							First Christian Church <span class="smaller"
@@ -227,11 +227,9 @@
 							>
 						</h1>
 					</span>
-					<div>
-						<a href="/data/php/auth_login.php?redirect=/#admin"
-							>Admin login</a
-						>
-					</div>
+				</div>
+
+				<div class="contact-links">
 					<div class="mt">301 N Broad St, Galesburg, IL 61401</div>
 					<div>
 						<a target="_blank" href="tel:1-309-343-9960"
@@ -510,7 +508,7 @@
 				of Christ) - Galesburg, IL
 			</div>
 			<div>
-				<a href="/data/php/auth_login.php?redirect=/cms.php"
+				<a href="/data/php/auth_login.php?redirect=/#admin"
 					>Admin login</a
 				>
 			</div>

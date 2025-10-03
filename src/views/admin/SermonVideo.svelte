@@ -18,7 +18,7 @@
 			});
 			if (resp.status === 401) {
 				window.location.href =
-					"/data/php/auth_login.php?redirect=/cms.php";
+					"/data/php/auth_login.php?redirect=/#admin";
 				return;
 			}
 			const json = await resp.json();

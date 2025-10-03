@@ -17,7 +17,7 @@ function sanitize_redirect($path) {
 function handle_post() {
     $email = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
-    $redirect = sanitize_redirect($_POST['redirect'] ?? '/cms.php');
+    $redirect = sanitize_redirect($_POST['redirect'] ?? '/#admin');
 
     if (!$email || !$password) {
         echo '<p>Missing credentials.</p>';
