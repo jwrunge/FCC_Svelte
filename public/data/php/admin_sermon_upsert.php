@@ -24,11 +24,16 @@ try {
     }
     $date = $input['date'] ?? null; // YYYY-MM-DD
     $title = $input['title'] ?? null;
-    $src = $input['src'] ?? null;
-    $embed = $input['embed'] ?? null;
+    $src = isset($input['src']) ? trim((string)$input['src']) : null;
+    $embed = isset($input['embed']) ? trim((string)$input['embed']) : null;
     $asset = null; // no poster support
     if (!$date) { json_error('Missing date', 400); }
-    if (!$src && $embed) { $src = get_video_src($embed); }
+    // If no explicit src, try to derive from embed; if that fails, store the embed string itself
+    if (!$src && $embed) {
+        $derived = get_video_src($embed);
+        $src = $derived ?: $embed;
+    }
+    if (!$src) { json_error('Missing src or embed code', 400); }
     
     // Always insert a new row to allow multiple sermons per date
     $sql = 'INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, :asset)';

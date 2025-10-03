@@ -14,7 +14,7 @@
 		</ul>
 	</div>
 
-	<div>
+	<div class="admin-content">
 		<slot></slot>
 	</div>
 </div>
@@ -24,9 +24,11 @@
 		display: grid;
 		gap: 3rem;
 		max-width: 2000px;
-		margin: 3rem auto;
+		margin: 0 auto;
 		padding: 0 1rem;
 		align-items: start;
+		height: 100%;
+		overflow-y: scroll;
 
 		@media screen and (min-width: 600px) {
 			grid-template-columns: auto 1fr;
@@ -42,5 +44,9 @@
 			position: sticky;
 			top: 1rem;
 		}
+	}
+
+	.admin-content {
+		margin: 3rem 0;
 	}
 </style>
