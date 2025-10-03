@@ -9,6 +9,17 @@
 	export let getPageData;
 	let newsletters = [];
 
+	function formatDateFromUrl(url) {
+		const m = url.match(/(\d{1,2})\.(\d{1,2})\.(\d{2})(?=[^\d]|$)/);
+		if (!m) return "";
+		const mm = parseInt(m[1], 10);
+		const dd = parseInt(m[2], 10);
+		const yy = parseInt(m[3], 10);
+		const year = 2000 + yy;
+		const dt = new Date(year, mm - 1, dd);
+		return isNaN(dt.getTime()) ? "" : dt.toLocaleDateString();
+	}
+
 	function getMoreNewsletters() {
 		fetch(
 			"data/php/getNewsletters.php?start=" +
@@ -51,14 +62,7 @@
 				</div>
 			{:else}
 				<div class="news-grid">
-					{#each newsletters
-						.sort((a, b) => {
-							let adate = new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getMilliseconds();
-							let bdate = new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getMilliseconds();
-							console.log(adate, bdate);
-							return bdate - adate;
-						})
-						.reverse() as newsletter}
+					{#each newsletters as newsletter}
 						<a href={newsletter} class="newsletter" download>
 							<img
 								src={bgImages[
@@ -66,16 +70,7 @@
 								]}
 								alt=""
 							/>
-							<span
-								>{(() => {
-									const m = newsletter.match(
-										/(\d{1,2}\.\d{1,2}\.\d{2})(?=\.pdf)/
-									);
-									return m
-										? new Date(m[1]).toLocaleDateString()
-										: "";
-								})()}</span
-							>
+							<span>{formatDateFromUrl(newsletter)}</span>
 						</a>
 					{/each}
 				</div>
