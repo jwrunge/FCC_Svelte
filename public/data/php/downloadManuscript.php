@@ -48,7 +48,10 @@ try {
     header('Content-Type: ' . $mime);
     header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
     header('Content-Length: ' . strlen($content));
-    header('Cache-Control: private, max-age=3600');
+    // Disable caching so recently replaced PDFs are always fetched fresh
+    header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
+    header('Pragma: no-cache');
+    header('Expires: 0');
 
     echo $content;
     exit;

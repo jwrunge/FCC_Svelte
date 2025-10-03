@@ -10,6 +10,7 @@
 		series: "",
 		file_name: "",
 	};
+
 	let date = initial.date;
 	let title = initial.title || "";
 	let series = initial.series || "";
@@ -151,7 +152,7 @@
 				<div class="field-label">Current PDF</div>
 				<div class="current-file">
 					<a
-						href={`/data/php/downloadManuscript.php?id=${initial.id}`}
+						href={`/data/php/downloadManuscript.php?id=${initial.id}&v=${Date.now()}`}
 						target="_blank"
 						rel="noopener">{initial.file_name}</a
 					>

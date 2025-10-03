@@ -130,7 +130,7 @@
 				<div class="field-label">Current PDF</div>
 				<div class="current-file">
 					<a
-						href={`/data/php/downloadNewsletter.php?id=${initial.id}`}
+						href={`/data/php/downloadNewsletter.php?id=${initial.id}&v=${Date.now()}`}
 						target="_blank"
 						rel="noopener">{initial.file_name}</a
 					>

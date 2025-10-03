@@ -42,7 +42,7 @@ try {
 
     $pdo = get_pdo();
     if ($id > 0) {
-        $stmt = $pdo->prepare('UPDATE frontpage SET file = :file WHERE id = :id');
+        $stmt = $pdo->prepare('UPDATE frontpage SET file = :file, created_at = CURRENT_TIMESTAMP WHERE id = :id');
         $stmt->execute([':file' => $rel, ':id' => $id]);
         echo json_encode(['ok' => true, 'file' => $rel, 'updated' => $id]);
     } else {
@@ -50,7 +50,7 @@ try {
         $row = $pdo->query('SELECT id FROM frontpage ORDER BY created_at DESC LIMIT 1')->fetch(PDO::FETCH_ASSOC);
         if (!$row) { json_error('No frontpage entries exist to update', 400); }
         $fid = (int)$row['id'];
-        $stmt = $pdo->prepare('UPDATE frontpage SET file = :file WHERE id = :id');
+        $stmt = $pdo->prepare('UPDATE frontpage SET file = :file, created_at = CURRENT_TIMESTAMP WHERE id = :id');
         $stmt->execute([':file' => $rel, ':id' => $fid]);
         echo json_encode(['ok' => true, 'file' => $rel, 'updated' => $fid]);
     }

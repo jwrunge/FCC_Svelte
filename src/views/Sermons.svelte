@@ -140,7 +140,9 @@
 								<li>
 									<a
 										href={"/data/php/downloadManuscript.php?date=" +
-											encodeURIComponent(man.date)}
+											encodeURIComponent(man.date) +
+											"&v=" +
+											Date.now()}
 										download
 										><strong>{man.title}</strong> - {man.series}
 										- {(() => {

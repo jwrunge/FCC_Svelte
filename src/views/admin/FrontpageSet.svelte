@@ -122,7 +122,7 @@
 					id: editingId,
 					header: m_header,
 					content: m_content,
-				} ;
+				};
 				if (imageFile || m_file !== original_file) {
 					body.file = m_file;
 				}
@@ -173,7 +173,10 @@
 								"Content-Type": "application/json",
 								Accept: "application/json",
 							},
-							body: JSON.stringify({ header: m_header, content: m_content }),
+							body: JSON.stringify({
+								header: m_header,
+								content: m_content,
+							}),
 						}
 					);
 					if (resp.status === 401) {

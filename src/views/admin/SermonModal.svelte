@@ -25,6 +25,8 @@
 	let titleInput;
 	let canSave = false;
 	let lastKey = "";
+	let showHowTo = false;
+	import SermonHowTo from "./SermonHowTo.svelte";
 
 	function normalizeDate(d) {
 		if (!d) return new Date().toISOString().slice(0, 10);
@@ -186,6 +188,17 @@
 				rows="6"
 				placeholder="Paste the full embed code or a direct URL (YouTube, Facebook, etc.)."
 			></textarea>
+			<div class="help-row">
+				<button
+					type="button"
+					class="linklike"
+					on:click={() => (showHowTo = true)}
+				>
+					How do I get the Facebook embed code?
+				</button>
+				<span class="spacer">·</span>
+				<span>Or upload a video file below.</span>
+			</div>
 		</div>
 		<div class="divider span-2"><span>or</span></div>
 		<div class="field span-2">
@@ -222,6 +235,10 @@
 				: "Enter a title and date, or change the source (embed/video) to enable Save."}
 	</p>
 </AdminModal>
+
+{#if showHowTo}
+	<SermonHowTo open={showHowTo} on:close={() => (showHowTo = false)} />
+{/if}
 
 <style>
 	.fields {
@@ -271,6 +288,27 @@
 		margin-top: 1rem;
 		justify-content: flex-end;
 		clear: both;
+	}
+	.help-row {
+		margin-top: 0.4rem;
+		font-size: 0.9rem;
+		color: #475467;
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+	}
+	.help-row .spacer {
+		color: #98a2b3;
+	}
+	.linklike {
+		appearance: none;
+		border: none;
+		background: transparent;
+		padding: 0;
+		margin: 0;
+		color: #0d6efd;
+		text-decoration: underline;
+		cursor: pointer;
 	}
 	.actions .primary {
 		background: #0d6efd;

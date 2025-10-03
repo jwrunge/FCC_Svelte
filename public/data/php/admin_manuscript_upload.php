@@ -21,7 +21,7 @@ try {
 
     $pdo = get_pdo();
     if ($id > 0) {
-        $stmt = $pdo->prepare('UPDATE manuscripts SET date=:date, title=:title, series=:series, file_name=:file_name, mime_type=:mime_type, content=:content WHERE id=:id');
+        $stmt = $pdo->prepare('UPDATE manuscripts SET date=:date, title=:title, series=:series, file_name=:file_name, mime_type=:mime_type, content=:content, created_at = CURRENT_TIMESTAMP WHERE id=:id');
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':date', $date);
         $stmt->bindValue(':title', $title);

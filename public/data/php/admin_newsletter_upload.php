@@ -19,7 +19,7 @@ try {
 
     $pdo = get_pdo();
     if ($id > 0) {
-        $stmt = $pdo->prepare('UPDATE newsletters SET date = :date, file_name = :file_name, content = :content WHERE id = :id');
+        $stmt = $pdo->prepare('UPDATE newsletters SET date = :date, file_name = :file_name, content = :content, created_at = CURRENT_TIMESTAMP WHERE id = :id');
         $stmt->bindValue(':id', $id, PDO::PARAM_INT);
         $stmt->bindValue(':date', $date);
         $stmt->bindValue(':file_name', $filename);
