@@ -195,11 +195,19 @@
 	});
 
 	$: subpageOpen = curPage && curPage != "#home" ? true : false;
+	$: isAdminRoute = curPage.includes("#admin");
 </script>
 
 <div class="main" bind:this={main}>
 	<!-- Nav (main screen) -->
-	<Navigation bind:mobileOpen bind:curPage {scrollTop} {subpageOpen} {main} />
+	<Navigation
+		bind:mobileOpen
+		bind:curPage
+		{scrollTop}
+		{subpageOpen}
+		{isAdminRoute}
+		{main}
+	/>
 
 	<!-- <div class="closed-message">
         <h3>Church building closed for Sunday worship, 1/14/24</h3>
@@ -537,21 +545,24 @@
 {#if subpageOpen}
 	<div class="subpage" transition:fade>
 		<svelte:component this={page[curPage]} {getPageData}>
-			<div
-				role="button"
-				tabindex="0"
-				on:click={() => window.history.back()}
-				on:keydown={(event) => {
-					if (event.key === "Enter") window.history.back();
-				}}
-				class="back-arrow"
-			>
-				<img src="/icons/back.svg" alt="Back to main page" />
-			</div>
+			{#if !isAdminRoute}
+				<div
+					role="button"
+					tabindex="0"
+					on:click={() => window.history.back()}
+					on:keydown={(event) => {
+						if (event.key === "Enter") window.history.back();
+					}}
+					class="back-arrow"
+				>
+					<img src="/icons/back.svg" alt="Back to main page" />
+				</div>
+			{/if}
 			<Navigation
 				bind:mobileOpen
 				bind:curPage
 				{subpageOpen}
+				{isAdminRoute}
 				subpageStyle={true}
 				{scrollTop}
 				{main}
