@@ -5,9 +5,7 @@
 	let title = "";
 	let embed = "";
 	let videoFile;
-	let posterFile;
 	let videoInput;
-	let posterInput;
 	let submitting = false;
 	let message = "";
 
@@ -38,7 +36,7 @@
 				form.append("date", date);
 				form.append("title", title);
 				form.append("video", videoFile);
-				if (posterFile) form.append("poster", posterFile);
+
 				const resp = await fetch(
 					"/data/php/admin_sermon_upload_video.php",
 					{
@@ -87,19 +85,6 @@
 					videoFile =
 						videoInput && videoInput.files
 							? videoInput.files[0]
-							: null;
-				}}
-			/></label
-		>
-		<label
-			>Poster image (optional) <input
-				bind:this={posterInput}
-				type="file"
-				accept="image/*"
-				on:change={() => {
-					posterFile =
-						posterInput && posterInput.files
-							? posterInput.files[0]
 							: null;
 				}}
 			/></label

@@ -21,7 +21,7 @@ function sanitize_filename(string $name): string {
 try {
     if (empty($_POST)) {
         // Some clients may send JSON accidentally; guide them
-        json_error('Use multipart/form-data with fields: date, title, video(=file), poster(optional image)', 400);
+        json_error('Use multipart/form-data with fields: date, title, video(=file)', 400);
     }
     $date = $_POST['date'] ?? null;
     $title = $_POST['title'] ?? null;
@@ -56,35 +56,18 @@ try {
         json_error('Failed to store uploaded video', 500);
     }
 
-    // Optional poster image
-    $posterSrc = null;
-    if (isset($_FILES['poster']) && $_FILES['poster']['error'] === UPLOAD_ERR_OK) {
-        $posterTmp = $_FILES['poster']['tmp_name'];
-        $posterName = sanitize_filename($_FILES['poster']['name'] ?? 'poster');
-        $posterType = mime_content_type($posterTmp) ?: ($_FILES['poster']['type'] ?? '');
-        if (strpos($posterType, 'image/') === 0) {
-            $pext = strtolower(pathinfo($posterName, PATHINFO_EXTENSION));
-            $finalPosterName = $date . '-' . pathinfo($posterName, PATHINFO_FILENAME) . '-' . uniqid('', true) . ($pext ? ('.' . $pext) : '');
-            $finalPosterPath = $videosDir . DIRECTORY_SEPARATOR . $finalPosterName;
-            if (move_uploaded_file($posterTmp, $finalPosterPath)) {
-                $posterSrc = '/uploads/videos/' . $finalPosterName;
-            }
-        }
-    }
-
     $videoSrc = '/uploads/videos/' . $finalVideoName;
 
     // Insert a new row (multiple per date allowed)
     $pdo = get_pdo();
-    $stmt = $pdo->prepare('INSERT INTO sermons (date, title, src, asset, embed_code) VALUES (:date, :title, :src, :asset, NULL)');
+    $stmt = $pdo->prepare('INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, NULL)');
     $stmt->execute([
         ':date' => $date,
         ':title' => $title,
         ':src' => $videoSrc,
-        ':asset' => $posterSrc,
     ]);
 
-    echo json_encode(['ok' => true, 'src' => $videoSrc, 'poster' => $posterSrc]);
+    echo json_encode(['ok' => true, 'src' => $videoSrc]);
 } catch (Throwable $e) {
     json_error($e->getMessage(), 500);
 }

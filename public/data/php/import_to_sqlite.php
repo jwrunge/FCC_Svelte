@@ -67,17 +67,19 @@ function ensure_tables(PDO $pdo): void {
             title TEXT,
             src TEXT,
             asset TEXT,
-            embed_code TEXT,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
         )'
     );
-    // For existing databases created before embed_code was added
-    try { $pdo->exec('ALTER TABLE sermons ADD COLUMN embed_code TEXT'); } catch (Throwable $e) { /* ignore */ }
 
-    // Migration: drop UNIQUE(date) from older schemas to allow multiple rows per date
+    // Migration: drop UNIQUE(date) from older schemas to allow multiple rows per date, and drop embed_code column if present
     try {
         $tbl = $pdo->query("SELECT sql FROM sqlite_master WHERE type='table' AND name='sermons'")->fetchColumn();
-        if (is_string($tbl) && (stripos($tbl, 'date TEXT UNIQUE') !== false || stripos($tbl, 'UNIQUE(date') !== false)) {
+        $needsRecreate = false;
+        if (is_string($tbl)) {
+            if (stripos($tbl, 'date TEXT UNIQUE') !== false || stripos($tbl, 'UNIQUE(date') !== false) { $needsRecreate = true; }
+            if (stripos($tbl, 'embed_code') !== false) { $needsRecreate = true; }
+        }
+        if ($needsRecreate) {
             $pdo->beginTransaction();
             $pdo->exec(
                 'CREATE TABLE IF NOT EXISTS sermons_new (
@@ -86,14 +88,13 @@ function ensure_tables(PDO $pdo): void {
                     title TEXT,
                     src TEXT,
                     asset TEXT,
-                    embed_code TEXT,
                     created_at TEXT DEFAULT CURRENT_TIMESTAMP
                 )'
             );
-            // Ensure embed_code exists on old table before copy to avoid SELECT errors
-            try { $pdo->exec('ALTER TABLE sermons ADD COLUMN embed_code TEXT'); } catch (Throwable $e) { /* ignore */ }
-            $pdo->exec('INSERT INTO sermons_new (id, date, title, src, asset, embed_code, created_at)
-                        SELECT id, date, title, src, asset, embed_code, created_at FROM sermons');
+            // Ensure columns exist and copy without embed_code
+            try { $pdo->exec('ALTER TABLE sermons ADD COLUMN asset TEXT'); } catch (Throwable $e) { /* ignore */ }
+            $pdo->exec('INSERT INTO sermons_new (id, date, title, src, asset, created_at)
+                        SELECT id, date, title, src, asset, created_at FROM sermons');
             $pdo->exec('DROP TABLE sermons');
             $pdo->exec('ALTER TABLE sermons_new RENAME TO sermons');
             // Normalize AUTOINCREMENT sequence to max(id)
@@ -275,16 +276,15 @@ function import_sermons(PDO $pdo, string $sermonsDir): void {
     if (!is_dir($sermonsDir)) return;
     $files = glob($sermonsDir . DIRECTORY_SEPARATOR . '*.json');
     sort($files);
-    // Insert if an identical row does not already exist (idempotent import without requiring a UNIQUE constraint)
-    $sql = 'INSERT INTO sermons (date, title, src, asset, embed_code)
-            SELECT :date, :title, :src, :asset, :embed_code
+        // Insert if an identical row does not already exist (idempotent import without requiring a UNIQUE constraint)
+        $sql = 'INSERT INTO sermons (date, title, src, asset)
+                        SELECT :date, :title, :src, :asset
             WHERE NOT EXISTS (
                 SELECT 1 FROM sermons s
                 WHERE s.date = :date
                   AND IFNULL(s.title, "") = IFNULL(:title, "")
                   AND IFNULL(s.src, "") = IFNULL(:src, "")
-                  AND IFNULL(s.asset, "") = IFNULL(:asset, "")
-                  AND IFNULL(s.embed_code, "") = IFNULL(:embed_code, "")
+                                    AND IFNULL(s.asset, "") = IFNULL(:asset, "")
             )';
     $stmt = $pdo->prepare($sql);
 
@@ -305,7 +305,6 @@ function import_sermons(PDO $pdo, string $sermonsDir): void {
             ':title' => $data['title'] ?? null,
             ':src' => $src,
             ':asset' => $data['asset'] ?? null,
-            ':embed_code' => $embed,
         ]);
     }
 }

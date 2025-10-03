@@ -33,7 +33,7 @@
 	});
 </script>
 
-{#if !isAdminRoute}}
+{#if !isAdminRoute}
 	<nav
 		class:subpageStyle
 		class:mobileOpen

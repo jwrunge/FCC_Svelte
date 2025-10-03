@@ -1,7 +1,4 @@
 <script>
-	// Simple admin landing with links to individual tools
-
-	import SermonVideo from "./SermonVideo.svelte";
 </script>
 
 <div class="cms">

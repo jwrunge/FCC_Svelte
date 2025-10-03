@@ -15,12 +15,6 @@ function get_video_src($embed_code) {
 
 try {
     $pdo = get_pdo();
-    // Ensure schema has embed_code column
-    try {
-        $pdo->exec("ALTER TABLE sermons ADD COLUMN embed_code TEXT");
-    } catch (Throwable $e) {
-        // ignore if already exists
-    }
 
     $input = $_POST;
     if (empty($input)) {
@@ -32,19 +26,18 @@ try {
     $title = $input['title'] ?? null;
     $src = $input['src'] ?? null;
     $embed = $input['embed'] ?? null;
-    $asset = $input['asset'] ?? null;
+    $asset = null; // no poster support
     if (!$date) { json_error('Missing date', 400); }
     if (!$src && $embed) { $src = get_video_src($embed); }
     
     // Always insert a new row to allow multiple sermons per date
-    $sql = 'INSERT INTO sermons (date, title, src, asset, embed_code) VALUES (:date, :title, :src, :asset, :embed_code)';
+    $sql = 'INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, :asset)';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':date' => $date,
         ':title' => $title,
         ':src' => $src,
         ':asset' => $asset,
-        ':embed_code' => $embed,
     ]);
     echo json_encode(['ok' => true]);
 } catch (Throwable $e) {
