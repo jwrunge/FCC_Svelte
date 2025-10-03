@@ -27,7 +27,8 @@ function base_paths(): array {
     ];
 }
 
-function get_pdo(string $dbPath): PDO {
+// Use a uniquely named PDO helper to avoid clashing with common.php's get_pdo()
+function importer_get_pdo(string $dbPath): PDO {
     $pdo = new PDO('sqlite:' . $dbPath);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->exec('PRAGMA journal_mode=WAL');
@@ -404,7 +405,7 @@ function main(): void {
     }
     $paths = base_paths();
     $dbPath = $paths['phpDir'] . DIRECTORY_SEPARATOR . 'site.db';
-    $pdo = get_pdo($dbPath);
+    $pdo = importer_get_pdo($dbPath);
     ensure_tables($pdo);
 
     $eventsJson = $paths['rootDataDir'] . DIRECTORY_SEPARATOR . 'events.json';

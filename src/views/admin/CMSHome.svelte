@@ -30,11 +30,19 @@
 				method: "POST",
 				headers: { Accept: "application/json" },
 			});
-			const json = await resp.json();
-			if (json?.ok) {
+			const raw = await resp.text();
+			let json = null;
+			try {
+				json = raw ? JSON.parse(raw) : null;
+			} catch {}
+			if (json && json.ok) {
 				importResult = json.output || "Import complete.";
+			} else if (json && json.error) {
+				importResult = `Import failed (${resp.status}): ${json.error}`;
+			} else if (!resp.ok) {
+				importResult = `Import failed (${resp.status})${raw ? `: ${raw}` : ""}`;
 			} else {
-				importResult = json?.error || "Import failed.";
+				importResult = raw || "Import finished.";
 			}
 		} catch (e) {
 			importResult = e?.message || "Import failed.";
