@@ -18,7 +18,11 @@ try {
 
     // Include the importer and run main(); set flag to suppress headers
     define('IMPORT_VIA_API', true);
-    require_once __DIR__ . '/import_to_sqlite.php';
+    $importPath = __DIR__ . '/import_to_sqlite.php';
+    if (!is_file($importPath)) {
+        json_error("Importer missing: $importPath", 500);
+    }
+    require_once $importPath;
     // Capture output
     ob_start();
     main();
