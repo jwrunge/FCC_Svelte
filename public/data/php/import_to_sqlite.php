@@ -63,7 +63,7 @@ function ensure_tables(PDO $pdo): void {
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS sermons (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            date TEXT UNIQUE,
+            date TEXT,
             title TEXT,
             src TEXT,
             asset TEXT,
@@ -72,10 +72,40 @@ function ensure_tables(PDO $pdo): void {
         )'
     );
     // For existing databases created before embed_code was added
+    try { $pdo->exec('ALTER TABLE sermons ADD COLUMN embed_code TEXT'); } catch (Throwable $e) { /* ignore */ }
+
+    // Migration: drop UNIQUE(date) from older schemas to allow multiple rows per date
     try {
-        $pdo->exec('ALTER TABLE sermons ADD COLUMN embed_code TEXT');
+        $tbl = $pdo->query("SELECT sql FROM sqlite_master WHERE type='table' AND name='sermons'")->fetchColumn();
+        if (is_string($tbl) && (stripos($tbl, 'date TEXT UNIQUE') !== false || stripos($tbl, 'UNIQUE(date') !== false)) {
+            $pdo->beginTransaction();
+            $pdo->exec(
+                'CREATE TABLE IF NOT EXISTS sermons_new (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    date TEXT,
+                    title TEXT,
+                    src TEXT,
+                    asset TEXT,
+                    embed_code TEXT,
+                    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+                )'
+            );
+            // Ensure embed_code exists on old table before copy to avoid SELECT errors
+            try { $pdo->exec('ALTER TABLE sermons ADD COLUMN embed_code TEXT'); } catch (Throwable $e) { /* ignore */ }
+            $pdo->exec('INSERT INTO sermons_new (id, date, title, src, asset, embed_code, created_at)
+                        SELECT id, date, title, src, asset, embed_code, created_at FROM sermons');
+            $pdo->exec('DROP TABLE sermons');
+            $pdo->exec('ALTER TABLE sermons_new RENAME TO sermons');
+            // Normalize AUTOINCREMENT sequence to max(id)
+            try {
+                $pdo->exec("DELETE FROM sqlite_sequence WHERE name='sermons'");
+                $pdo->exec("INSERT INTO sqlite_sequence(name, seq) SELECT 'sermons', COALESCE(MAX(id),0) FROM sermons");
+            } catch (Throwable $e) { /* ignore if sqlite_sequence not available */ }
+            $pdo->commit();
+        }
     } catch (Throwable $e) {
-        // ignore if already exists
+        // If anything fails, roll back and continue. We prefer availability over strict migration.
+        if ($pdo->inTransaction()) { $pdo->rollBack(); }
     }
 
     $pdo->exec(
@@ -245,12 +275,17 @@ function import_sermons(PDO $pdo, string $sermonsDir): void {
     if (!is_dir($sermonsDir)) return;
     $files = glob($sermonsDir . DIRECTORY_SEPARATOR . '*.json');
     sort($files);
-    $sql = 'INSERT INTO sermons (date, title, src, asset, embed_code) VALUES (:date, :title, :src, :asset, :embed_code)
-            ON CONFLICT(date) DO UPDATE SET
-                title=excluded.title,
-                src=COALESCE(excluded.src, sermons.src),
-                asset=COALESCE(excluded.asset, sermons.asset),
-                embed_code=COALESCE(excluded.embed_code, sermons.embed_code)';
+    // Insert if an identical row does not already exist (idempotent import without requiring a UNIQUE constraint)
+    $sql = 'INSERT INTO sermons (date, title, src, asset, embed_code)
+            SELECT :date, :title, :src, :asset, :embed_code
+            WHERE NOT EXISTS (
+                SELECT 1 FROM sermons s
+                WHERE s.date = :date
+                  AND IFNULL(s.title, "") = IFNULL(:title, "")
+                  AND IFNULL(s.src, "") = IFNULL(:src, "")
+                  AND IFNULL(s.asset, "") = IFNULL(:asset, "")
+                  AND IFNULL(s.embed_code, "") = IFNULL(:embed_code, "")
+            )';
     $stmt = $pdo->prepare($sql);
 
     foreach ($files as $file) {

@@ -12,7 +12,8 @@ function getSermons($startIndex, $endIndex, $dir = 'desc') {
         $total = (int)$pdo->query('SELECT COUNT(*) FROM sermons')->fetchColumn();
 
         // Page
-        $stmt = $pdo->prepare("SELECT date, title, src, asset FROM sermons ORDER BY date $direction LIMIT :limit OFFSET :offset");
+    // Order by date then id for stability when multiple sermons share a date
+    $stmt = $pdo->prepare("SELECT date, title, src, asset FROM sermons ORDER BY date $direction, id $direction LIMIT :limit OFFSET :offset");
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $start, PDO::PARAM_INT);
         $stmt->execute();

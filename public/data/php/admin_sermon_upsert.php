@@ -36,12 +36,8 @@ try {
     if (!$date) { json_error('Missing date', 400); }
     if (!$src && $embed) { $src = get_video_src($embed); }
     
-    $sql = 'INSERT INTO sermons (date, title, src, asset, embed_code) VALUES (:date, :title, :src, :asset, :embed_code)
-            ON CONFLICT(date) DO UPDATE SET
-                title=COALESCE(excluded.title, sermons.title),
-                src=COALESCE(excluded.src, sermons.src),
-                asset=COALESCE(excluded.asset, sermons.asset),
-                embed_code=COALESCE(excluded.embed_code, sermons.embed_code)';
+    // Always insert a new row to allow multiple sermons per date
+    $sql = 'INSERT INTO sermons (date, title, src, asset, embed_code) VALUES (:date, :title, :src, :asset, :embed_code)';
     $stmt = $pdo->prepare($sql);
     $stmt->execute([
         ':date' => $date,
