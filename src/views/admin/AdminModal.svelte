@@ -13,6 +13,19 @@
 	let modalEl;
 	let previouslyFocusedEl;
 
+	// Lock background scroll while modal is open
+	$: {
+		if (open) {
+			try {
+				document.body.classList.add("no-scroll");
+			} catch {}
+		} else {
+			try {
+				document.body.classList.remove("no-scroll");
+			} catch {}
+		}
+	}
+
 	// Capture the element that had focus right before opening to restore later
 	$: if (open && !previouslyFocusedEl) {
 		previouslyFocusedEl =
@@ -79,14 +92,14 @@
 <svelte:window on:keydown={onWindowKey} />
 
 {#if open}
-	<div class="modal-root" role="dialog" aria-modal="true">
+	<div class="admin-modal-root" role="dialog" aria-modal="true">
 		<button
 			type="button"
-			class="modal-backdrop"
+			class="admin-modal-backdrop"
 			aria-label="Close"
 			on:click={closeInternal}
 		></button>
-		<div class="modal" role="document" bind:this={modalEl}>
+		<div class="admin-modal" role="document" bind:this={modalEl}>
 			<button
 				class="close-x"
 				type="button"
@@ -107,14 +120,16 @@
 {/if}
 
 <style>
-	.modal-root {
+	.admin-modal-root {
 		position: fixed;
 		inset: 0;
 		z-index: 1000;
 		display: grid;
 		place-items: center;
+		overflow: hidden; /* contain scroll within modal */
+		overscroll-behavior: contain; /* prevent scroll chaining to page */
 	}
-	.modal-backdrop {
+	.admin-modal-backdrop {
 		position: absolute;
 		inset: 0;
 		background: rgba(0, 0, 0, 0.5);
@@ -123,21 +138,22 @@
 		margin: 0;
 		z-index: 0;
 	}
-	.modal {
+	.admin-modal {
 		position: relative;
 		background: #fff;
-		padding: 1rem 1.25rem 1.25rem;
+		padding: 1.75rem 1.25rem 1.25rem; /* extra top padding to avoid visual clipping when scrolled to top */
 		border-radius: 12px;
 		width: min(95vw, 640px);
-		max-height: 85vh;
+		max-height: 90vh;
 		overflow: auto;
 		display: flex;
 		flex-direction: column;
 		gap: 0.75rem;
 		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 		z-index: 1;
+		overscroll-behavior: contain; /* keep wheel/touch scroll inside modal */
 	}
-	.modal * {
+	.admin-modal * {
 		box-sizing: border-box;
 	}
 	/* Note: Avoid styling slotted content here to prevent Svelte 'unused selector' warnings. */
@@ -169,5 +185,10 @@
 	:global(.actions .primary:disabled) {
 		opacity: 0.55;
 		cursor: not-allowed;
+	}
+
+	/* Prevent background page from scrolling while modal is open */
+	:global(body.no-scroll) {
+		overflow: hidden;
 	}
 </style>
