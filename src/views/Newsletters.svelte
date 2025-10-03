@@ -4,7 +4,6 @@
 
 	let results = 25;
 	let showing = 0;
-	let show = "newsletters";
 	let totalResultsPossible = 0;
 
 	export let getPageData;
@@ -63,7 +62,7 @@
 						<a href={newsletter} class="newsletter" download>
 							<img
 								src={bgImages[
-									Math.floor(Math.random(bgImages.length) * 3)
+									Math.floor(Math.random() * bgImages.length)
 								]}
 								alt=""
 							/>

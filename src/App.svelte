@@ -21,6 +21,14 @@
 	import SingleEvent from "./views/SingleEvent.svelte";
 	import Article from "./views/Article.svelte";
 
+	// Admin views
+	import CMSHome from "./views/admin/CMSHome.svelte";
+	import SermonVideo from "./views/admin/SermonVideo.svelte";
+	import ManuscriptUpload from "./views/admin/ManuscriptUpload.svelte";
+	import NewsletterUpload from "./views/admin/NewsletterUpload.svelte";
+	import EventUpsert from "./views/admin/EventUpsert.svelte";
+	import FrontpageSet from "./views/admin/FrontpageSet.svelte";
+
 	//Specials
 	// import Starwords from "./specials/Starwords.svelte";
 
@@ -77,6 +85,12 @@
 		"#article": Article,
 		"#sermons": Sermons,
 		"#ministries": Ministries,
+		"#admin": CMSHome,
+		"#admin/sermon": SermonVideo,
+		"#admin/manuscript": ManuscriptUpload,
+		"#admin/newsletter": NewsletterUpload,
+		"#admin/event": EventUpsert,
+		"#admin/frontpage": FrontpageSet,
 	};
 	let curPage = "";
 
@@ -117,8 +131,12 @@
 	}
 
 	window.onhashchange = () => {
-		if (Object.keys(page).includes(window.location.hash.split("/")[0])) {
-			curPage = window.location.hash.split("/")[0];
+		const hash = window.location.hash;
+		if (Object.keys(page).includes(hash)) {
+			curPage = hash;
+			mobileOpen = false;
+		} else if (Object.keys(page).includes(hash.split("/")[0])) {
+			curPage = hash.split("/")[0];
 			mobileOpen = false;
 		} else {
 			setTimeout(() => {
@@ -139,9 +157,14 @@
 	}
 
 	onMount(() => {
-		if (Object.keys(page).includes(window.location.hash.split("/")[0]))
-			curPage = window.location.hash.split("/")[0];
-		else window.location.hash = curPage;
+		const hash = window.location.hash;
+		if (Object.keys(page).includes(hash)) {
+			curPage = hash;
+		} else if (Object.keys(page).includes(hash.split("/")[0])) {
+			curPage = hash.split("/")[0];
+		} else {
+			window.location.hash = curPage;
+		}
 
 		main.addEventListener("scroll", (e) => {
 			scrollTop = e.target.scrollTop;
@@ -204,9 +227,11 @@
 							>
 						</h1>
 					</span>
-				</div>
-
-				<div class="contact-links">
+					<div>
+						<a href="/data/php/auth_login.php?redirect=/#admin"
+							>Admin login</a
+						>
+					</div>
 					<div class="mt">301 N Broad St, Galesburg, IL 61401</div>
 					<div>
 						<a target="_blank" href="tel:1-309-343-9960"
@@ -485,7 +510,9 @@
 				of Christ) - Galesburg, IL
 			</div>
 			<div>
-				<a href="/data/php/auth_login.php?redirect=/cms.php">Admin login</a>
+				<a href="/data/php/auth_login.php?redirect=/cms.php"
+					>Admin login</a
+				>
 			</div>
 		</div>
 	</div>

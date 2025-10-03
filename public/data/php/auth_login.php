@@ -6,11 +6,11 @@ start_session_once();
 
 function sanitize_redirect($path) {
     // Only allow local paths starting with '/'
-    if (!is_string($path) || $path === '') return '/cms.php';
-    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) return '/cms.php';
-    if ($path[0] !== '/') return '/cms.php';
+    if (!is_string($path) || $path === '') return '/#admin';
+    if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) return '/#admin';
+    if ($path[0] !== '/') return '/#admin';
     // prevent // trick
-    if (strpos($path, "//") === 0) return '/cms.php';
+    if (strpos($path, "//") === 0) return '/#admin';
     return $path;
 }
 
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     handle_post();
 }
 
-$redirect = sanitize_redirect($_GET['redirect'] ?? '/cms.php');
+$redirect = sanitize_redirect($_GET['redirect'] ?? '/#admin');
 if (current_user_id()) {
     header('Location: ' . $redirect);
     http_response_code(302);
