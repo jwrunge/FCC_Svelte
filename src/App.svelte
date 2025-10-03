@@ -27,6 +27,7 @@
 	import NewsletterUpload from "./views/admin/NewsletterUpload.svelte";
 	import EventUpsert from "./views/admin/EventUpsert.svelte";
 	import FrontpageSet from "./views/admin/FrontpageSet.svelte";
+	import UserAdmin from "./views/admin/UserAdmin.svelte";
 
 	//Specials
 	// import Starwords from "./specials/Starwords.svelte";
@@ -90,6 +91,7 @@
 		"#admin/newsletter": NewsletterUpload,
 		"#admin/event": EventUpsert,
 		"#admin/frontpage": FrontpageSet,
+		"#admin/users": UserAdmin,
 	};
 	let curPage = "";
 

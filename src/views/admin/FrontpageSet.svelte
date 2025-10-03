@@ -17,9 +17,13 @@
 		loading = true;
 		error = "";
 		try {
-			const resp = await fetch("/data/php/admin_frontpage_list.php?start=0&end=25", { headers: { Accept: "application/json" } });
+			const resp = await fetch(
+				"/data/php/admin_frontpage_list.php?start=0&end=25",
+				{ headers: { Accept: "application/json" } }
+			);
 			if (resp.status === 401) {
-				window.location.href = "/data/php/auth_login.php?redirect=/#admin";
+				window.location.href =
+					"/data/php/auth_login.php?redirect=/#admin";
 				return;
 			}
 			const json = await resp.json();
@@ -44,7 +48,10 @@
 		if (!confirm("Delete this entry?")) return;
 		const resp = await fetch("/data/php/admin_frontpage_delete.php", {
 			method: "POST",
-			headers: { "Content-Type": "application/json", Accept: "application/json" },
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
 			body: JSON.stringify({ id: r.id }),
 		});
 		if (resp.status === 401) {
@@ -71,11 +78,19 @@
 		try {
 			const resp = await fetch("/data/php/admin_frontpage_set.php", {
 				method: "POST",
-				headers: { "Content-Type": "application/json", Accept: "application/json" },
-				body: JSON.stringify({ header: m_header, content: m_content, file: m_file }),
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify({
+					header: m_header,
+					content: m_content,
+					file: m_file,
+				}),
 			});
 			if (resp.status === 401) {
-				window.location.href = "/data/php/auth_login.php?redirect=/#admin";
+				window.location.href =
+					"/data/php/auth_login.php?redirect=/#admin";
 				return;
 			}
 			const json = await resp.json();
@@ -92,20 +107,30 @@
 
 <CMSHome>
 	<h1>Front page</h1>
-	<p class="admin-meta">Note: Only the most recent entry will show on the front page.</p>
+	<p class="admin-meta">
+		Note: Only the most recent entry will show on the front page.
+	</p>
 	<div class="admin-toolbar">
 		<button on:click={newItem}>New</button>
 	</div>
 	{#if error}<p class="admin-error">{error}</p>{/if}
 	<table class="admin-table">
-		<thead><tr><th>Created</th><th>Header</th><th>Image</th><th>Actions</th></tr></thead>
+		<thead
+			><tr
+				><th>Created</th><th>Header</th><th>Image</th><th>Actions</th
+				></tr
+			></thead
+		>
 		<tbody>
 			{#each rows as r}
 				<tr>
 					<td>{new Date(r.created_at).toLocaleString()}</td>
 					<td>{r.header}</td>
 					<td>{r.file}</td>
-					<td><button on:click={() => deleteItem(r)}>Delete</button></td>
+					<td
+						><button on:click={() => deleteItem(r)}>Delete</button
+						></td
+					>
 				</tr>
 			{/each}
 			{#if rows.length === 0}
@@ -125,29 +150,62 @@
 		<div class="fields">
 			<div class="field">
 				<label for="fp-header">Header</label>
-				<input id="fp-header" type="text" bind:value={m_header} required />
+				<input
+					id="fp-header"
+					type="text"
+					bind:value={m_header}
+					required
+				/>
 			</div>
 			<div class="field span-2">
 				<label for="fp-content">Content</label>
-				<textarea id="fp-content" rows="6" bind:value={m_content} required></textarea>
+				<textarea
+					id="fp-content"
+					rows="6"
+					bind:value={m_content}
+					required
+				></textarea>
 			</div>
 			<div class="field">
 				<label for="fp-file">Image path (optional)</label>
-				<input id="fp-file" type="text" placeholder="/uploads/xxx.jpg" bind:value={m_file} />
+				<input
+					id="fp-file"
+					type="text"
+					placeholder="/uploads/xxx.jpg"
+					bind:value={m_file}
+				/>
 			</div>
 		</div>
 		{#if modalError}<p class="admin-error">{modalError}</p>{/if}
 		<div class="actions">
-			<button class="primary" on:click={saveModal} disabled={!canSave}>{saving ? "Saving…" : "Save"}</button>
+			<button class="primary" on:click={saveModal} disabled={!canSave}
+				>{saving ? "Saving…" : "Save"}</button
+			>
 			<button on:click={closeModal} disabled={saving}>Cancel</button>
 		</div>
 	</AdminModal>
 </CMSHome>
 
 <style>
-	.fields { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
-	.field { display: flex; flex-direction: column; gap: 0.4rem; }
-	.field.span-2 { grid-column: 1 / -1; }
-	textarea { resize: vertical; }
-	input, textarea, label { box-sizing: border-box; }
+	.fields {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.8rem;
+	}
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+	.field.span-2 {
+		grid-column: 1 / -1;
+	}
+	textarea {
+		resize: vertical;
+	}
+	input,
+	textarea,
+	label {
+		box-sizing: border-box;
+	}
 </style>

@@ -166,8 +166,8 @@
 		margin-top: 1rem;
 		justify-content: flex-end;
 	}
-		:global(.actions .primary:disabled) {
-			opacity: 0.55;
-			cursor: not-allowed;
-		}
+	:global(.actions .primary:disabled) {
+		opacity: 0.55;
+		cursor: not-allowed;
+	}
 </style>

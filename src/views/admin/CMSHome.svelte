@@ -10,6 +10,7 @@
 			<li><a href="#admin/newsletter">Newsletter</a></li>
 			<li><a href="#admin/event">Event</a></li>
 			<li><a href="#admin/frontpage">Front page</a></li>
+			<li><a href="#admin/users">Users</a></li>
 			<li><a href="/data/php/auth_logout.php">Logout</a></li>
 		</ul>
 	</div>

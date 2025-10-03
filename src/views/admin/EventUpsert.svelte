@@ -42,7 +42,8 @@
 				{ headers: { Accept: "application/json" } }
 			);
 			if (resp.status === 401) {
-				window.location.href = "/data/php/auth_login.php?redirect=/#admin";
+				window.location.href =
+					"/data/php/auth_login.php?redirect=/#admin";
 				return;
 			}
 			const json = await resp.json();
@@ -76,7 +77,10 @@
 		if (!confirm("Delete this event?")) return;
 		const resp = await fetch("/data/php/admin_event_delete.php", {
 			method: "POST",
-			headers: { "Content-Type": "application/json", Accept: "application/json" },
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json",
+			},
 			body: JSON.stringify({ id: r.id }),
 		});
 		if (resp.status === 401) {
@@ -150,11 +154,17 @@
 				: "/data/php/admin_event_upsert.php";
 			const resp = await fetch(url, {
 				method: "POST",
-				headers: { "Content-Type": "application/json", Accept: "application/json" },
-				body: JSON.stringify(isEdit ? { id: m_id, ...payload } : payload),
+				headers: {
+					"Content-Type": "application/json",
+					Accept: "application/json",
+				},
+				body: JSON.stringify(
+					isEdit ? { id: m_id, ...payload } : payload
+				),
 			});
 			if (resp.status === 401) {
-				window.location.href = "/data/php/auth_login.php?redirect=/#admin";
+				window.location.href =
+					"/data/php/auth_login.php?redirect=/#admin";
 				return;
 			}
 			const json = await resp.json();
@@ -182,7 +192,12 @@
 		<tbody>
 			{#each rows as r}
 				<tr>
-					<td>{new Date(r.date).toLocaleString("en-US", { dateStyle: "short", timeStyle: "short" })}</td>
+					<td
+						>{new Date(r.date).toLocaleString("en-US", {
+							dateStyle: "short",
+							timeStyle: "short",
+						})}</td
+					>
 					<td>{r.name}</td>
 					<td>{r.location}</td>
 					<td>
@@ -208,37 +223,79 @@
 		<div class="fields">
 			<div class="field">
 				<label for="event-name">Name</label>
-				<input id="event-name" type="text" bind:value={m_name} required />
+				<input
+					id="event-name"
+					type="text"
+					bind:value={m_name}
+					required
+				/>
 			</div>
 			<div class="field">
 				<label for="event-date">Date/time</label>
-				<input id="event-date" type="datetime-local" bind:value={m_date} required />
+				<input
+					id="event-date"
+					type="datetime-local"
+					bind:value={m_date}
+					required
+				/>
 			</div>
 			<div class="field">
 				<label for="event-duration">Duration (minutes)</label>
-				<input id="event-duration" type="number" bind:value={m_duration} min="0" />
+				<input
+					id="event-duration"
+					type="number"
+					bind:value={m_duration}
+					min="0"
+				/>
 			</div>
 			<div class="field">
 				<label for="event-location">Location</label>
-				<input id="event-location" type="text" bind:value={m_location} />
+				<input
+					id="event-location"
+					type="text"
+					bind:value={m_location}
+				/>
 			</div>
 			<div class="field span-2">
 				<label for="event-description">Description</label>
-				<textarea id="event-description" rows="4" bind:value={m_description}></textarea>
+				<textarea
+					id="event-description"
+					rows="4"
+					bind:value={m_description}
+				></textarea>
 			</div>
 		</div>
 		{#if modalError}<p class="admin-error">{modalError}</p>{/if}
 		<div class="actions">
-			<button class="primary" on:click={saveModal} disabled={!canSave}>{saving ? "Saving…" : "Save"}</button>
+			<button class="primary" on:click={saveModal} disabled={!canSave}
+				>{saving ? "Saving…" : "Save"}</button
+			>
 			<button on:click={closeModal} disabled={saving}>Cancel</button>
 		</div>
 	</AdminModal>
 </CMSHome>
 
 <style>
-	.fields { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
-	.field { display: flex; flex-direction: column; gap: 0.4rem; }
-	.field.span-2 { grid-column: 1 / -1; }
-	input, textarea, label { box-sizing: border-box; max-width: 100%; }
-	textarea { resize: vertical; }
+	.fields {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.8rem;
+	}
+	.field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+	.field.span-2 {
+		grid-column: 1 / -1;
+	}
+	input,
+	textarea,
+	label {
+		box-sizing: border-box;
+		max-width: 100%;
+	}
+	textarea {
+		resize: vertical;
+	}
 </style>
