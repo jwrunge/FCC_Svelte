@@ -23,6 +23,7 @@ try {
         // Some clients may send JSON accidentally; guide them
         json_error('Use multipart/form-data with fields: date, title, video(=file)', 400);
     }
+    $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
     $date = $_POST['date'] ?? null;
     $title = $_POST['title'] ?? null;
     if (!$date) { json_error('Missing date', 400); }
@@ -58,16 +59,22 @@ try {
 
     $videoSrc = '/uploads/videos/' . $finalVideoName;
 
-    // Insert a new row (multiple per date allowed)
     $pdo = get_pdo();
-    $stmt = $pdo->prepare('INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, NULL)');
-    $stmt->execute([
-        ':date' => $date,
-        ':title' => $title,
-        ':src' => $videoSrc,
-    ]);
-
-    echo json_encode(['ok' => true, 'src' => $videoSrc]);
+    if ($id > 0) {
+        // Update existing sermon
+        $stmt = $pdo->prepare('UPDATE sermons SET src = :src WHERE id = :id');
+        $stmt->execute([':src' => $videoSrc, ':id' => $id]);
+        echo json_encode(['ok' => true, 'src' => $videoSrc, 'updated' => $id]);
+    } else {
+        // Insert a new row (multiple per date allowed)
+        $stmt = $pdo->prepare('INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, NULL)');
+        $stmt->execute([
+            ':date' => $date,
+            ':title' => $title,
+            ':src' => $videoSrc,
+        ]);
+        echo json_encode(['ok' => true, 'src' => $videoSrc]);
+    }
 } catch (Throwable $e) {
     json_error($e->getMessage(), 500);
 }

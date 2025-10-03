@@ -22,6 +22,7 @@ try {
         $decoded = json_decode($raw, true);
         if (is_array($decoded)) { $input = $decoded; }
     }
+    $id = isset($input['id']) ? intval($input['id']) : 0;
     $date = $input['date'] ?? null; // YYYY-MM-DD
     $title = $input['title'] ?? null;
     $src = isset($input['src']) ? trim((string)$input['src']) : null;
@@ -35,15 +36,25 @@ try {
     }
     if (!$src) { json_error('Missing src or embed code', 400); }
     
-    // Always insert a new row to allow multiple sermons per date
-    $sql = 'INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, :asset)';
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':date' => $date,
-        ':title' => $title,
-        ':src' => $src,
-        ':asset' => $asset,
-    ]);
+    if ($id > 0) {
+        $stmt = $pdo->prepare('UPDATE sermons SET date=:date, title=:title, src=:src WHERE id=:id');
+        $stmt->execute([
+            ':id' => $id,
+            ':date' => $date,
+            ':title' => $title,
+            ':src' => $src,
+        ]);
+    } else {
+        // Insert new row to allow multiple sermons per date
+        $sql = 'INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, :asset)';
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':date' => $date,
+            ':title' => $title,
+            ':src' => $src,
+            ':asset' => $asset,
+        ]);
+    }
     echo json_encode(['ok' => true]);
 } catch (Throwable $e) {
     json_error($e->getMessage(), 500);
