@@ -1,18 +1,21 @@
 <script>
-	import { onMount } from 'svelte';
+	import { onMount } from "svelte";
 	let me = null; // { id, email }
 	let canImport = false;
 	let importing = false;
-	let importResult = '';
+	let importResult = "";
 
 	onMount(async () => {
 		try {
-			const resp = await fetch('/data/php/admin_me.php', { headers: { Accept: 'application/json' } });
+			const resp = await fetch("/data/php/admin_me.php", {
+				headers: { Accept: "application/json" },
+			});
 			if (resp.ok) {
 				const json = await resp.json();
 				if (json?.ok && json.user) {
 					me = json.user;
-					canImport = String(me.email).toLowerCase() === 'jwrunge@gmail.com';
+					canImport =
+						String(me.email).toLowerCase() === "jwrunge@gmail.com";
 				}
 			}
 		} catch {}
@@ -21,17 +24,20 @@
 	async function runImport() {
 		if (!canImport || importing) return;
 		importing = true;
-		importResult = '';
+		importResult = "";
 		try {
-			const resp = await fetch('/data/php/admin_run_import.php', { method: 'POST', headers: { Accept: 'application/json' } });
+			const resp = await fetch("/data/php/admin_run_import.php", {
+				method: "POST",
+				headers: { Accept: "application/json" },
+			});
 			const json = await resp.json();
 			if (json?.ok) {
-				importResult = json.output || 'Import complete.';
+				importResult = json.output || "Import complete.";
 			} else {
-				importResult = json?.error || 'Import failed.';
+				importResult = json?.error || "Import failed.";
 			}
 		} catch (e) {
-			importResult = e?.message || 'Import failed.';
+			importResult = e?.message || "Import failed.";
 		} finally {
 			importing = false;
 		}
@@ -55,8 +61,12 @@
 			<div class="import-box">
 				<h3>Data import</h3>
 				<p class="small">Run JSON → SQLite import (admin only)</p>
-				<button class="run-import" disabled={importing} on:click={runImport}>
-					{importing ? 'Running…' : 'Run import'}
+				<button
+					class="run-import"
+					disabled={importing}
+					on:click={runImport}
+				>
+					{importing ? "Running…" : "Run import"}
 				</button>
 				{#if importResult}
 					<pre class="import-output">{importResult}</pre>
@@ -108,7 +118,11 @@
 		border-radius: 10px;
 		padding: 0.75rem;
 	}
-	.import-box .small { color: #475467; font-size: 0.9rem; margin: 0.25rem 0 0.5rem; }
+	.import-box .small {
+		color: #475467;
+		font-size: 0.9rem;
+		margin: 0.25rem 0 0.5rem;
+	}
 	.run-import {
 		background: #0d6efd;
 		color: #fff;
@@ -117,7 +131,10 @@
 		border-radius: 6px;
 		cursor: pointer;
 	}
-	.run-import:disabled { opacity: .6; cursor: not-allowed; }
+	.run-import:disabled {
+		opacity: 0.6;
+		cursor: not-allowed;
+	}
 	.import-output {
 		background: #0b1020;
 		color: #d1d5db;
