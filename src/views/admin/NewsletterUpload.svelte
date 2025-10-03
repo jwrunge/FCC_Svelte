@@ -47,7 +47,11 @@
 		modalOpen = true;
 	}
 	function editItem(row) {
-		modalInitial = { id: row.id, date: row.date, file_name: row.file_name };
+		modalInitial = {
+			id: row.id,
+			date: (row.date || "").slice(0, 10),
+			file_name: row.file_name || "",
+		};
 		modalOpen = true;
 	}
 	async function deleteItem(row) {
@@ -76,7 +80,6 @@
 	<h1>Newsletters</h1>
 	<div class="admin-toolbar">
 		<button on:click={newItem}>New</button>
-		<button on:click={load} disabled={loading}>Reload</button>
 	</div>
 	{#if error}<p class="admin-error">{error}</p>{/if}
 	<table class="admin-table">

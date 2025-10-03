@@ -53,10 +53,10 @@
 	function editItem(r) {
 		modalInitial = {
 			id: r.id,
-			date: r.date,
+			date: (r.date || "").slice(0, 10),
 			title: r.title || "",
 			series: r.series || "",
-			file_name: r.file_name,
+			file_name: r.file_name || "",
 		};
 		modalOpen = true;
 	}
@@ -86,7 +86,6 @@
 	<h1>Manuscripts</h1>
 	<div class="admin-toolbar">
 		<button on:click={newItem}>New</button>
-		<button on:click={load} disabled={loading}>Reload</button>
 	</div>
 	{#if error}<p class="admin-error">{error}</p>{/if}
 	<table class="admin-table">

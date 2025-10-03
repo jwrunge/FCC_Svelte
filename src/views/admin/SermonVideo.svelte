@@ -52,7 +52,7 @@
 	function editRow(row) {
 		modalInitial = {
 			id: row.id,
-			date: row.date,
+			date: (row.date || "").slice(0, 10),
 			title: row.title,
 			src: row.src,
 		};
