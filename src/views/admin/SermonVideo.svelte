@@ -82,7 +82,6 @@
 	<h1>Sermon Videos</h1>
 	<div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
 		<button on:click={newSermon}>New Sermon Video</button>
-		<button on:click={loadList} disabled={loading}>Reload</button>
 	</div>
 	{#if message}<p>{message}</p>{/if}
 
