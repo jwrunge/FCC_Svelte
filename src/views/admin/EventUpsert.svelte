@@ -33,7 +33,7 @@
 </script>
 
 <CMSHome>
-	<h1>Add/Update Event</h1>
+	<h2>Add/Update Event</h2>
 	<label>Name <input type="text" bind:value={name} /></label>
 	<label>Description <input type="text" bind:value={description} /></label>
 	<label

@@ -67,9 +67,16 @@ function ensure_tables(PDO $pdo): void {
             title TEXT,
             src TEXT,
             asset TEXT,
+            embed_code TEXT,
             created_at TEXT DEFAULT CURRENT_TIMESTAMP
         )'
     );
+    // For existing databases created before embed_code was added
+    try {
+        $pdo->exec('ALTER TABLE sermons ADD COLUMN embed_code TEXT');
+    } catch (Throwable $e) {
+        // ignore if already exists
+    }
 
     $pdo->exec(
         'CREATE TABLE IF NOT EXISTS events (
@@ -238,22 +245,32 @@ function import_sermons(PDO $pdo, string $sermonsDir): void {
     if (!is_dir($sermonsDir)) return;
     $files = glob($sermonsDir . DIRECTORY_SEPARATOR . '*.json');
     sort($files);
-    $sql = 'INSERT INTO sermons (date, title, src, asset) VALUES (:date, :title, :src, :asset)
+    $sql = 'INSERT INTO sermons (date, title, src, asset, embed_code) VALUES (:date, :title, :src, :asset, :embed_code)
             ON CONFLICT(date) DO UPDATE SET
                 title=excluded.title,
                 src=COALESCE(excluded.src, sermons.src),
-                asset=COALESCE(excluded.asset, sermons.asset)';
+                asset=COALESCE(excluded.asset, sermons.asset),
+                embed_code=COALESCE(excluded.embed_code, sermons.embed_code)';
     $stmt = $pdo->prepare($sql);
 
     foreach ($files as $file) {
         $data = read_json_file($file);
         if (!is_array($data)) continue;
         $date = $data['date'] ?? parse_date_from_filename(basename($file));
+        $embed = $data['embed'] ?? null;
+        $src = $data['src'] ?? null;
+        if (!$src && $embed) {
+            // Extract src attribute from embed/iframe HTML if present
+            if (preg_match('/(?<=src=["\']).*?(?=["\'])/', $embed, $m)) {
+                $src = $m[0];
+            }
+        }
         $stmt->execute([
             ':date' => $date,
             ':title' => $data['title'] ?? null,
-            ':src' => $data['src'] ?? null,
+            ':src' => $src,
             ':asset' => $data['asset'] ?? null,
+            ':embed_code' => $embed,
         ]);
     }
 }
