@@ -1,4 +1,6 @@
 <script>
+	import CMSHome from "./CMSHome.svelte";
+
 	let header = "";
 	let content = "";
 	let file = "";
@@ -21,18 +23,20 @@
 	}
 </script>
 
-<h1>Update Front Page</h1>
-<label>Header <input type="text" bind:value={header} /></label>
-<label>Content <textarea rows="6" bind:value={content}></textarea></label>
-<label
-	>Image path (optional) <input
-		type="text"
-		bind:value={file}
-		placeholder="/uploads/xxx.jpg"
-	/></label
->
-<button on:click={submit} disabled={submitting}>Save</button>
-<p>{message}</p>
+<CMSHome>
+	<h1>Update Front Page</h1>
+	<label>Header <input type="text" bind:value={header} /></label>
+	<label>Content <textarea rows="6" bind:value={content}></textarea></label>
+	<label
+		>Image path (optional) <input
+			type="text"
+			bind:value={file}
+			placeholder="/uploads/xxx.jpg"
+		/></label
+	>
+	<button on:click={submit} disabled={submitting}>Save</button>
+	<p>{message}</p>
+</CMSHome>
 
 <style>
 	label {

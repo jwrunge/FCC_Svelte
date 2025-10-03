@@ -1,4 +1,6 @@
 <script>
+	import CMSHome from "./CMSHome.svelte";
+
 	let date = new Date().toISOString().slice(0, 10);
 	let title = "";
 	let embed = "";
@@ -30,12 +32,14 @@
 	}
 </script>
 
-<h1>Update Sermon Video</h1>
-<label>Date <input type="date" bind:value={date} required /></label>
-<label>Title <input type="text" bind:value={title} /></label>
-<label>Embed code <textarea bind:value={embed} rows="6"></textarea></label>
-<button on:click={submit} disabled={submitting}>Save</button>
-<p>{message}</p>
+<CMSHome>
+	<h1>Update Sermon Video</h1>
+	<label>Date <input type="date" bind:value={date} required /></label>
+	<label>Title <input type="text" bind:value={title} /></label>
+	<label>Embed code <textarea bind:value={embed} rows="6"></textarea></label>
+	<button on:click={submit} disabled={submitting}>Save</button>
+	<p>{message}</p>
+</CMSHome>
 
 <style>
 	label {

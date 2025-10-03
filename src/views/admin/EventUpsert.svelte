@@ -1,4 +1,6 @@
 <script>
+	import CMSHome from "./CMSHome.svelte";
+
 	let name = "";
 	let description = "";
 	let duration = 60;
@@ -30,14 +32,18 @@
 	}
 </script>
 
-<h1>Add/Update Event</h1>
-<label>Name <input type="text" bind:value={name} /></label>
-<label>Description <input type="text" bind:value={description} /></label>
-<label>Duration (minutes) <input type="number" bind:value={duration} /></label>
-<label>Location <input type="text" bind:value={location} /></label>
-<label>Date <input type="datetime-local" bind:value={date} /></label>
-<button on:click={submit} disabled={submitting}>Save</button>
-<p>{message}</p>
+<CMSHome>
+	<h1>Add/Update Event</h1>
+	<label>Name <input type="text" bind:value={name} /></label>
+	<label>Description <input type="text" bind:value={description} /></label>
+	<label
+		>Duration (minutes) <input type="number" bind:value={duration} /></label
+	>
+	<label>Location <input type="text" bind:value={location} /></label>
+	<label>Date <input type="datetime-local" bind:value={date} /></label>
+	<button on:click={submit} disabled={submitting}>Save</button>
+	<p>{message}</p>
+</CMSHome>
 
 <style>
 	label {

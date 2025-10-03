@@ -145,6 +145,14 @@
 	};
 
 	let frontpage = null;
+	let frontImg; // HTMLImageElement for frontpage image
+	// Safe frontpage image path (ensure leading slash)
+	$: fpSrc =
+		frontpage && frontpage.file
+			? frontpage.file.startsWith("/")
+				? frontpage.file
+				: "/" + frontpage.file
+			: null;
 	function get_frontpage() {
 		fetch("data/php/getFrontpage.php")
 			.then((res) => res.json())
@@ -168,17 +176,16 @@
 		main.addEventListener("scroll", (e) => {
 			scrollTop = e.target.scrollTop;
 			eventsTop = eventsImage?.getBoundingClientRect()?.top || 0;
-			loveTop = loveImage.getBoundingClientRect().top;
+			loveTop = loveImage?.getBoundingClientRect()?.top || 0;
 			// infoTop = infoboxImage.getBoundingClientRect().top
 		});
 
-		navheight = document.querySelector("nav").offsetHeight;
+		navheight = document.querySelector("nav")?.offsetHeight || 0;
 
 		fetch("data/php/getSermons.php?start=0&end=1&direction=desc")
 			.then((data) => data.json())
 			.then((video) => {
 				latestVid = JSON.parse(video.results[0]);
-				console.log(latestVid);
 			})
 			.catch((e) => {
 				console.log(e);
@@ -339,8 +346,17 @@
 				<div class="box">
 					<h2>What's going on now at FCC Galesburg?</h2>
 					<div class="current-events">
-						{#if frontpage && frontpage.file}
-							<img class="float" alt="" src={frontpage.file} />
+						{#if fpSrc}
+							<img
+								class="float"
+								alt=""
+								bind:this={frontImg}
+								src={fpSrc}
+								on:error={() => {
+									if (frontImg)
+										frontImg.style.display = "none";
+								}}
+							/>
 						{/if}
 						<h3>
 							{frontpage

@@ -1,4 +1,6 @@
 <script>
+	import CMSHome from "./CMSHome.svelte";
+
 	let date = new Date().toISOString().slice(0, 10);
 	let title = "";
 	let series = "";
@@ -38,13 +40,15 @@
 	}
 </script>
 
-<h1>Upload Manuscript</h1>
-<label>Date <input type="date" bind:value={date} required /></label>
-<label>Title <input type="text" bind:value={title} /></label>
-<label>Series <input type="text" bind:value={series} /></label>
-<label>PDF <input type="file" accept="application/pdf" bind:files /></label>
-<button on:click={submit} disabled={submitting}>Upload</button>
-<p>{message}</p>
+<CMSHome
+	><h1>Upload Manuscript</h1>
+	<label>Date <input type="date" bind:value={date} required /></label>
+	<label>Title <input type="text" bind:value={title} /></label>
+	<label>Series <input type="text" bind:value={series} /></label>
+	<label>PDF <input type="file" accept="application/pdf" bind:files /></label>
+	<button on:click={submit} disabled={submitting}>Upload</button>
+	<p>{message}</p>
+</CMSHome>
 
 <style>
 	label {

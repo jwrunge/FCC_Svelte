@@ -1,5 +1,7 @@
 <script>
 	// Simple admin landing with links to individual tools
+
+	import SermonVideo from "./SermonVideo.svelte";
 </script>
 
 <div class="cms">
@@ -13,6 +15,8 @@
 		<li><a href="/data/php/auth_logout.php">Logout</a></li>
 	</ul>
 </div>
+
+<slot></slot>
 
 <style>
 	.cms {
