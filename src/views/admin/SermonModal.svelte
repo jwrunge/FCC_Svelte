@@ -65,9 +65,14 @@
 		initialized = true;
 		date = initial.date || new Date().toISOString().slice(0, 10);
 		title = initial.title || "";
-		embed = initial.src && !initial.src.startsWith("/uploads/videos/") ? initial.src : "";
+		embed =
+			initial.src && !initial.src.startsWith("/uploads/videos/")
+				? initial.src
+				: "";
 		videoFile = null;
-		tick().then(() => { if (titleInput) titleInput.focus(); });
+		tick().then(() => {
+			if (titleInput) titleInput.focus();
+		});
 	}
 
 	// Track opener to restore focus after closing
