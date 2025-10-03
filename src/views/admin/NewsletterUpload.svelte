@@ -7,7 +7,11 @@
 	let loading = false;
 	let error = "";
 	let modalOpen = false;
-	let modalInitial = { id: 0, date: new Date().toISOString().slice(0, 10) };
+	let modalInitial = {
+		id: 0,
+		date: new Date().toISOString().slice(0, 10),
+		file_name: "",
+	};
 
 	async function load() {
 		loading = true;
@@ -35,7 +39,11 @@
 	load();
 
 	function newItem() {
-		modalInitial = { id: 0, date: new Date().toISOString().slice(0, 10) };
+		modalInitial = {
+			id: 0,
+			date: new Date().toISOString().slice(0, 10),
+			file_name: "",
+		};
 		modalOpen = true;
 	}
 	function editItem(row) {
@@ -66,11 +74,11 @@
 
 <CMSHome>
 	<h1>Newsletters</h1>
-	<div class="toolbar">
+	<div class="admin-toolbar">
 		<button on:click={newItem}>New</button>
 		<button on:click={load} disabled={loading}>Reload</button>
 	</div>
-	{#if error}<p class="error">{error}</p>{/if}
+	{#if error}<p class="admin-error">{error}</p>{/if}
 	<table class="admin-table">
 		<thead><tr><th>Date</th><th>File</th><th>Actions</th></tr></thead>
 		<tbody>
@@ -89,7 +97,7 @@
 			{/if}
 		</tbody>
 	</table>
-	<p class="meta">Showing up to 25 of {total}</p>
+	<p class="admin-meta">Showing up to 25 of {total}</p>
 	<NewsletterModal
 		bind:open={modalOpen}
 		initial={modalInitial}
@@ -97,28 +105,3 @@
 		on:close={() => (modalOpen = false)}
 	/>
 </CMSHome>
-
-<style>
-	.toolbar {
-		display: flex;
-		gap: 0.5rem;
-		margin-bottom: 0.5rem;
-	}
-	table.admin-table {
-		width: 100%;
-		border-collapse: collapse;
-	}
-	table.admin-table th,
-	table.admin-table td {
-		border-bottom: 1px solid #eee;
-		padding: 0.4rem 0.5rem;
-		text-align: left;
-	}
-	.error {
-		color: #b00020;
-	}
-	.meta {
-		color: #555;
-		font-size: 0.9rem;
-	}
-</style>

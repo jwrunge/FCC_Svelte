@@ -80,7 +80,7 @@
 
 <CMSHome>
 	<h1>Sermon Videos</h1>
-	<div style="display:flex; gap:0.5rem; margin-bottom:0.5rem;">
+	<div class="admin-toolbar">
 		<button on:click={newSermon}>New Sermon Video</button>
 	</div>
 	{#if message}<p>{message}</p>{/if}
@@ -89,7 +89,7 @@
 	{#if loading}
 		<p>Loading…</p>
 	{:else}
-		<table border="1" cellspacing="0" cellpadding="6">
+		<table class="admin-table">
 			<thead>
 				<tr>
 					<th>ID</th>
@@ -106,10 +106,7 @@
 						<td>{row.id}</td>
 						<td>{row.date}</td>
 						<td>{row.title}</td>
-						<td
-							style="max-width:28rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"
-							title={row.src}>{row.src}</td
-						>
+						<td class="src-ellipsis" title={row.src}>{row.src}</td>
 						<td>{row.type}</td>
 						<td>
 							<button on:click={() => editRow(row)}>Edit</button>
@@ -132,8 +129,10 @@
 </CMSHome>
 
 <style>
-	table {
-		width: 100%;
-		max-width: 100%;
+	.src-ellipsis {
+		max-width: 28rem;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 </style>
