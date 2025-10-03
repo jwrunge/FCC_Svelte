@@ -29,6 +29,7 @@
 		max-width: 2000px;
 		margin: 3rem auto;
 		padding: 0 1rem;
+		align-items: start;
 
 		@media screen and (min-width: 600px) {
 			grid-template-columns: auto 1fr;
@@ -39,5 +40,10 @@
 		padding: 2rem;
 		border-radius: 15px;
 		background: rgba(0, 0, 0, 0.15);
+
+		@media screen {
+			position: sticky;
+			top: 1rem;
+		}
 	}
 </style>

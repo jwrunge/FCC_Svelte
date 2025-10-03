@@ -4,27 +4,60 @@
 	let date = new Date().toISOString().slice(0, 10);
 	let title = "";
 	let embed = "";
+	let videoFile;
+	let posterFile;
+	let videoInput;
+	let posterInput;
 	let submitting = false;
 	let message = "";
+
 	async function submit() {
 		submitting = true;
 		message = "";
 		try {
-			const resp = await fetch("/data/php/admin_sermon_upsert.php", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-				},
-				body: JSON.stringify({ date, title, embed }),
-			});
-			if (resp.status === 401) {
-				window.location.href =
-					"/data/php/auth_login.php?redirect=/#admin";
-				return;
+			if (embed && embed.trim()) {
+				// Save as social embed
+				const resp = await fetch("/data/php/admin_sermon_upsert.php", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+						Accept: "application/json",
+					},
+					body: JSON.stringify({ date, title, embed }),
+				});
+				if (resp.status === 401) {
+					window.location.href =
+						"/data/php/auth_login.php?redirect=/#admin";
+					return;
+				}
+				const json = await resp.json();
+				message = json.ok ? "Saved!" : json.error || "Error saving";
+			} else if (videoFile) {
+				// Upload local video
+				const form = new FormData();
+				form.append("date", date);
+				form.append("title", title);
+				form.append("video", videoFile);
+				if (posterFile) form.append("poster", posterFile);
+				const resp = await fetch(
+					"/data/php/admin_sermon_upload_video.php",
+					{
+						method: "POST",
+						body: form,
+					}
+				);
+				if (resp.status === 401) {
+					window.location.href =
+						"/data/php/auth_login.php?redirect=/#admin";
+					return;
+				}
+				const json = await resp.json();
+				message = json.ok
+					? "Uploaded!"
+					: json.error || "Error uploading";
+			} else {
+				message = "Provide either an embed code or a video file.";
 			}
-			const json = await resp.json();
-			message = json.ok ? "Saved!" : json.error || "Error saving";
 		} catch (e) {
 			message = "Network error";
 		}
@@ -36,7 +69,42 @@
 	<h1>Update Sermon Video</h1>
 	<label>Date <input type="date" bind:value={date} required /></label>
 	<label>Title <input type="text" bind:value={title} /></label>
-	<label>Embed code <textarea bind:value={embed} rows="6"></textarea></label>
+	<label
+		>Embed code <textarea
+			bind:value={embed}
+			rows="6"
+			placeholder="Paste social media embed code here; leave blank to upload a video file instead."
+		></textarea></label
+	>
+	<div style="margin:0.5rem 0;">
+		<div><strong>Or upload a video file</strong></div>
+		<label
+			>Video file <input
+				bind:this={videoInput}
+				type="file"
+				accept="video/*"
+				on:change={() => {
+					videoFile =
+						videoInput && videoInput.files
+							? videoInput.files[0]
+							: null;
+				}}
+			/></label
+		>
+		<label
+			>Poster image (optional) <input
+				bind:this={posterInput}
+				type="file"
+				accept="image/*"
+				on:change={() => {
+					posterFile =
+						posterInput && posterInput.files
+							? posterInput.files[0]
+							: null;
+				}}
+			/></label
+		>
+	</div>
 	<button on:click={submit} disabled={submitting}>Save</button>
 	<p>{message}</p>
 </CMSHome>
