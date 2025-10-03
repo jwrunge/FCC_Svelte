@@ -7,6 +7,7 @@
 	let loading = false;
 	let error = "";
 	let modalOpen = false;
+	let editingId = 0;
 	let m_header = "";
 	let m_content = "";
 	let m_file = "";
@@ -39,9 +40,20 @@
 	load();
 
 	function newItem() {
+		editingId = 0;
 		m_header = "";
 		m_content = "";
 		m_file = "";
+		modalOpen = true;
+	}
+
+	function editMostRecent() {
+		if (!rows || rows.length === 0) return;
+		const r = rows[0]; // rows are ordered by created_at DESC
+		editingId = r.id;
+		m_header = r.header || "";
+		m_content = r.content || "";
+		m_file = r.file || "";
 		modalOpen = true;
 	}
 	async function deleteItem(r) {
@@ -76,17 +88,19 @@
 		saving = true;
 		modalError = "";
 		try {
-			const resp = await fetch("/data/php/admin_frontpage_set.php", {
+			const url = editingId
+				? "/data/php/admin_frontpage_update.php"
+				: "/data/php/admin_frontpage_set.php";
+			const body = editingId
+				? { id: editingId, header: m_header, content: m_content, file: m_file }
+				: { header: m_header, content: m_content, file: m_file };
+			const resp = await fetch(url, {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
 					Accept: "application/json",
 				},
-				body: JSON.stringify({
-					header: m_header,
-					content: m_content,
-					file: m_file,
-				}),
+				body: JSON.stringify(body),
 			});
 			if (resp.status === 401) {
 				window.location.href =
@@ -112,6 +126,7 @@
 	</p>
 	<div class="admin-toolbar">
 		<button on:click={newItem}>New</button>
+		<button on:click={editMostRecent} disabled={!rows.length}>Edit most recent</button>
 	</div>
 	{#if error}<p class="admin-error">{error}</p>{/if}
 	<table class="admin-table">
@@ -142,8 +157,10 @@
 
 	<AdminModal
 		bind:open={modalOpen}
-		title="New frontpage entry"
-		hint="Add a new frontpage message. Only the most recent will be used."
+		title={editingId ? "Edit frontpage entry" : "New frontpage entry"}
+		hint={editingId
+			? "Update the current frontpage message. Only the most recent will be used."
+			: "Add a new frontpage message. Only the most recent will be used."}
 		initialFocusSelector="#fp-header"
 		on:close={closeModal}
 	>
