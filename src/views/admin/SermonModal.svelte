@@ -200,7 +200,7 @@
 				<span>Or upload a video file below.</span>
 			</div>
 		</div>
-		<div class="divider span-2"><span>or</span></div>
+		<div class="divider span-2"><span></span></div>
 		<div class="field span-2">
 			<label class="form-label" for="sermon-video-file">Video file</label>
 			<input

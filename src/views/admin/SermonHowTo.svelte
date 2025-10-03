@@ -36,7 +36,7 @@
 				video post.
 				<div class="figure">
 					<img
-						src="/icons/howto/fb-page-heading.jpg"
+						src="/primary-images/FCCStartVideo.jpg"
 						alt="Facebook page header showing the church page where posts, including the live video, appear"
 					/>
 				</div>
@@ -46,7 +46,7 @@
 				choose <strong>Embed</strong>.
 				<div class="figure">
 					<img
-						src="/icons/howto/fb-embed-menu.jpg"
+						src="/primary-images/FCCEmbed.jpg"
 						alt="The post action menu open on a Facebook video with the Embed option highlighted"
 					/>
 				</div>
@@ -57,7 +57,7 @@
 				the <em>Embed code</em> box in the Sermon form.
 				<div class="figure">
 					<img
-						src="/icons/howto/fb-embed-dialog.jpg"
+						src="/primary-images/FCC copy.jpg"
 						alt="Facebook Embed Video dialog showing the Copy Code button and the iframe snippet"
 					/>
 				</div>
