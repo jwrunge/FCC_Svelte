@@ -66,6 +66,6 @@ if (current_user_id()) {
     <label>Password: </label><input type="password" name="password" required><br>
     <input type="submit" value="Login">
 </form>
-<p><a href="/data/php/auth_reset.php">Forgot password?</a></p>
+<!-- <p><a href="/data/php/auth_reset.php">Forgot password?</a></p> -->
 </body>
 </html>
