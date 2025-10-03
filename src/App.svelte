@@ -484,6 +484,9 @@
 				&copy; {new Date().getFullYear()} First Christian Church (Disciples
 				of Christ) - Galesburg, IL
 			</div>
+			<div>
+				<a href="/data/php/auth_login.php?redirect=/cms.php">Admin login</a>
+			</div>
 		</div>
 	</div>
 	<!-- Frontpage content -->

@@ -54,8 +54,8 @@
 				<div class="news-grid">
 					{#each newsletters
 						.sort((a, b) => {
-							let adate = new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i));
-							let bdate = new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i));
+							let adate = new Date(b.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getMilliseconds();
+							let bdate = new Date(a.match(/\d*\.\d*\.\d*(?=\.pdf)/i)).getMilliseconds();
 							console.log(adate, bdate);
 							return bdate - adate;
 						})
