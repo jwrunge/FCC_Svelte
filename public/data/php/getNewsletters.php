@@ -9,7 +9,9 @@ function getNewsletters($startIndex, $endIndex, $dir = 'desc') {
     try {
         $pdo = get_pdo();
     $total = (int)$pdo->query('SELECT COUNT(*) FROM newsletters')->fetchColumn();
-    $stmt = $pdo->prepare("SELECT file_name, date, created_at, (content IS NOT NULL) AS has_blob FROM newsletters ORDER BY date $direction, file_name $direction LIMIT :limit OFFSET :offset");
+    // Multiple entries per date/file_name may now exist (new uploads create new rows);
+    // we list by date then newest created_at first for stable ordering
+    $stmt = $pdo->prepare("SELECT file_name, date, created_at, (content IS NOT NULL) AS has_blob FROM newsletters ORDER BY date $direction, datetime(created_at) DESC, id $direction LIMIT :limit OFFSET :offset");
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->bindValue(':offset', $start, PDO::PARAM_INT);
         $stmt->execute();

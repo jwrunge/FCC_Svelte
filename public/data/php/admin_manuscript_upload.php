@@ -16,13 +16,15 @@ try {
     if ($file['error'] !== UPLOAD_ERR_OK) {
         json_error('Upload error: ' . $file['error'], 400);
     }
-    $filename = date('m.d.y', strtotime($date)) . '.pdf';
+    // Unique filename ensures a distinct route per upload
+    $datePart = date('m.d.y', strtotime($date));
+    $filename = $datePart . '-' . uniqid('', true) . '.pdf';
     $blob = file_get_contents($file['tmp_name']);
 
     $pdo = get_pdo();
     if ($id > 0) {
-        $stmt = $pdo->prepare('UPDATE manuscripts SET date=:date, title=:title, series=:series, file_name=:file_name, mime_type=:mime_type, content=:content, created_at = CURRENT_TIMESTAMP WHERE id=:id');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        // Insert a new row to preserve older manuscripts and their routes
+        $stmt = $pdo->prepare('INSERT INTO manuscripts (date, title, series, file_name, mime_type, content, created_at) VALUES (:date, :title, :series, :file_name, :mime_type, :content, CURRENT_TIMESTAMP)');
         $stmt->bindValue(':date', $date);
         $stmt->bindValue(':title', $title);
         $stmt->bindValue(':series', $series);
@@ -32,13 +34,7 @@ try {
         $stmt->execute();
     } else {
         $sql = 'INSERT INTO manuscripts (date, title, series, file_name, mime_type, content)
-                VALUES (:date, :title, :series, :file_name, :mime_type, :content)
-                ON CONFLICT(date) DO UPDATE SET
-                    title=COALESCE(excluded.title, manuscripts.title),
-                    series=COALESCE(excluded.series, manuscripts.series),
-                    file_name=COALESCE(excluded.file_name, manuscripts.file_name),
-                    mime_type=COALESCE(excluded.mime_type, manuscripts.mime_type),
-                    content=COALESCE(excluded.content, manuscripts.content)';
+                VALUES (:date, :title, :series, :file_name, :mime_type, :content)';
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':date', $date);
         $stmt->bindValue(':title', $title);

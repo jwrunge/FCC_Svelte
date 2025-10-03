@@ -10,7 +10,9 @@ try {
     }
     $date = date('Y-m-d', strtotime($_POST['date']));
     $id = isset($_POST['id']) ? (int)$_POST['id'] : 0;
-    $filename = date('m.d.y', strtotime($_POST['date'])) . '.pdf';
+    // Always create a unique filename so each upload has a distinct route
+    $datePart = date('m.d.y', strtotime($_POST['date']));
+    $filename = $datePart . '-' . uniqid('', true) . '.pdf';
     $file = $_FILES['newsletter'];
     if ($file['error'] !== UPLOAD_ERR_OK) {
         json_error('Upload error: ' . $file['error'], 400);
@@ -19,16 +21,14 @@ try {
 
     $pdo = get_pdo();
     if ($id > 0) {
-        $stmt = $pdo->prepare('UPDATE newsletters SET date = :date, file_name = :file_name, content = :content, created_at = CURRENT_TIMESTAMP WHERE id = :id');
-        $stmt->bindValue(':id', $id, PDO::PARAM_INT);
+        // Create a new row to avoid overwriting existing file_name/content
+        $stmt = $pdo->prepare('INSERT INTO newsletters (date, file_name, content, created_at) VALUES (:date, :file_name, :content, CURRENT_TIMESTAMP)');
         $stmt->bindValue(':date', $date);
         $stmt->bindValue(':file_name', $filename);
         $stmt->bindValue(':content', $blob, PDO::PARAM_LOB);
         $stmt->execute();
     } else {
-        $sql = 'INSERT INTO newsletters (date, file_name, content)
-                VALUES (:date, :file_name, :content)
-                ON CONFLICT(file_name) DO UPDATE SET date=excluded.date';
+        $sql = 'INSERT INTO newsletters (date, file_name, content) VALUES (:date, :file_name, :content)';
         $stmt = $pdo->prepare($sql);
         $stmt->bindValue(':date', $date);
         $stmt->bindValue(':file_name', $filename);

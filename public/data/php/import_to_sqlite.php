@@ -399,7 +399,7 @@ function import_manuscripts_from_json(PDO $pdo, string $manuscriptsJsonPath, str
 }
 
 function main(): void {
-    if (php_sapi_name() !== 'cli') {
+    if (php_sapi_name() !== 'cli' && !defined('IMPORT_VIA_API')) {
         header('Content-Type: text/plain');
     }
     $paths = base_paths();
@@ -455,4 +455,6 @@ function main(): void {
     echo "Import complete\n" . json_encode($summary, JSON_PRETTY_PRINT) . "\n";
 }
 
-main();
+if (php_sapi_name() === 'cli') {
+    main();
+}
