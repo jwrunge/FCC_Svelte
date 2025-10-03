@@ -11,6 +11,8 @@
 	let m_header = "";
 	let m_content = "";
 	let m_file = "";
+	let imageFile = null;
+	let imageInput;
 	let saving = false;
 	let modalError = "";
 
@@ -44,6 +46,7 @@
 		m_header = "";
 		m_content = "";
 		m_file = "";
+		imageFile = null;
 		modalOpen = true;
 	}
 
@@ -54,6 +57,7 @@
 		m_header = r.header || "";
 		m_content = r.content || "";
 		m_file = r.file || "";
+		imageFile = null;
 		modalOpen = true;
 	}
 	async function deleteItem(r) {
@@ -88,27 +92,98 @@
 		saving = true;
 		modalError = "";
 		try {
-			const url = editingId
-				? "/data/php/admin_frontpage_update.php"
-				: "/data/php/admin_frontpage_set.php";
-			const body = editingId
-				? { id: editingId, header: m_header, content: m_content, file: m_file }
-				: { header: m_header, content: m_content, file: m_file };
-			const resp = await fetch(url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Accept: "application/json",
-				},
-				body: JSON.stringify(body),
-			});
-			if (resp.status === 401) {
-				window.location.href =
-					"/data/php/auth_login.php?redirect=/#admin";
-				return;
+			if (editingId > 0) {
+				// Edit flow: if a new image is provided, replace the image first to get its path
+				if (imageFile) {
+					const fd = new FormData();
+					fd.append("id", String(editingId));
+					fd.append("image", imageFile);
+					const r1 = await fetch(
+						"/data/php/admin_frontpage_replace_image.php",
+						{ method: "POST", body: fd }
+					);
+					if (r1.status === 401) {
+						window.location.href =
+							"/data/php/auth_login.php?redirect=/#admin";
+						return;
+					}
+					const j1 = await r1.json();
+					if (!j1.ok)
+						throw new Error(j1.error || "Image upload failed");
+					m_file = j1.file || m_file;
+				}
+
+				// Then update header/content (and file path, whether replaced or kept)
+				const resp = await fetch(
+					"/data/php/admin_frontpage_update.php",
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+							Accept: "application/json",
+						},
+						body: JSON.stringify({
+							id: editingId,
+							header: m_header,
+							content: m_content,
+							file: m_file,
+						}),
+					}
+				);
+				if (resp.status === 401) {
+					window.location.href =
+						"/data/php/auth_login.php?redirect=/#admin";
+					return;
+				}
+				const json = await resp.json();
+				if (!json.ok) throw new Error(json.error || "Save failed");
+			} else {
+				// New entry: prefer upload if an image file is provided
+				if (imageFile) {
+					const fd = new FormData();
+					fd.append("header", m_header);
+					fd.append("content", m_content);
+					fd.append("image", imageFile);
+					const resp = await fetch(
+						"/data/php/admin_frontpage_upload.php",
+						{ method: "POST", body: fd }
+					);
+					if (resp.status === 401) {
+						window.location.href =
+							"/data/php/auth_login.php?redirect=/#admin";
+						return;
+					}
+					const json = await resp.json();
+					if (!json.ok)
+						throw new Error(json.error || "Upload failed");
+				} else {
+					// No image file: fall back to JSON POST with optional file path
+					const resp = await fetch(
+						"/data/php/admin_frontpage_set.php",
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+								Accept: "application/json",
+							},
+							body: JSON.stringify({
+								header: m_header,
+								content: m_content,
+								file: m_file,
+							}),
+						}
+					);
+					if (resp.status === 401) {
+						window.location.href =
+							"/data/php/auth_login.php?redirect=/#admin";
+						return;
+					}
+					const json = await resp.json();
+					if (!json.ok)
+						throw new Error(json.error || "Save failed");
+				}
 			}
-			const json = await resp.json();
-			if (!json.ok) throw new Error(json.error || "Save failed");
+
 			closeModal();
 			load();
 		} catch (e) {
@@ -126,7 +201,9 @@
 	</p>
 	<div class="admin-toolbar">
 		<button on:click={newItem}>New</button>
-		<button on:click={editMostRecent} disabled={!rows.length}>Edit most recent</button>
+		<button on:click={editMostRecent} disabled={!rows.length}
+			>Edit most recent</button
+		>
 	</div>
 	{#if error}<p class="admin-error">{error}</p>{/if}
 	<table class="admin-table">
@@ -182,6 +259,18 @@
 					bind:value={m_content}
 					required
 				></textarea>
+			</div>
+			<div class="field">
+				<label for="fp-image">Upload image (optional)</label>
+				<input
+					id="fp-image"
+					type="file"
+					accept="image/*"
+					bind:this={imageInput}
+					on:change={() => {
+						imageFile = imageInput?.files?.[0] || null;
+					}}
+				/>
 			</div>
 			<div class="field">
 				<label for="fp-file">Image path (optional)</label>
