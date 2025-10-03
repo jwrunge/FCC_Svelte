@@ -11,6 +11,7 @@
 	let m_header = "";
 	let m_content = "";
 	let m_file = "";
+	let original_file = "";
 	let imageFile = null;
 	let imageInput;
 	let saving = false;
@@ -46,6 +47,7 @@
 		m_header = "";
 		m_content = "";
 		m_file = "";
+		original_file = "";
 		imageFile = null;
 		modalOpen = true;
 	}
@@ -57,6 +59,7 @@
 		m_header = r.header || "";
 		m_content = r.content || "";
 		m_file = r.file || "";
+		original_file = m_file;
 		imageFile = null;
 		modalOpen = true;
 	}
@@ -85,6 +88,7 @@
 	function closeModal() {
 		modalOpen = false;
 		modalError = "";
+		original_file = "";
 	}
 	$: canSave = !saving && !!m_header && !!m_content;
 
@@ -113,7 +117,15 @@
 					m_file = j1.file || m_file;
 				}
 
-				// Then update header/content (and file path, whether replaced or kept)
+				// Then update header/content and include file only if changed or replaced
+				const body = {
+					id: editingId,
+					header: m_header,
+					content: m_content,
+				} ;
+				if (imageFile || m_file !== original_file) {
+					body.file = m_file;
+				}
 				const resp = await fetch(
 					"/data/php/admin_frontpage_update.php",
 					{
@@ -122,12 +134,7 @@
 							"Content-Type": "application/json",
 							Accept: "application/json",
 						},
-						body: JSON.stringify({
-							id: editingId,
-							header: m_header,
-							content: m_content,
-							file: m_file,
-						}),
+						body: JSON.stringify(body),
 					}
 				);
 				if (resp.status === 401) {
@@ -157,7 +164,7 @@
 					if (!json.ok)
 						throw new Error(json.error || "Upload failed");
 				} else {
-					// No image file: fall back to JSON POST with optional file path
+					// No image: create row with header + content only
 					const resp = await fetch(
 						"/data/php/admin_frontpage_set.php",
 						{
@@ -166,11 +173,7 @@
 								"Content-Type": "application/json",
 								Accept: "application/json",
 							},
-							body: JSON.stringify({
-								header: m_header,
-								content: m_content,
-								file: m_file,
-							}),
+							body: JSON.stringify({ header: m_header, content: m_content }),
 						}
 					);
 					if (resp.status === 401) {
@@ -179,8 +182,7 @@
 						return;
 					}
 					const json = await resp.json();
-					if (!json.ok)
-						throw new Error(json.error || "Save failed");
+					if (!json.ok) throw new Error(json.error || "Save failed");
 				}
 			}
 
@@ -260,6 +262,22 @@
 					required
 				></textarea>
 			</div>
+			{#if editingId && m_file}
+				<div class="field">
+					<div class="field-label">Current image</div>
+					<div class="current-file">
+						<span class="path">{m_file}</span>
+						<span class="note"
+							>(Choose a new image below to replace)</span
+						>
+					</div>
+					{#if m_file && m_file.match(/\.(png|jpe?g|gif|webp|svg)$/i)}
+						<div class="preview">
+							<img src={m_file} alt="Frontpage banner" />
+						</div>
+					{/if}
+				</div>
+			{/if}
 			<div class="field">
 				<label for="fp-image">Upload image (optional)</label>
 				<input
@@ -270,15 +288,6 @@
 					on:change={() => {
 						imageFile = imageInput?.files?.[0] || null;
 					}}
-				/>
-			</div>
-			<div class="field">
-				<label for="fp-file">Image path (optional)</label>
-				<input
-					id="fp-file"
-					type="text"
-					placeholder="/uploads/xxx.jpg"
-					bind:value={m_file}
 				/>
 			</div>
 		</div>
@@ -313,5 +322,28 @@
 	textarea,
 	label {
 		box-sizing: border-box;
+	}
+	.field-label {
+		font-weight: 600;
+	}
+	.current-file {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	.current-file .note {
+		color: #555;
+		font-size: 0.9rem;
+	}
+	.preview {
+		margin-top: 0.25rem;
+	}
+	.preview img {
+		max-width: 240px;
+		height: auto;
+		display: block;
+		border: 1px solid #e5e7eb;
+		border-radius: 4px;
 	}
 </style>

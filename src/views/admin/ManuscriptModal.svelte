@@ -146,6 +146,21 @@
 				placeholder="Series"
 			/>
 		</div>
+		{#if initial?.id && initial?.file_name}
+			<div class="field">
+				<div class="field-label">Current PDF</div>
+				<div class="current-file">
+					<a
+						href={`/data/php/downloadManuscript.php?id=${initial.id}`}
+						target="_blank"
+						rel="noopener">{initial.file_name}</a
+					>
+					<span class="note"
+						>(Choose a new file below to replace)</span
+					>
+				</div>
+			</div>
+		{/if}
 		<div class="field">
 			<label for="manuscript-file">PDF</label><input
 				id="manuscript-file"
@@ -201,5 +216,17 @@
 	}
 	.error {
 		color: #b00020;
+	}
+	.field-label {
+		font-weight: 600;
+	}
+	.current-file {
+		display: flex;
+		gap: 0.5rem;
+		align-items: center;
+	}
+	.current-file .note {
+		color: #555;
+		font-size: 0.9rem;
 	}
 </style>

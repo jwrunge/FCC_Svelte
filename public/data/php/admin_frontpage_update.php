@@ -10,13 +10,19 @@ try {
     $id = isset($body['id']) ? (int)$body['id'] : 0;
     if ($id <= 0) { json_error('Missing id', 400); }
     $pdo = get_pdo();
-    $stmt = $pdo->prepare('UPDATE frontpage SET header = :header, content = :content, file = :file WHERE id = :id');
-    $stmt->execute([
+    $sets = ['header = :header', 'content = :content'];
+    $params = [
         ':header' => $body['header'] ?? null,
         ':content' => $body['content'] ?? null,
-        ':file' => $body['file'] ?? null,
         ':id' => $id,
-    ]);
+    ];
+    if (array_key_exists('file', $body)) {
+        $sets[] = 'file = :file';
+        $params[':file'] = $body['file'];
+    }
+    $sql = 'UPDATE frontpage SET ' . implode(', ', $sets) . ' WHERE id = :id';
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
     echo json_encode(['ok' => true]);
 } catch (Throwable $e) {
     json_error($e->getMessage(), 500);
