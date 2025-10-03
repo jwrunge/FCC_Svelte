@@ -18,6 +18,7 @@
 	let initialized = false;
 	let saving = false;
 	let error = "";
+	let lastKey = "";
 
 	function resetOnce() {
 		date = initial.date || new Date().toISOString().slice(0, 10);
@@ -26,9 +27,22 @@
 		file = null;
 	}
 
+	function keyFromInitial() {
+		return `${initial?.id || 0}|${initial?.date || ""}|${initial?.title || ""}|${initial?.series || ""}|${initial?.file_name || ""}`;
+	}
+
 	$: if (open && !initialized) {
 		initialized = true;
 		resetOnce();
+		lastKey = keyFromInitial();
+	}
+
+	$: if (open && initialized) {
+		const k = keyFromInitial();
+		if (k !== lastKey) {
+			resetOnce();
+			lastKey = k;
+		}
 	}
 
 	function close() {

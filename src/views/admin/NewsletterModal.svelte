@@ -14,15 +14,35 @@
 	let initialized = false;
 	let saving = false;
 	let error = "";
+	let lastKey = "";
+
+	function normalizeDate(d) {
+		if (!d) return new Date().toISOString().slice(0, 10);
+		return typeof d === "string" ? d.slice(0, 10) : String(d).slice(0, 10);
+	}
 
 	function resetOnce() {
-		date = initial.date || new Date().toISOString().slice(0, 10);
+		date = normalizeDate(initial.date);
 		file = null;
+	}
+
+	function keyFromInitial() {
+		return `${initial?.id || 0}|${initial?.date || ""}|${initial?.file_name || ""}`;
 	}
 
 	$: if (open && !initialized) {
 		initialized = true;
 		resetOnce();
+		lastKey = keyFromInitial();
+	}
+
+	// If initial changes while modal is open (e.g., quick re-open/edit), resync fields
+	$: if (open && initialized) {
+		const k = keyFromInitial();
+		if (k !== lastKey) {
+			resetOnce();
+			lastKey = k;
+		}
 	}
 
 	function close() {

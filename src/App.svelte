@@ -153,6 +153,7 @@
 				? frontpage.file
 				: "/" + frontpage.file
 			: null;
+
 	function get_frontpage() {
 		fetch("data/php/getFrontpage.php")
 			.then((res) => res.json())

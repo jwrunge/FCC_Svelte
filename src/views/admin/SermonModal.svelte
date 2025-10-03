@@ -24,10 +24,22 @@
 	let initialized = false; // ensure we only init fields once per open
 	let titleInput;
 	let canSave = false;
+	let lastKey = "";
+
+	function normalizeDate(d) {
+		if (!d) return new Date().toISOString().slice(0, 10);
+		return typeof d === "string" ? d.slice(0, 10) : String(d).slice(0, 10);
+	}
+
+	function keyFromInitial() {
+		return `${initial?.id || 0}|${initial?.date || ""}|${initial?.title || ""}|${initial?.src || ""}`;
+	}
 
 	$: if (open && !initialized) {
 		initialized = true;
-		date = initial.date || new Date().toISOString().slice(0, 10);
+		date =
+			normalizeDate(initial.date) ||
+			new Date().toISOString().slice(0, 10);
 		title = initial.title || "";
 		embed =
 			initial.src && !initial.src.startsWith("/uploads/videos/")
@@ -37,6 +49,24 @@
 		tick().then(() => {
 			if (titleInput) titleInput.focus();
 		});
+		lastKey = keyFromInitial();
+	}
+
+	// If initial changes while the modal is open, resync fields
+	$: if (open && initialized) {
+		const k = keyFromInitial();
+		if (k !== lastKey) {
+			date =
+				normalizeDate(initial.date) ||
+				new Date().toISOString().slice(0, 10);
+			title = initial.title || "";
+			embed =
+				initial.src && !initial.src.startsWith("/uploads/videos/")
+					? initial.src
+					: "";
+			videoFile = null;
+			lastKey = k;
+		}
 	}
 
 	// Derived state: canSave when title/date set and either:
