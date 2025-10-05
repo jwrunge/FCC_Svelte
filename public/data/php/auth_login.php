@@ -32,7 +32,10 @@ function handle_post() {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user && verify_password($password, $user['password_hash'])) {
             $_SESSION['user_id'] = (int)$user['id'];
-            header('Location: ' . $redirect);
+            // Use a query param plus hash so if the hash fragment is stripped by an intermediary
+            // we can detect post_login=1 on the SPA and force #admin client-side.
+            $target = '/?post_login=1#admin';
+            header('Location: ' . $target);
             http_response_code(302);
             exit;
         } else {
@@ -47,9 +50,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     handle_post();
 }
 
-$redirect = sanitize_redirect($_GET['redirect'] ?? '/#admin');
+$redirect = sanitize_redirect($_GET['redirect'] ?? '/?post_login=1#admin');
 if (current_user_id()) {
-    header('Location: ' . $redirect);
+    header('Location: /?post_login=1#admin');
     http_response_code(302);
     exit;
 }

@@ -195,6 +195,22 @@
 			});
 
 		get_frontpage();
+
+		// Post-login fallback: if the server redirected with ?post_login=1 but the hash fragment
+		// was stripped (some proxies can do this), force the admin hash so the SPA shows the admin UI.
+		try {
+			const params = new URLSearchParams(window.location.search);
+			if (
+				params.get("post_login") === "1" &&
+				(!window.location.hash ||
+					window.location.hash === "#" ||
+					window.location.hash === "#home")
+			) {
+				window.location.hash = "#admin";
+			}
+		} catch (e) {
+			// ignore
+		}
 	});
 
 	$: subpageOpen = curPage && curPage != "#home" ? true : false;
